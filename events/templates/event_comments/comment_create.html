@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}Komentarai{% endblock %}
+
+{% block content %}
+<h1>{{ event.title }}</h1>
+
+<p>&larr; <a href="/renginiai/{{ event.id }}">Atgal į renginio aprašymą</a></p>
+<h2 class="headline">Mano 2 centai</h2>
+<form action="" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ form.id }}
+        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        <p>
+            <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+            {{ form.body }}
+            {% if form.body.errors %}
+                <span class="error">
+                    {% for error in form.body.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+            {% if form.body.help_text %}<br /><span class="helptext">{{form.body.help_text }}</span>{% endif %}
+        </p>
+    <button type="submit" value="Post" >Komentuoti</button>
+    <a class="cancel" href="/renginiai/{{ event.id }}">Atšaukti</a>
+</form>
+{% if form.errors %}
+    <p class="error">
+        Komentaro pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+    </p>
+    {{ form.errors }}
+    {% if form.non_field_errors %}
+        <ul class="error">
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+
+{% if comment_list %}
+    <h2 class="headline">Centas prie cento...</h2>
+    <div id="comments">
+        {% for comment in comment_list %}
+            <dl class="profiles small">
+                <dt><a href='/nariai/{{ comment.user.username }}'>{{ comment.user.username }}</a></dt>
+                <dd><p><i>{{ comment.user.username }}:</i> {{ comment.body|textile }}</p></dd>
+                <dd>{{ comment.create_date }}</dd>
+            </dl>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/map.png" width="32" height="32" title="Žemėlapis" alt="Žemėlapis" /><a href="../zemelapis">Renginio vieta</a></li>
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="/renginiai/pateikti">Pranešti apie renginį</a></li>
+        {% if user.id == event.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="../redaguoti">Redaguoti</a></li>
+        {% endif %}
+        {% if attachment_count %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/attachment-2.png" width="32" height="32" title="Prisegtukai" alt="Prisegtukai" /><a href="../prisegtukai">Prisegtukai ({{ attachment_count }})</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<p>
+    Iš {{ source }} į svetainę buvo sėkmingai įkelti {{ articles|length }} straipsniai:
+</p>
+
+<ul>
+{% for article in articles %}
+    <li><a href="{{ article.external_link }}">{{ article.title }}</a></li>
+{% endfor %}
+</ul>

@@ -1,0 +1,5 @@
+Iš {{ source }} į svetainę buvo sėkmingai įkelti {{ articles|length }} straipsniai:
+
+{% for article in articles %}
+* {{ article.title }} ({{ article.external_link }})
+{% endfor %}

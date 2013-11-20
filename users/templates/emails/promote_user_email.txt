@@ -1,0 +1,10 @@
+Sistema sulaukė prašymo paaukštinti vartotojo statusą.
+
+Vartotojo vardas: {{ username }}
+El. paštas: {{ email_address }}
+Dabartinis tipas: {{ current_user_type }}
+Prašomas tipas: {{ new_user_type }}
+
+Prašome apsilankyti žemiau nurodytu adresu ir patvirtinti:
+
+http://www.nylithuanian.org/patvirtinti/{{ new_user_type }}/{{ username }}/{{ registration_hash }}

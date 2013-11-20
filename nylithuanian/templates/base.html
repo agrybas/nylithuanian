@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href='http://fonts.googleapis.com/css?family=Inder|Alegreya+SC&subset=latin-ext' rel='stylesheet' type='text/css'>
+        <link href="{{ STATIC_URL }}css/style_guide.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ STATIC_URL }}css/layout.css" rel="stylesheet" type="text/css" media="all" />
+        <title>Niujorko lietuviai - {% block title %}{% endblock %}</title>
+        {% block header %}{% endblock %}
+        {% block javascript %}{% endblock %}
+    </head>
+    <body>
+        <div id="header" onclick="location.href='/';" style="cursor: pointer;" ></div>
+        <div id="main-nav">
+            {% include 'main_navigation.html' %}
+            <div class="clear" ></div>
+        </div>
+        <div id="container">
+            <div id="logo">
+                <a href="/"><h1 class="headline"><img src="{{ STATIC_URL }}images/herbas.png" height="50" width="44" title="Niujorko Lietuvių Bendruomenė" alt="Niujorko Lietuvių Bendruomenė" />Niujorko Lietuvių
+                <br />
+                Bendruomenė</h1></a>
+            </div>
+
+            <div id="main">
+                {% block content %}
+                <p>
+                    Šiuo metu turinys dar kuriamas. Kviečiame apsilankyti vėliau.
+                </p>
+                {% endblock %}
+            </div>
+            <!-- main -->
+            
+            <div id="sidebar">
+                {% block sidebar %}{% endblock %}
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <!-- container -->
+        <div id="footer">
+            {% block footer %}
+            <p class="copyright">
+                Visos teisės saugomos įstatymo. Niujorko lietuviai
+            </p>
+            {% endblock %}
+        </div>
+    </body>
+</html>

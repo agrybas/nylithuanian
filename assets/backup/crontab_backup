@@ -1,0 +1,5 @@
+MAILTO=webmaster@nylithuanian.org
+0 0 * * * mysqldump --add-drop-table -u nylt -p234wer234 nylt > ~/backup/db_backup[`date +\%m\%d\%y`].sql && gzip -f ~/backup/db_backup[`date +\%m\%d\%y`].sql
+0 0 * * * cd ~/public_html && tar -czf assets_backup[`date +\%m\%d\%y`].tar.gz assets/ && mv assets_backup[`date +\%m\%d\%y`].tar.gz ~/backup/
+1 0 * * Mon echo "Database backup file attached." | mutt -s "Database backup" -a ~/backup/db_backup[`date +\%m\%d\%y`].sql.gz -- webmaster@nylithuanian.org
+1 0 1 * * echo "nylithuanian.org database backup file attached." | mutt -s "nylithuanian.org - database backup" -a ~/backup/db_backup[`date +\%m\%d\%y`].sql.gz -- algirdas.grybas@gmail.com

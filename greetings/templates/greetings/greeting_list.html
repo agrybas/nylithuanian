@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Sveikinimai</h2>
+    {% if paginator %}
+    {% endif %}
+    {% for greeting in greeting_list %}
+        <h4>
+            <a href="/sveikinimai/{{ greeting.id }}">
+                {{ greeting.title }}
+            </a>
+        </h4>
+        <p>
+            {{ greeting.body|truncatewords:50 }}
+        </p>
+    {% endfor %}
+    
+    {% if paginator %}
+        {% if paginator.num_pages > 1 %}
+            <ul class="page_numbers">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&larr; Atgal</a></li>
+                {% endif %}
+            
+                    {% if paginator.num_pages <= 4 %}
+                        {% for i in paginator.page_range %}
+                            {% if i == page_obj.number %}
+                                <li class="current">{{ i }}</li>
+                            {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li><a href="?page=1">1</a></li>
+                        <li><a href="?page=2">2</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                        <li class="current">{{ page_obj.number }}</li>
+                        <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                    {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Pirmyn &rarr;</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="pateikti sveikinimą" alt="pateikti sveikinimą" /><a href="pateikti">Pateikti sveikinimą</a></li>
+    </ul>
+</div>
+{% endblock %}

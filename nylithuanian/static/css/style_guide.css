@@ -1,0 +1,348 @@
+@charset "UTF-8";
+@import "reset.css";
+
+/****   LAYOUT - GENERAL   ****/
+
+html {
+    height: 100%;
+}
+
+body {
+    font-size: 62.5%;
+    color: #333333;
+    background: #FFFFFF url(../images/background-sides.png);
+    text-align: center;
+    height: 100%;
+}
+
+div.clear {
+    clear: both;
+}
+
+/****   TYPOGRAPHY - GENERAL   ****/
+
+strong, b {
+    font-weight: bold;
+}
+
+em, i {
+    font-style: italic;
+}
+
+u {
+    text-decoration: underline;
+}
+
+p {
+    font: normal 1.2em/150% 'Inder', serif;
+    text-align: justify;
+}
+
+p + p {
+    margin-top: 0.8em;
+}
+
+pre {
+    font: normal 1.2em/150% 'courier', monospace;
+    background-color: #EEEEEE;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Alegreya SC', sans-serif;
+    font-variant: small-caps;
+    line-height: 150%;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 3em;
+    margin-top: 1em;
+    margin-bottom:0.3em;
+    text-align: center;
+}
+
+h1 > span {
+    vertical-align: middle;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.8em;
+}
+
+h4 {
+    font-size: 1.6em;
+}
+
+h5, h6 {
+    font-size: 1.4em;
+}
+
+h2, h3, h4, h5, h6 {
+    margin-top: 0.6em;
+}
+
+h2.headline + h4 {
+    margin-top: 0.2em;
+}
+
+.title {
+    margin-top: 1.4em;
+}
+
+.error, .attention {
+    color: #c1272d;
+}
+
+/****   LAYOUT - EXTRAS   ****/
+
+p.sidequote {
+    padding: 10px;
+    border: 0.1em dashed #CCCCCC;
+    width: 20ex;
+    font-size: 1.4em;
+}
+
+.left {
+    float: left;
+    margin: 1.5em 1.5em 1.5em 0;
+}
+
+.right {
+    margin: 1.5em 0 1.5em 1.5em;
+    float: right;
+}
+
+p.meta {
+    color: #666;
+    1color: #811A1E;
+    font-style: italic;
+    text-align: center;
+    line-height: 100%;
+    padding-top: 10px;
+}
+
+p.meta + p.meta {
+    padding: 0;
+}
+
+p.meta + p {
+    padding-top: 1em;
+}
+
+/****   LINKS - GENERAL ****/
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:link {
+    color: #222222;
+    border-bottom: 0.1em dotted #222222;
+}
+
+a:visited {
+    color: #410D0F;
+    border-bottom: 0.1em solid #410D0F;
+}
+
+a:hover, a:active {
+    border-bottom: 0.1em solid #006a44;
+    color: #006a44;
+}
+
+/****   STRUCTURES - GENERAL   ****/
+table {
+    margin: 1em;
+    clear: both;
+    font: normal 1.2em/150% 'Inder', serif;
+    border: 0.1em solid #999999;
+}
+
+table > caption {
+    font: normal 1.2em/100% 'Alegreya SC', serif;
+    padding-bottom: 0.5em;
+}
+
+table .label, th {
+    font-weight: bold;
+}
+
+table .row {
+    text-align:left;
+}
+
+table .column {
+    text-align:center;
+}
+
+th, td {
+    padding: 0.5em;
+    border: 0.1em dotted #999999;
+    min-width: 10em;
+}
+
+table tr.odd {
+    background-color: #EEEEEE;
+}
+
+table tfoot {
+    font-size: 0.8em;
+    border: 0.1em solid #999999;
+}
+
+blockquote, div.extra {
+    margin: 1em 0 1em 2em;
+    padding: 1.5em 0 1.5em 1em;
+    border-left: 0.7em solid #CCCCCC;
+    border-top: 0.1em solid #CCCCCC;
+    border-bottom: 0.1em solid #CCCCCC;
+}
+
+ul li, ol li {
+    font: normal 1.2em/150% 'Inder', serif;
+}
+
+ul li li, ol li li {
+    font-size: 100%;
+}
+
+#container #main ul li + li, #container #main ol li + li {
+    padding-top: 5px;
+}
+
+ol, ul {
+    margin-left: 1.5em;
+    padding-left: 1.5em;
+    padding-top: 5px;
+}
+
+ol ol {
+    list-style-type: lower-alpha;
+}
+
+ul {
+    list-style-image: url(../images/bullet2.gif);
+}
+
+ul li img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+ul.clean {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+/****   FORMS - GENERAL   ****/
+
+fieldset {
+    margin: 0 0 1em 0;
+    padding: 0.5em;
+    border: 0.1em solid #999999;
+    clear: both;
+}
+
+legend {
+    font: normal 1.2em/100% 'Alegreya SC', serif;
+    padding: 0.5em 1em;
+}
+
+input {
+    min-width: 30ex;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    width: auto;
+}
+
+textarea {
+    font: normal 1em/150% 'Inder', serif;
+}
+
+form .helptext {
+    font-size: 0.8em;
+}
+
+form :focus {
+    1outline: 0.2em solid #fdb913;
+}
+
+form p {
+    background-color: #EEEEEE;
+    margin: 0 0 0.3em 0;
+    padding: 0.5em;
+}
+
+form a.cancel {
+    margin-left: 2em;
+    margin-right: 2em;
+    color: #c1272d;
+    border-color: #c1272d; 
+    font: normal 1.2em/150% 'Inder', serif;
+}
+
+form button {
+    padding: 0.5em 1.5em;
+    font: normal 1.2em/150% 'Inder', serif;
+    background-color: #EEEEEE;
+    border: 0.1em outset #CCCCCC;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -khtml-border-radius: 0.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #DDDDDD;
+}
+
+form button:active {
+    background-color: #CCCCCC;
+    border: 0.1em inset #CCCCCC;
+    position: relative;
+    top: 0.1em;
+}
+
+form p button {
+    font-size: 1em;
+    padding: 0.2em 0.8em;
+}
+
+form abbr[title="Required"] {
+    color: #c1272d;
+    font-weight: bold;
+}
+
+form dt, form dd {
+    font: normal 1.2em/150% 'Inder', serif;
+    float: left;
+}
+
+form dt {
+    clear: left;
+    width: 20ex;
+    padding: 0.5em;
+    text-align: right;
+}
+
+form dd {
+    margin-bottom: 1em;
+    margin-right: 1.5em;
+    padding: 0.5em;
+}
+
+form dd button {
+    font-size: 1em;
+    padding: 0.2em 0.8em;
+}

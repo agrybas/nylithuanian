@@ -1,0 +1,5 @@
+Registruojant vartotoją įvyko klaida.
+
+Vartotojo vardas: {{ username }}
+El. paštas: {{ email_address }}
+Klaidos tekstas: {{ error_message }}

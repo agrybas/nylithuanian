@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ event.title }}</h1>
+
+{% if event.start_date %}
+    <p class="meta">
+        Pradžia: {{ event.start_date|date:'M j, Y g:i a' }}{% if event.end_date %} | Pabaiga: {{ event.end_date|date:'M j, Y g:i a' }}{% endif %}
+    </p>
+{% endif %}
+
+<p class="meta">
+    Adresas: {{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}
+</p>
+
+{% if event.address %}
+<p class="meta">
+    Adresas: {{ event.address }}
+</p>
+{% endif %}
+
+<p>
+    {{ event.body|striptags|textile }}
+</p>
+
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        {% if user.id == event.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
+        {% endif %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
+    </ul>
+</div>
+{% endblock %}

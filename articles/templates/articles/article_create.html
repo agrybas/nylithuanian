@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Pateikti naują straipsnį</h2>
+<form action="" method="post">
+    {% csrf_token %}
+        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        <fieldset>
+            <legend>Pagrindinė informacija</legend>
+            <p>
+                <label for="id_title">{{ form.title.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <span class="error">
+                        {% for error in form.title.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.title.help_text %}<br /><span class="helptext">{{form.title.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.body }}
+                {% if form.body.errors %}
+                    <span class="error">
+                        {% for error in form.body.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.body.help_text %}<br /><span class="helptext">{{form.body.help_text|safe }}</span>{% endif %}
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Autoriaus informacija</legend>
+            <p>
+                <label for="id_first_name">{{ form.first_name.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <span class="error">
+                        {% for error in form.first_name.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.first_name.help_text %}<br /><span class="helptext">{{form.first_name.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_last_name">{{ form.last_name.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <span class="error">
+                        {% for error in form.last_name.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.last_name.help_text %}<br /><span class="helptext">{{form.last_name.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_organization_title">{{ form.organization_title.label }}</label><br />
+                {{ form.organization_title }}
+                {% if form.organization_title.errors %}
+                    <span class="error">
+                        {% for error in form.organization_title.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.organization_title.help_text %}<br /><span class="helptext">{{form.organization_title.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_phone_number">{{ form.phone_number.label }}</label><br />
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}
+                    <span class="error">
+                        {% for error in form.phone_number.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.phone_number.help_text %}<br /><span class="helptext">{{form.phone_number.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_email_address">{{ form.email_address.label }}</label><br />
+                {{ form.email_address }}
+                {% if form.email_address.errors %}
+                    <span class="error">
+                        {% for error in form.email_address.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.email_address.help_text %}<br /><span class="helptext">{{form.email_address.help_text }}</span>{% endif %}
+            </p>
+            <p>
+                <label for="id_signature">{{ form.signature.label }}</label><br />
+                {{ form.signature }}
+                {% if form.signature.errors %}
+                    <span class="error">
+                        {% for error in form.signature.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.signature.help_text %}<br /><span class="helptext">{{form.signature.help_text }}</span>{% endif %}
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Papildoma informacija</legend>
+            <p>
+                <label for="id_publish_date">{{ form.publish_date.label }}</label><br />
+                {{ form.publish_date }}
+                {% if form.publish_date.errors %}
+                    <span class="error">
+                        {% for error in form.publish_date.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if form.publish_date.help_text %}<br /><span class="helptext">{{ form.publish_date.help_text }}</span>{% endif %}
+            </p>
+        </fieldset>
+  
+    <button type="submit" value="Preview" >Peržiūrėti tekstą</button>
+    <a class="cancel" href="/">Atšaukti</a>
+</form>
+{% if form.errors %}
+    <p class="error">
+        Straipsnio pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+    </p>
+    {{ form.field_errors }}
+    {{ form.non_field_errors }}
+{% endif %}
+{% endblock %}

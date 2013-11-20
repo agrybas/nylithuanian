@@ -1,0 +1,18 @@
+<p>Sveiki,</p>
+
+<p>siunčiame Jums priminimą apie artėjantį Niujorko ir jo apylinkių lietuvių bendruomenės renginį. Renginio informaciją pateikiame žemiau.</p>
+
+<ul>
+<li>Renginio pavadinimas: {{ event.title }}</li>
+<li>Renginio pradžia: {{ event.start_date|date:'M j, Y g:i a' }}</li>
+{% if event.end_date %}
+    <li>Renginio pabaiga: {{ event.end_date|date:'M j, Y g:i a' }}</li>
+{% endif %}
+<li>Renginio vieta: {{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}}</li>
+</ul>
+
+<p>Renginio aprašymas svetainėje: <a href='http://www.nylithuanian.org/renginiai/{{ article.id }}'>http://www.nylithuanian.org/renginiai/{{ article.id }}</a></p>
+
+<p>Pagarbiai,<br />
+nylithuanian.org komanda
+</p>

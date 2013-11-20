@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% block title%}Pradžia{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+    
+    $(window).load(function(){
+        var event_count = document.querySelectorAll("ul#main-events > li").length;
+        var current = 0;
+        
+        var showNext = function(){
+            $("#event-"+current).fadeOut(500, function() {
+                if (current == event_count - 1)
+                {
+                    current = 0;
+                }
+                else
+                {
+                    current++;    
+                }
+                $("#event-"+current).fadeIn();
+            });
+        };
+        
+        var showPrevious = function(){
+            $("li#event-"+current).fadeOut(500, function() {
+               if (current == 0)
+                {
+                    current = event_count - 1;
+                }
+                else
+                {
+                    current--;    
+                }
+                $("li#event-"+current).fadeIn();
+            });
+        };
+                
+        $("a#next-event").bind("click", function(){
+            clearInterval(timedInterval);
+            showNext();
+        });
+        
+        $("a#previous-event").bind("click", function(){
+            clearInterval(timedInterval);
+            showPrevious();
+        });
+        
+        $("ul#main-events").children().hide();
+        $("li#event-0").show();
+        var timedInterval = setInterval(showNext, 4000);
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="headline">Artimiausi renginiai</h1>
+<div id="main-top">
+    <a href="#" title="Atgal" id="previous-event"><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" width="32" height="32" /></a>
+    <a href="#" title="Pirmyn" id="next-event"><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" width="32" height="32" /></a>
+
+    <ul id="main-events">
+        {% for event in upcoming_events %}
+        <li id="event-{{ forloop.counter0 }}">
+            <a href="/renginiai/{{ event.id }}"><img width="450" height="300" src="{{ MEDIA_URL }}{{ event.image }}" /></a>
+            <div class="event_info">
+                <h2>{{ event.title }}</h2>
+                <h6>Data: {{ event.start_date|date:'M j, Y' }} | Laikas: {{ event.start_date|date:'g:i a' }}</h6>
+                <h6>Adresas: {{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}</h6>
+                <p>
+                    <a href="/renginiai/{{ event.id }}">Daugiau informacijos</a>
+                </p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<ul class="sub-commands">
+    <li>
+        <a href="/renginiai">Artimiausių renginių sąrašas</a>
+    </li>
+    <li>
+        <a href="#">Kalendorius</a>
+    </li>
+    <li>
+        <a href="/renginiai/pateikti">Pranešti apie renginį</a>
+    </li>
+</ul>
+
+<div class="box">
+    <h2 class="headline"><a href="renginiai/archyvas">Ankstesni renginiai</a></h2>
+    <dl class="list">
+        {% for event in past_events %}
+        <dt>
+            {{ event.start_date|date:'m/d/y' }}
+        </dt>
+        <dd>
+            <a href="/renginiai/{{ event.id }}">{{ event.title }}</a>
+        </dd>
+        {% endfor %}
+    </dl>
+    <ul class="sub-commands">
+        <li>
+            <a href="renginiai/archyvas">Renginių archyvas</a>
+        </li>
+    </ul>
+</div>
+
+<div class="box large">
+    <h2 class="headline"><a href="straipsniai">Straipsniai</a></h2>
+    {% for article in articles %}
+        <h4>
+            {% if article.external_link %}
+                <a title="{{ article.title }}" href="{{ article.external_link }}" target="_blank">{{ article.title }}</a>
+            {% else %}
+                <a title="{{ article.title }}" href="straipsniai/{{ article.id }}">{{ article.title }}</a>
+            {% endif %}
+        </h4>
+        <p>
+            {{ article.body|striptags|truncatewords:50 }}
+        </p>
+    {% endfor %}
+    <ul class="sub-commands">
+        <li>
+            <a href="straipsniai">Visi straipsniai</a>
+        </li>
+        <li>
+            <a href="straipsniai/pateikti">Pateikti straipsnį</a>
+        </li>
+    </ul>
+</div>
+
+<div class="clear"></div>
+
+<div class="box">
+    <h2 class="headline"><a href="nuotraukos">Nuotraukos</a></h2>
+    <dl class="covers">
+        {% for album in photo_albums %}
+        <dt>
+            <p>
+                <a href="{{ album.link }}">{{ album.title }} ({{ album.author }})</a>
+            </p>
+        </dt>
+        <dd>
+            <a href="{{ album.link }}"><img src="{{ album.image }}" title="{{ album.title }}" alt="{{ album.title }}" /></a>
+        </dd>
+        {% endfor %}
+    </dl>
+    <ul class="sub-commands">
+        <li>
+            <a href="nuotraukos">Visos nuotraukos</a>
+        </li>
+    </ul>
+</div>
+
+<div class="clear"></div>
+
+<div class="box">
+    <h2 class="headline">Komentarai</h2>
+    <dl class="list">
+        {% for comment in comments %}
+        <dt>
+            {{ comment.date }}
+        </dt>
+        <dd>
+            <a href="{{ comment.link }}">"{{ comment.body }}"</a>
+        </dd>
+        {% endfor %}
+    </dl>
+</div>
+
+<div class="box">
+    <h2 class="headline"><a href="sveikinimai">Sveikiname</a></h2>
+    <ul class="clean">
+        {% for greeting in greetings %}
+        <li>
+            <a href="sveikinimai/{{ greeting.id }}">{{ greeting.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <ul class="sub-commands">
+        <li>
+            <a href="sveikinimai/pateikti">Pateikti sveikinimą</a>
+        </li>
+    </ul>
+</div>
+<div class="box">
+    <h2 class="headline"><a href="/uzuojautos">Liūdime</a></h2>
+    <ul class="clean">
+        {% for sympathy in sympathies %}
+        <li>
+            <a href="uzuojautos/{{ sympathy.id }}">{{ sympathy.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <ul class="sub-commands">
+        <li>
+            <a href="uzuojautos/pateikti">Pareikšti užuojautą</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <ul class="buttons horizontal">
+        <li>
+            <a href="#"><img src="{{ STATIC_URL }}images/toolbar/facebook_32x32.png" width="32" height="32" title="Facebook" alt="Facebook"/></a>
+        </li>
+        <li>
+            <a href="#"><img src="{{ STATIC_URL }}images/toolbar/twitter_32x32.png" width="32" height="32" title="Twitter" alt="Twitter"/></a>
+        </li>
+        <li>
+            <a href="#"><img src="{{ STATIC_URL }}images/toolbar/rss_32x32.png" width="32" height="32" title="RSS" alt="RSS feed"/></a>
+        </li>
+    </ul>
+</div>
+
+<div class="box">
+    <p class="join">
+        {% if user.is_authenticated %}
+            <a href="/nariai/{{ user.username }}">Mano profilis</a>
+        {% else %}
+            <a href="/nariai/prisijungti">Prisijunk!</a>
+        {% endif %}
+    </p>
+</div>
+
+<div class="box">
+    <h2 class="headline">Nauji nariai</h2>
+    <dl class="profiles small">
+        {% for userprofile in new_users %}
+            <dt>
+                <a href="/nariai/{{ userprofile.user.username }}"><img src="#" /></a>
+            </dt>
+            <dd>
+                {{ userprofile.user.username }}
+            </dd>
+            <dd>
+                <a href="/nariai/{{ userprofile.user.username }}">Profilis</a>
+            </dd>
+            <dd>
+                Prisijungė: {{ userprofile.user.date_joined|date:'m/d/Y' }}
+            </dd>
+        {% endfor %}
+    </dl>
+</div>
+{% endblock %}
+

@@ -1,0 +1,19 @@
+        {% if 0 <= event_list.num_pages <= 4 %}
+            {% for page_number in "xxxxx" %}
+                {% if forloop.counter0 == event_list.number %}
+                    <li class="current">{{ event_list.number }}</li>
+                {% else %}
+                    <li><a href="">{{ page_number }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <li><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li>...</li>
+            <li><a href="">{{ event_list.previous_page_number }}</a></li>
+            <li class="current">{{ event_list.number }}</li>
+            <li><a href="">{{ event_list.next_page_number }}</a></li>
+            <li>...</li>
+            <li><a href="">{{ event_list.num_pages - 1 }}</a></li>
+            <li><a href="">{{ event_list.num_pages }}</a></li>
+        {% endif %}

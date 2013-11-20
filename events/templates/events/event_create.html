@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <link href="{{ STATIC_URL }}css/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" >
+    $(function() { 
+       $("#id_start_date").datepicker({
+           numberOfMonths : 2,
+           minDate: 0,
+           onClose: function(selectedDate) {
+               $("#id_end_date").datepicker("option", "minDate", selectedDate);
+           }
+       });
+       $("#id_end_date").datepicker({
+           numberOfMonths : 2,
+           minDate: 0,
+           onClose: function(selectedDate) {
+               $("#id_start_date").datepicker("option", "maxDate", selectedDate);
+           }
+       })
+    });
+    
+</script>
+{% endblock %}
+
+{% block title %}Pranešti apie renginį{% endblock %}
+
+{% block content %}
+    <h2>Pranešti apie renginį</h2>
+    <form enctype="multipart/form-data" action="" method="post" >
+        {% csrf_token %}
+        {{ form.id }}
+        
+        {% if form.errors %}
+            <p class="error">
+                Renginio pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+            </p>
+        {% endif %}
+        
+        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<abbr title="Required">*</abbr><br />
+                {{ field }}
+                {% if field.errors %}
+                    <span class="error">
+                        {% for error in field.errors %}
+                            {{ error }} 
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                {% if field.help_text %}<br /><span class="helptext">{{ field.help_text|safe }}</span>{% endif %}
+            </p>
+        {% endfor %}
+
+        <button type="submit" value="submit" >Pranešti</button>
+        <a class="cancel" href="/">Atšaukti</a>
+        
+    </form>
+    
+    {% if form.non_field_errors %}
+            <ul class="error">
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+{% endblock %}

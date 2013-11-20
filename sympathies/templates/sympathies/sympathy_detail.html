@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block content %}
+<h1>{{ sympathy.title }}</h1>
+
+{% if sympathy.first_name %}
+    <p class="meta">
+        Autorius: {{ sympathy.first_name }} {{ sympathy.last_name }}{% if sympathy.organization_title %}, {{ sympathy.organization_title }}{% endif %}
+    </p>
+{% elif sympathy.organization_title %}
+    <p class="meta">
+        Autorius: {{ sympathy.organization_title }}
+    </p>
+{% endif %}
+
+{{ sympathy.body|striptags|textile }}
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="pareikšti užuojautą" alt="pareikšti užuojautą" /><a href="../pateikti">Pareikšti užuojautą</a></li>
+        {% if user.id == sympathy.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
+        {% endif %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
+    </ul>
+</div>
+{% endblock %}

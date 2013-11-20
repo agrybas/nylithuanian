@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Narių sąrašas{% endblock %}
+
+{% block content %}
+<h2>Narių sąrašas</h2>
+<ul>
+    {% for userprofile in userprofile_list %}
+    <li>
+        <a href="{{ userprofile.user..id }}">{{ userprofile.user.username }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock%}

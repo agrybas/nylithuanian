@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}Komentarai{% endblock %}
+
+{% block content %}
+<h1>{{ article.title }}</h1>
+
+<p>&larr; <a href="/straipsniai/{{ article.id }}">Atgal į straipsnį</a></p>
+<h2 class="headline">Mano 2 centai</h2>
+<form action="" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ form.id }}
+        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        <p>
+            <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+            {{ form.body }}
+            {% if form.body.errors %}
+                <span class="error">
+                    {% for error in form.body.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+            {% if form.body.help_text %}<br /><span class="helptext">{{form.body.help_text }}</span>{% endif %}
+        </p>
+    <button type="submit" value="Post" >Komentuoti</button>
+    <a class="cancel" href="/straipsniai/{{ article.id }}">Atšaukti</a>
+</form>
+{% if form.errors %}
+    <p class="error">
+        Komentaro pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+    </p>
+    {{ form.errors }}
+    {% if form.non_field_errors %}
+        <ul class="error">
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+
+{% if comment_list %}
+    <h2 class="headline">Centas prie cento...</h2>
+    <div id="comments">
+        {% for comment in comment_list %}
+            <dl class="profiles small">
+                <dt><a href='/nariai/{{ comment.user.username }}'>{{ comment.user.username }}</a></dt>
+                <dd><p><i>{{ comment.user.username }}:</i> {{ comment.body|textile }}</p></dd>
+                <dd>{{ comment.create_date }}</dd>
+            </dl>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

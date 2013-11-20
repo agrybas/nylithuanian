@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block content %}
+<h1>{% if is_favorite %}<span><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Favoritas" alt="Favoritas" /></span>{% endif %} {{ article.title }}</h1>
+
+{% if article.first_name %}
+    <p class="meta">
+        <b>Autorius:</b> {{ article.first_name }} {{ article.last_name }}{% if article.organization_title %}, {{ article.organization_title }}{% endif %}
+    </p>
+{% endif %}
+
+{% if article.phone_number or article.email_address %}
+    <p class="meta">
+        {% if article.phone_number %}
+            <b>Telefonas:</b> {{ article.phone_number }}
+        {% endif %}
+        {% if article.email_address %}
+         <b>El. paštas:</b> <a href="mailto:{{ article.email_address }}">{{ article.email_address }}</a>
+        {% endif %}
+    </p>
+{% endif %}
+
+{% if article.signature %}
+    <p class="meta">{{ article.signature }}</p>
+{% endif %}
+
+{{ article.body|striptags|textile }}
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="../pateikti">Pateikti naują straipsnį</a></li>
+        {% if user.id == article.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
+        {% endif %}
+        {% if is_favorite %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Pašalinti iš favoritų" alt="Pašalinti iš favoritų" /><a href="pazymeti">Pašalinti iš favoritų</a></li>
+        {% else %}
+            <li><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Pažymėti favoritu" alt="Pažymėti favoritu" /><a href="pazymeti">Pažymėti favoritu</a></li>
+        {% endif %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
+    </ul>
+</div>
+{% endblock %}

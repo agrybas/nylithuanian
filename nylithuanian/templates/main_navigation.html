@@ -1,0 +1,27 @@
+<ul>
+    <li>
+        <a href="/nuotraukos">Nuotraukos</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'renginiai' %} class="active"{% endif %} href="/renginiai">Renginiai</a>
+    </li>
+
+    <li>
+        <a {% if active_tab == 'straipsniai' %} class="active"{% endif %} href="/straipsniai">Straipsniai</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'skelbimai' %} class="active"{% endif %} href="/skelbimai">Skelbimai</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'dienorastis' %} class="active"{% endif %} href="/dienorastis">Portalo dienoraštis</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'apie-mus' %} class="active"{% endif %} href="/apie-mus">Apie mus</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'sveikinimai' %} class="active"{% endif %} href="/sveikinimai">Sveikiname</a>
+    </li>
+    <li>
+        <a {% if active_tab == 'uzuojautos' %} class="active"{% endif %} href="/uzuojautos">Liūdime</a>
+    </li>
+</ul>

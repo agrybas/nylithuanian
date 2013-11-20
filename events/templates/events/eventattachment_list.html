@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Prisegtukai{% endblock %}
+
+{% block content %}
+    <h1>{{ event.title }}</h1>
+    
+    <p>&larr; <a href="/renginiai/{{ event.id }}">Atgal į renginio aprašymą</a></p>
+    
+    <h2>{{ headline }}</h2>
+    
+    {% if not eventattachment_list %}
+        <p>Prisegtukų nėra.</p>
+    {% endif %}
+
+    {% if eventattachment_list %}
+        <ul>
+            {% for file in eventattachment_list %}
+                <li>
+                    <a href="{{ MEDIA_URL }}{{ file.file }}">
+                        {{ file.title }}{% if file.description %} ({{ file.description }}){% endif %}
+                    </a>
+                    <p>
+                        
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>    
+    {% endif %}
+    
+
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+         <li><img src="{{ STATIC_URL }}images/toolbar/map.png" width="32" height="32" title="Žemėlapis" alt="Žemėlapis" /><a href="../zemelapis">Renginio vieta</a></li>
+         <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="/renginiai/pateikti">Pranešti apie renginį</a></li>
+        {% if user.id == event.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="../redaguoti">Redaguoti</a></li>
+        {% endif %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="../komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Prisijunk prie mūsų{% endblock %}
+
+{% block content %}
+    <h2>Prisijunk prie mūsų!</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p>
+            <label for="id_username">Vartotojo vardas<abbr title="Required">*</abbr></label><br/>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <span class="error">
+                    {% for error in form.username.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            <label for="id_password">Slaptažodis<abbr title="Required">*</abbr></label><br/>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <span class="error">
+                    {% for error in form.password.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <button type="submit" value="login">Prisijungti</button>
+        <a class="cancel" href="/nariai/registruotis">Registruotis</a><br />
+    </form>
+    {% if form.errors %}
+        <p class="error">
+            Prisijungti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+        </p>
+        {% if form.non_field_errors %}
+            <ul class="error">
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+
+    
+{% endblock %}
