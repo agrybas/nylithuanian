@@ -50,7 +50,10 @@
         
         $("ul#main-events").children().hide();
         $("li#event-0").show();
-        var timedInterval = setInterval(showNext, 4000);
+        if (event_count > 1)
+        {
+			var timedInterval = setInterval(showNext, 4000);        	
+        }
     });
 </script>
 {% endblock %}
