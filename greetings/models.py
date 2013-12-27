@@ -13,7 +13,7 @@ class Greeting(models.Model):
     create_date = models.DateTimeField('Date when the post was created', editable= False)
     modify_date = models.DateTimeField('Date when the post was last modified', editable = False)
     title = models.CharField(max_length=100, verbose_name='Pavadinimas')
-    body = models.TextField(verbose_name='Straipsnio tekstas', help_text='Tekstas turi būti rašomas naudojant <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile</a> žymėjimo kalbą.')
+    body = models.TextField(verbose_name='Sveikinimo tekstas', help_text='Tekstas turi būti rašomas naudojant <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile</a> žymėjimo kalbą.')
     is_approved = models.BooleanField(default = False) # only approved articles will ever be shown publicly; only administrator can change this value
     
     class Meta:

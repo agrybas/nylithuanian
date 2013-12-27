@@ -1,5 +1,25 @@
 {% extends 'base.html' %}
 
+{% block header %}
+    <link href="{{ STATIC_URL }}css/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ STATIC_URL }}css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" >
+    $(function() { 
+       $("#id_publish_date").datetimepicker({
+       	controlType: 'select',
+       	dateFormat: 'yy-mm-dd',
+       	timeFormat: 'HH:mm'
+       });
+	});  
+</script>
+{% endblock %}
+
 {% block content %}
 <h2>Redaguoti straipsnį</h2>
 <form action="" method="post">
@@ -8,7 +28,7 @@
         <fieldset>
             <legend>Pagrindinė informacija</legend>
             <p>
-                <label for="id_title">{{ form.title.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.title.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.title }}
                 {% if form.title.errors %}
                     <span class="error">
@@ -20,7 +40,7 @@
                 {% if form.title.help_text %}<br /><span class="helptext">{{form.title.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.body.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.body }}
                 {% if form.body.errors %}
                     <span class="error">
@@ -35,7 +55,7 @@
         <fieldset>
             <legend>Autoriaus informacija</legend>
             <p>
-                <label for="id_first_name">{{ form.first_name.label }}</label><br />
+                {{ form.first_name.label_tag }}<br />
                 {{ form.first_name }}
                 {% if form.first_name.errors %}
                     <span class="error">
@@ -47,7 +67,7 @@
                 {% if form.first_name.help_text %}<br /><span class="helptext">{{form.first_name.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_last_name">{{ form.last_name.label }}</label><br />
+                {{ form.last_name.label_tag }}<br />
                 {{ form.last_name }}
                 {% if form.last_name.errors %}
                     <span class="error">
@@ -59,7 +79,7 @@
                 {% if form.last_name.help_text %}<br /><span class="helptext">{{form.last_name.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_organization_title">{{ form.organization_title.label }}</label><br />
+                {{ form.organization_title.label_tag }}<br />
                 {{ form.organization_title }}
                 {% if form.organization_title.errors %}
                     <span class="error">
@@ -71,7 +91,7 @@
                 {% if form.organization_title.help_text %}<br /><span class="helptext">{{form.organization_title.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_phone_number">{{ form.phone_number.label }}</label><br />
+                {{ form.phone_number.label_tag }}<br />
                 {{ form.phone_number }}
                 {% if form.phone_number.errors %}
                     <span class="error">
@@ -83,7 +103,7 @@
                 {% if form.phone_number.help_text %}<br /><span class="helptext">{{form.phone_number.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_email_address">{{ form.email_address.label }}</label><br />
+                {{ form.email_address.label_tag }}<br />
                 {{ form.email_address }}
                 {% if form.email_address.errors %}
                     <span class="error">
@@ -95,7 +115,7 @@
                 {% if form.email_address.help_text %}<br /><span class="helptext">{{form.email_address.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_signature">{{ form.signature.label }}</label><br />
+                {{ form.signature.label_tag }}<br />
                 {{ form.signature }}
                 {% if form.signature.errors %}
                     <span class="error">
@@ -110,7 +130,7 @@
         <fieldset>
             <legend>Papildoma informacija</legend>
             <p>
-                <label for="id_publish_date">{{ form.publish_date.label }}</label><br />
+                {{ form.publish_date.label_tag }}<br />
                 {{ form.publish_date }}
                 {% if form.publish_date.errors %}
                     <span class="error">
@@ -132,4 +152,18 @@
     </p>
     {{ form.non_field_errors }}
 {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Renginio aprašymo pagalba</h2>
+    <ul>
+        <li>Norėdami pradėti naują pastraipą, įterpkite tuščią eilutę</li>
+        <li>Norėdami įterpti pastraipos antraštę, pradėkite naują eilutę simboliais "h2. "</li>
+        <li>Norėdami sukurti nenumeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "* "</li>
+        <li>Norėdami įterpti numeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "# "</li>
+        <li>Norėdami įterpti nuorodą, rašykite "nuorodos tekstas":nuoroda</li>
+        <li>Daugiau informacijos ir pavyzdžių rasite <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile svetainėje</a></li>
+    </ul>
+</div>
 {% endblock %}

@@ -5,6 +5,7 @@ from celery import celery
 from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
@@ -33,7 +34,6 @@ class UpcomingEventsListView(ListView):
     paginate_by = 5
     
     def get_context_data(self, **kwargs):
-        kwargs['headline'] = 'Artimiausių renginių sąrašas'
         kwargs['active_tab'] = self.kwargs['active_tab']
         return super(UpcomingEventsListView, self).get_context_data(**kwargs)
     
@@ -117,6 +117,21 @@ class EventUpdateView(UpdateView):
         kwargs['active_tab'] = self.kwargs['active_tab']
         return super(EventUpdateView, self).get_context_data(**kwargs)
     
+class EventRssView(Feed):
+    title = 'Lietuvių renginiai Niujorke'
+    link = '/renginiai/'
+    description = 'Artimiausi lietuvių renginiai, vykstantys Niujorko valstijoje bei kaimyninėse bendruomenėse.'
+    
+    def items(self):
+        return Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+
+    def item_title(self, item):
+        return item.title
+    
+    def item_description(self, item):
+        if len(item.body) <= 1000:
+            return item.body
+        return item.body[:1000].rsplit(' ', 1)[0] + '...'
     
 class CommentCreateView(CreateView):
     form_class = AddEventCommentForm

@@ -23,12 +23,6 @@ class AddEventForm(ModelForm):
     
     class Meta:
         model = Event
-        widgets = {
-            'title' : TextInput(attrs={'size' : 100}),
-            'body' : Textarea(attrs={'cols' : 100, 'rows' : 20}),
-            'start_date' : TextInput(attrs={'class' : 'datepicker'}),
-            'end_date' : TextInput(attrs={'class' : 'datepicker'}),
-            }
         exclude = (
                    'is_approved',
                    'publish_date'
@@ -46,8 +40,8 @@ class AddEventForm(ModelForm):
         
         # if side length ratio is not suitable, request a cropped image
         if (img_ratio != target_ratio): 
-            logger.info(u'Uploaded image size is not suitable. Expected side length ratio of {0}, got {1}! Asking user to crop/resize image...'.format(target_ratio, img_ratio))
-            raise ValidationError(u'Image side length ratio must be 3:2.')
+            logger.info(u'Uploaded image size is not suitable. Expected width-by-height ratio of {0}, got {1}! Asking user to crop/resize image...'.format(target_ratio, img_ratio))
+            raise ValidationError(u'Image width by height ratio must be 3:2 (e.g. 150px x 100px, 450px x 300px, 900px x 600px, etc.')
         
         logger.info(u'Uploaded image passed side length ratio test. Proceeding...')
         return self.cleaned_data['image']
@@ -70,9 +64,6 @@ class AddEventCommentForm(ModelForm):
     
     class Meta:
         model = EventComment
-        widgets = {
-                   'body' : Textarea(attrs={'cols' : 100, 'rows' : 10}),
-                   }
         
     def form_valid(self, form):
         form.instance.user = self.request.user.id

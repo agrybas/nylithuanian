@@ -2,6 +2,11 @@
 
 {% block content %}
     <h2>Sveikinimai</h2>
+    
+    {% if not greeting_list %}
+        <p>Sveikinimų nėra.</p>
+    {% endif %}
+    
     {% if paginator %}
     {% endif %}
     {% for greeting in greeting_list %}

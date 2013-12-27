@@ -85,7 +85,7 @@ class SympathyUpdateView(UpdateView, UserOwnedObjectMixin):
     
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
-        return super(SympathyCreateView, self).get_context_data(**kwargs)
+        return super(SympathyUpdateView, self).get_context_data(**kwargs)
     
     @method_decorator(login_required(login_url='/nariai/prisijungti'))
     #@method_decorator(user_passes_test(lambda u: u.is_staff, login_url='/stop'))

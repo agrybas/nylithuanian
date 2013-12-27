@@ -82,7 +82,7 @@ class ArticleDetailView(DetailView):
     
 class ArticleRssView(Feed):
     title = 'Naujausi straipsniai Niujorko lietuviams'
-    link = '/renginiai/'
+    link = '/straipsniai/'
     description = 'Naujausi straipsniai apie Amerikos lietuvius. Straipsniai publikuojami www.nylithuanian.org ir Amerikos spaudoje.'
     
     def items(self):

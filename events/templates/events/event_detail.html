@@ -17,6 +17,28 @@
     <b>Adresas:</b> <span id="address">{{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}</span>
 </p>
 
+{% if event.first_name or event.organization_title %}
+    <p class="meta">
+    	<b>Organizatorius:</b>	
+    	{% if event.first_name %}
+    		{{ event.first_name }} {{ event.last_name }}{% if event.organization_title %}, {{ event.organization_title }}{% endif %}
+		{% else %}
+			{{ event.organization_title }}
+		{% endif %}
+    </p>
+{% endif %}
+
+{% if event.phone_number or event.email_address %}
+    <p class="meta">
+        {% if event.phone_number %}
+            <b>Telefonas:</b> {{ event.phone_number }}
+        {% endif %}
+        {% if event.email_address %}
+         <b>El. paštas:</b> <a href="mailto:{{ event.email_address }}">{{ event.email_address }}</a>
+        {% endif %}
+    </p>
+{% endif %}
+
 <p>
     {{ event.body|striptags|textile }}
 </p>

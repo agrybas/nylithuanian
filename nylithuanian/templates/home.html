@@ -3,72 +3,73 @@
 {% block title%}Pradžia{% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript">
-    
-    $(window).load(function(){
-        var event_count = document.querySelectorAll("ul#main-events > li").length;
-        var current = 0;
-        
-        var showNext = function(){
-            $("#event-"+current).fadeOut(500, function() {
-                if (current == event_count - 1)
-                {
-                    current = 0;
-                }
-                else
-                {
-                    current++;    
-                }
-                $("#event-"+current).fadeIn();
-            });
-        };
-        
-        var showPrevious = function(){
-            $("li#event-"+current).fadeOut(500, function() {
-               if (current == 0)
-                {
-                    current = event_count - 1;
-                }
-                else
-                {
-                    current--;    
-                }
-                $("li#event-"+current).fadeIn();
-            });
-        };
-                
-        $("a#next-event").bind("click", function(){
-            clearInterval(timedInterval);
-            showNext();
-        });
-        
-        $("a#previous-event").bind("click", function(){
-            clearInterval(timedInterval);
-            showPrevious();
-        });
-        
-        $("ul#main-events").children().hide();
-        $("li#event-0").show();
-        if (event_count > 1)
-        {
-			var timedInterval = setInterval(showNext, 4000);        	
-        }
-    });
-</script>
+	{% if upcoming_events|length > 1 %}
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+		    
+		    $(window).load(function(){
+		        var event_count = document.querySelectorAll("ul#main-events > li").length;
+		        var current = 0;
+		        
+		        var showNext = function(){
+		            $("#event-"+current).fadeOut(500, function() {
+		                if (current == event_count - 1)
+		                {
+		                    current = 0;
+		                }
+		                else
+		                {
+		                    current++;    
+		                }
+		                $("#event-"+current).fadeIn();
+		            });
+		        };
+		        
+		        var showPrevious = function(){
+		            $("li#event-"+current).fadeOut(500, function() {
+		               if (current == 0)
+		                {
+		                    current = event_count - 1;
+		                }
+		                else
+		                {
+		                    current--;    
+		                }
+		                $("li#event-"+current).fadeIn();
+		            });
+		        };
+		                
+		        $("a#next-event").bind("click", function(){
+		            clearInterval(timedInterval);
+		            showNext();
+		        });
+		        
+		        $("a#previous-event").bind("click", function(){
+		            clearInterval(timedInterval);
+		            showPrevious();
+		        });
+		        
+		        $("ul#main-events").children().hide();
+		        $("li#event-0").show();
+		        
+				var timedInterval = setInterval(showNext, 4000);        	
+		    });
+		</script>
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 
 <h1 class="headline">Artimiausi renginiai</h1>
 <div id="main-top">
-    <a href="#" title="Atgal" id="previous-event"><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" width="32" height="32" /></a>
-    <a href="#" title="Pirmyn" id="next-event"><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" width="32" height="32" /></a>
-
+	{% if upcoming_events|length > 1 %}
+    	<a href="#" title="Atgal" id="previous-event"><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" width="32" height="32" /></a>
+    	<a href="#" title="Pirmyn" id="next-event"><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" width="32" height="32" /></a>
+	{% endif %}
     <ul id="main-events">
         {% for event in upcoming_events %}
         <li id="event-{{ forloop.counter0 }}">
-            <a href="/renginiai/{{ event.id }}"><img width="450" height="300" src="{{ MEDIA_URL }}{{ event.image }}" /></a>
+            <a href="/renginiai/{{ event.id }}"><img width="300" height="200" src="{{ MEDIA_URL }}{{ event.image }}" /></a>
             <div class="event_info">
                 <h2>{{ event.title }}</h2>
                 <h6>Data: {{ event.start_date|date:'M j, Y' }} | Laikas: {{ event.start_date|date:'g:i a' }}</h6>

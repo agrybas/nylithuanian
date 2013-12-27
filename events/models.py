@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import USStateField
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+from django.core.validators import RegexValidator
 
 COUNTRIES = (
     ('AD', _('Andorra')),
@@ -298,7 +299,7 @@ class Event(models.Model):
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Vardas")
     last_name = models.CharField(max_length=30, blank=True, verbose_name="Pavardė")
     organization_title = models.CharField(max_length=100, blank=True, verbose_name="Organizacijos pavadinimas")
-    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True)
+    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-0-9+() ]*$')])
     email_address = models.EmailField(verbose_name="El. pašto adresas", blank=True)
     start_date = models.DateTimeField(verbose_name='Renginio pradžia', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     end_date = models.DateTimeField(verbose_name='Renginio pabaiga', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"', null = True, blank = True)
@@ -326,6 +327,9 @@ class Event(models.Model):
         
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return '/renginiai/{0}'.format(self.id)
     
 class EventAttachment(models.Model):
     event = models.ForeignKey(Event, editable=False) # event the attachment is associated with

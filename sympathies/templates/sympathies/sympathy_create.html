@@ -10,7 +10,7 @@
         <fieldset>
             <legend>Pagrindinė informacija</legend>
             <p>
-                <label for="id_title">{{ form.title.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.title.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.title }}
                 {% if form.title.errors %}
                     <span class="error">
@@ -22,7 +22,7 @@
                 {% if form.title.help_text %}<br /><span class="helptext">{{form.title.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.body.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.body }}
                 {% if form.body.errors %}
                     <span class="error">
@@ -37,7 +37,7 @@
         <fieldset>
             <legend>Autoriaus informacija</legend>
             <p>
-                <label for="id_first_name">{{ form.first_name.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.first_name.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.first_name }}
                 {% if form.first_name.errors %}
                     <span class="error">
@@ -49,7 +49,7 @@
                 {% if form.first_name.help_text %}<br /><span class="helptext">{{form.first_name.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_last_name">{{ form.last_name.label }}<abbr title="Required">*</abbr></label><br />
+                {{ form.last_name.label_tag }}<abbr title="Required">*</abbr><br />
                 {{ form.last_name }}
                 {% if form.last_name.errors %}
                     <span class="error">
@@ -61,7 +61,7 @@
                 {% if form.last_name.help_text %}<br /><span class="helptext">{{form.last_name.help_text }}</span>{% endif %}
             </p>
             <p>
-                <label for="id_organization_title">{{ form.organization_title.label }}</label><br />
+                {{ form.organization_title.label_tag }}<br />
                 {{ form.organization_title }}
                 {% if form.organization_title.errors %}
                     <span class="error">
@@ -83,4 +83,18 @@
     </p>
     {{ form.non_field_errors }}
 {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Užuojautos teksto pagalba</h2>
+    <ul>
+        <li>Norėdami pradėti naują pastraipą, įterpkite tuščią eilutę</li>
+        <li>Norėdami įterpti pastraipos antraštę, pradėkite naują eilutę simboliais "h2. "</li>
+        <li>Norėdami sukurti nenumeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "* "</li>
+        <li>Norėdami įterpti numeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "# "</li>
+        <li>Norėdami įterpti nuorodą, rašykite "nuorodos tekstas":nuoroda</li>
+        <li>Daugiau informacijos ir pavyzdžių rasite <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile svetainėje</a></li>
+    </ul>
+</div>
 {% endblock %}
