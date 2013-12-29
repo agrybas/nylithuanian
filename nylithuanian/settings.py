@@ -158,6 +158,7 @@ WSGI_APPLICATION = 'nylithuanian.wsgi.application'
 
 TEMPLATE_DIRS = (
     '/home/algirdas/Web/nylithuanian.org/nylithuanian/templates',
+    '/home/algirdas/Web/nylithuanian.org/nylithuanian/templates/photologue',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -179,9 +180,13 @@ INSTALLED_APPS = (
     'articles',
     'greetings',
     'sympathies',
+    'photologue',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+# Photologue gallery sample size
+PHOTOLOGUE_GALLERY_SAMPLE_SIZE = 6
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

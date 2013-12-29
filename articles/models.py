@@ -47,9 +47,9 @@ class Article(models.Model):
     signature = models.CharField(null=False, blank=True, max_length=255, verbose_name="Autoriaus parašas", help_text="Papildoma informacija apie autorių") 
     phone_number = models.CharField(null=False, blank=True, max_length = 20, verbose_name="Telefono numeris", help_text="Autoriaus telefono numeris")
     email_address = models.EmailField(null=False, blank=True, verbose_name="El. pašto adresas", help_text="Autoriaus elektroninio pašto adresas")
-    create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio ikelimo data', editable= False)
-    modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio paskutinio redagavimo data', editable = False)
-    publish_date = models.DateTimeField(null=False, blank=True, default=timezone.now, verbose_name='Publikavimo data')
+    create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio ikelimo data', editable= False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio paskutinio redagavimo data', editable = False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    publish_date = models.DateTimeField(null=False, blank=True, default=timezone.now, verbose_name='Publikavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved articles will ever be shown publicly; only administrator can change this value
     external_link = models.URLField(null=True, blank=True, verbose_name='Nuoroda į RSS straipsnį')
     source = models.ForeignKey(ArticleSource, null=True, blank=True, verbose_name='RSS straipsnio šaltinis')

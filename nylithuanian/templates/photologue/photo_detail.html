@@ -1,0 +1,19 @@
+{% extends "photologue/root.html" %}
+
+{% load photologue_tags %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ object.title }}</h1>
+<div id="gallery-photo">
+
+    <a href="#" title="Atgal" id="previous-event"><img src="/static/images/toolbar/left_arrow.png" width="32" height="32" /></a>
+    <a href="#" title="Pirmyn" id="next-event"><img src="/static/images/toolbar/right_arrow.png" width="32" height="32" /></a>
+
+    <img src="{{ object.get_photo_desktop_url }}" class="{% block gallery-photo-class %}{% endblock %}" alt="{{ object.title }}"/>
+    {% if object.caption %}<p>{{ object.caption }}</p>{% endif %}
+</div>
+
+{% endblock %}

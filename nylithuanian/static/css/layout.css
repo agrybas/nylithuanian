@@ -101,6 +101,7 @@ h1.headline, h2.headline  {
 	font-weight: normal;
 	padding-top: 0;
 	text-align: left;
+	clear: both;
 }
 
 .headline a:link,
@@ -285,6 +286,7 @@ ul.sub-commands {
 	list-style: none;
 	margin-top: 0.5em;
 	float:right;
+	clear: both;
 }
 
 ul.sub-commands li {
@@ -528,6 +530,27 @@ dl.profiles.small dd {
 #container #profile ul.nav li {
     line-height: 200%;
 }
+
+#gallery-photo {
+    text-align: center;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+#gallery-photo a#previous-event, #gallery-photo a#next-event {
+    position: absolute;
+    top: 45%;
+}
+
+#gallery-photo a#previous-event {
+    left: 10%;
+}
+
+#gallery-photo a#next-event {
+    right: 10%;
+}
+
 
 #footer {
     padding: 20px 0;
