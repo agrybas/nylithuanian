@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 from django.template import Context
 from django.template.loader import get_template
-from static.models import Country
 from django.core.signing import Signer
 from django.core.mail import mail_admins
 from articles.models import Article
@@ -51,6 +50,18 @@ USER_TYPES = (
     ('photographer', 'Photographer'),
     ('journalist', 'Journalist'),
 )
+
+# Reference model of independent countries, keyed by ISO-3166-1 alpha-3 code
+class Country(models.Model):
+    country_id = models.CharField(max_length = 3, primary_key = True)
+    name = models.CharField(max_length = 45)
+    formal_name = models.CharField(max_length = 80)
+    
+    class Meta:
+        db_table = 'countries'
+    
+    def __unicode__(self):
+        return self.name
 
 # Data model containing all basic information about registered users
 class UserProfile(models.Model):

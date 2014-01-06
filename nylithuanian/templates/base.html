@@ -1,11 +1,12 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href='http://fonts.googleapis.com/css?family=Inder|Alegreya+SC&subset=latin-ext' rel='stylesheet' type='text/css'>
-        <link href="{{ STATIC_URL }}css/style_guide.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ STATIC_URL }}css/layout.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="{% static 'css/style_guide.css' %}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all" />
         <title>Niujorko lietuviai - {% block title %}{% endblock %}</title>
         {% block header %}{% endblock %}
         {% block javascript %}{% endblock %}
