@@ -24,8 +24,8 @@ class AddEventForm(ModelForm):
     class Meta:
         model = Event
         widgets = {
-            'title' : TextInput(attrs={'size' : 100}),
-            'body' : Textarea(attrs={'cols' : 100, 'rows' : 20}),
+            'title' : TextInput(),
+            'body' : Textarea(),
             'start_date' : TextInput(attrs={'class' : 'datepicker'}),
             'end_date' : TextInput(attrs={'class' : 'datepicker'}),
             }

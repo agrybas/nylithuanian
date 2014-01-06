@@ -1,4 +1,4 @@
-{% extends "photologue/root.html" %}
+{% extends "root.html" %}
 {% load url from future %}
 
 {% block title %}{{ object.title }}{% endblock %}
@@ -6,7 +6,6 @@
 {% block content %}
 
 <h1>{{ object.title }}</h1>
-<p>Originally published {{ object.date_added|date:"l, F jS, Y" }}</p>
 {% if object.description %}<p>{{ object.description }}</p>{% endif %}
 <ul class="thumbnails">
     {% for photo in object.public %}
@@ -18,10 +17,6 @@
     {% endfor %}
 </ul>
 
-<ul class="sub-commands">
-    <li>
-        <a href="{% url 'pl-gallery-list' 1 %}">Visi albumai</a>
-    </li>
-</ul>
+<p>&larr; <a href="{% url 'pl-gallery-list' 1 %}">Visi albumai</a></p>
 
 {% endblock %}

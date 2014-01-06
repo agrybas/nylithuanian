@@ -1,0 +1,23 @@
+{% extends "root.html" %}
+
+{% block title %}{{ object.gallery.title }}{% endblock %}
+
+{% block content %}
+
+    <h1>{{ object.gallery.title }}</h1>
+    <div id="gallery-photo">
+    	{% if object.next_photo_exists %}      
+			<a id="next" href="{{ object.get_next_photo_url }}"><span><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" id="next-event" height="32" width="32" /></span></a>
+		{% endif %}
+
+		{% if object.previous_photo_exists %}
+			<a id="previous" href="{{ object.get_previous_photo_url }}"><span><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" height="32" width="32" /></span></a>
+		{% endif %}
+
+        <img src="{{ object.get_photo_desktop_url }}" class="{% block gallery-photo-class %}{% endblock %}" alt="{{ object.title }}"/>
+        {% if object.title %}<p>{{ object.title }}</p>{% endif %}
+        {% if object.description %}<p>{{ object.description }}</p>{% endif %}
+    </div>
+    <p>&larr; <a href="{{ object.gallery.get_absolute_url }}">Atgal į nuotraukų albumą</a></p>
+
+{% endblock %}

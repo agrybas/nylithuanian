@@ -258,7 +258,10 @@ legend {
 }
 
 input {
-    min-width: 30ex;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 input[type="checkbox"], input[type="radio"] {
@@ -267,6 +270,10 @@ input[type="checkbox"], input[type="radio"] {
 
 textarea {
     font: normal 1em/150% 'Inder', serif;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 form .helptext {

@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<h1>Naujausi nuotraukų albumai</h1>
+<h1>Nuotraukos</h1>
 
 {% if latest %}
     {% for gallery in latest %}
@@ -18,6 +18,11 @@
                 </a>
             </li>
         {% endfor %}
+        </ul>
+        <ul class="sub-commands">
+            <li>
+                <a href="{{ gallery.get_absolute_url }}">Visos nuotraukos</a>
+            </li>
         </ul>
     {% endfor %}
 {% else %}

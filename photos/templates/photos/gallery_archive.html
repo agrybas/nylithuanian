@@ -1,14 +1,14 @@
-{% extends "photologue/root.html" %}
+{% extends "root.html" %}
 {% load url from future %}
 
-{% block title %}Nuotraukų albumai{% endblock %}
+{% block title %}Naujausi nuotraukų albumai{% endblock %}
 
 {% block content %}
 
-<h1>Nuotraukų albumai</h1>
+<h1>Nuotraukos</h1>
 
-{% if object_list %}
-    {% for gallery in object_list %}
+{% if latest %}
+    {% for gallery in latest %}
         <h2 class="headline"><a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a></h2>
         <ul class="thumbnails">
         {% for photo in gallery.sample %}
@@ -26,16 +26,15 @@
         </ul>
     {% endfor %}
 {% else %}
-    <p>No galleries were found.</p>
+    <p>Nuotraukų albumų nėra.</p>
 {% endif %}
 
-{% if is_paginated %}
-<p>{{ page_obj.paginator.count }} galleries total.</p>
-<div id="page_controls">
-    <p>{% if page_obj.has_previous %}
-    	<a href="{% url 'pl-gallery-list' page_obj.previous_page_number %}">Previous</a> | {% endif %} page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} {% if page_obj.has_next %}| <a href="{% url 'pl-gallery-list' page_obj.next_page_number %}">Next</a>{% endif %}
-    </p>
-</div>
-{% endif %}
+
+
+<ul class="sub-commands">
+    <li>
+        <a href="{% url 'pl-gallery-list' 1 %}">Visi albumai</a>
+    </li>
+</ul>
 
 {% endblock %}

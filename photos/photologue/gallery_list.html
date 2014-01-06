@@ -1,0 +1,97 @@
+{% extends "photologue/root.html" %}
+{% load url from future %}
+
+{% block title %}Nuotraukų albumai{% endblock %}
+
+{% block content %}
+
+<h1>Nuotraukų albumai</h1>
+<!--<p>Norėdami peržiūrėti visas albumo nuotraukas, spauskite ant jo pavadinimo.</p>-->
+
+{% if object_list %}
+    {% for gallery in object_list %}
+        <h2 class="headline"><a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a></h2>
+        <ul class="thumbnails">
+        {% for photo in gallery.sample %}
+            <li>
+                <a href="{{ photo.get_absolute_url }}">
+                    <img src="{{ photo.get_thumbnail_url }}" class="mo {% block gallery-photo-class %}{% endblock %}" width="100" height="100" alt="{{ photo.title }}"/>
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        <!--<ul class="sub-commands">-->
+            <!--<li>-->
+                <!--<a href="{{ gallery.get_absolute_url }}">Visos nuotraukos</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    {% endfor %}
+{% else %}
+    <p>Nuotraukų albumų nėra.</p>
+{% endif %}
+
+    {% if is_paginated %}
+        {% if page_obj.paginator.num_pages > 1 %}
+            <ul class="page_numbers">
+                {% if page_obj.has_previous %}
+                <li><a href="{% url 'pl-gallery-list' page_obj.previous_page_number %}">&larr; Atgal</a></li>
+                {% endif %}
+                    {% if page_obj.paginator.num_pages <= 4 %}
+                        {% for i in page_obj.paginator.page_range %}
+                            {% if i == page_obj.number %}
+                                <li class="current">{{ i }}</li>
+                            {% else %}
+                                <li><a href="{% url 'pl-gallery-list' i %}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% if page_obj.number == 1 %}
+                            <li class="current">{{ page_obj.number }}</li>
+                            <li><a href="{% url 'pl-gallery-list' 2 %}">2</a></li>
+                            <li>...</li>
+                            <li><a href="{% url 'pl-gallery-list' page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a></li>
+                        {% elif page_obj.number == 2 %}
+                            <li><a href="{% url 'pl-gallery-list' 1 %}">1</a></li>
+                            <li class="current">{{ page_obj.number }}</li>
+                            <li><a href="{% url 'pl-gallery-list' 3 %}">3</a></li>
+                            <li>...</li>
+                            <li><a href="{% url 'pl-gallery-list' page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'pl-gallery-list' 1 %}">1</a></li>
+                            <li><a href="{% url 'pl-gallery-list' 2 %}">2</a></li>
+                            {% if page_obj.previous_page_number|add:"-2" > 1 %}
+                                <li>...</li>
+                            {% endif %}
+                            {% if page_obj.previous_page_number > 2 %}
+                                <li><a href="{% url 'pl-gallery-list' page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a></li>
+                            {% endif %}
+                            <li class="current">{{ page_obj.number }}</li>
+                            {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
+                                <li><a href="{% url 'pl-gallery-list' page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a></li>
+                            {% endif %}
+                            {% if page_obj.paginator.num_pages|add:"-1" > page_obj.next_page_number %}
+                                <li>{{ page_obj.paginator.num_pages }}...{{ page_obj.next_page_number }}</li>
+                            {% endif %}
+                            {% if page_obj.number < page_obj.paginator.num_pages %}
+                                <li><a href="{% url 'pl-gallery-list' page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="{% url 'pl-gallery-list' page_obj.next_page_number %}">Pirmyn &rarr;</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
+
+
+<!--{% if is_paginated %}
+<p>{{ page_obj.paginator.count }} galleries total.</p>
+<div id="page_controls">
+    <p>{% if page_obj.has_previous %}
+    	<a href="{% url 'pl-gallery-list' page_obj.previous_page_number %}">Previous</a> | {% endif %} page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} {% if page_obj.has_next %}| <a href="{% url 'pl-gallery-list' page_obj.next_page_number %}">Next</a>{% endif %}
+    </p>
+</div>
+{% endif %}-->
+
+{% endblock %}
