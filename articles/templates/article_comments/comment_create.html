@@ -11,9 +11,9 @@
 <form action="" method="post" enctype="multipart/form-data" >
     {% csrf_token %}
     {{ form.id }}
-        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
         <p>
-            <label for="id_body">{{ form.body.label }}<abbr title="Required">*</abbr></label><br />
+            <label class="{{ form.body.css_classes }}" for="id_body">{{ form.body.label }}</label><br />
             {{ form.body }}
             {% if form.body.errors %}
                 <span class="error">

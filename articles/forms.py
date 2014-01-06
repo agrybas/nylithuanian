@@ -2,13 +2,16 @@
 from django.forms import ModelForm, Textarea, TextInput
 from models import Article, ArticleComment
 
-class AddArticleForm(ModelForm):
+class ArticleForm(ModelForm):
     error_css_class = 'error'
+    required_css_class = 'required'
+
+class AddArticleForm(ArticleForm):   
     class Meta:
         model = Article
         exclude = ('is_approved',)
 
 
-class AddArticleCommentForm(ModelForm):
+class AddArticleCommentForm(ArticleForm):
     class Meta:
         model = ArticleComment

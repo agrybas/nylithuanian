@@ -265,6 +265,10 @@ input, textarea {
 	box-sizing: border-box;
 }
 
+form .required {
+	font-weight: bold;
+}
+
 form p select {
 	font-size: 1em;
 }
