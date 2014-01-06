@@ -1,37 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'articles/article_form.html' %}
 
-{% block header %}
-    <link href="{{ STATIC_URL }}css/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="{{ STATIC_URL }}css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" media="all" />
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" >
-    $(function() { 
-       $("#id_publish_date, #formtools_publish_date").datetimepicker({
-       	controlType: 'select',
-       	dateFormat: 'yy-mm-dd',
-       	timeFormat: 'HH:mm'
-       });
-	});  
-</script>
-{% endblock %}
+{% block form_title %}Redaguoti straipsnį{% endblock %}
 
 {% block content %}
-<h1>{% block form_title %}{% endblock %}</h1>
+<h2>{% block form_title %}Redaguoti straipsnį{% endblock %}</h2>
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.id }}
-    
-    {% if form.errors %}
-    <p class="error">
-        Straipsnio pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
-    </p>
-	{% endif %}
-
         <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
         <fieldset>
             <legend>Pagrindinė informacija</legend>
@@ -147,35 +121,19 @@
                         {% endfor %}
                     </span>
                 {% endif %}
-                {% if form.publish_date.help_text %}<br /><span class="helptext">{{ form.publish_date.help_text }}</span>{% endif %}
+                {% if form.publish_date.help_text %}<br /><span class="helptext">{{form.publish_date.help_text }}</span>{% endif %}
             </p>
         </fieldset>
   
-    <button type="submit" value="Preview" >{% block submit_button_title %}{% endblock %}</button>
+    <button type="submit" value="Post" >{% block submit_button_title %}Pateikti straipsnį{% endblock %}</button>
     <a class="cancel" href="/">Atšaukti</a>
 </form>
 
-
-{% if form.non_field_errors %}
-	<ul class="error">
-	    {% for error in form.non_field_errors %}
-	    	<li>{{ error }}</li>
-	    {% endfor %}
-	</ul>
+{% if form.errors %}
+    <p class="error">
+        Straipsnio pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+    </p>
+    {{ form.non_field_errors }}
 {% endif %}
-
 {% endblock %}
 
-{% block sidebar %}
-<div class="box">
-    <h2 class="headline">Renginio aprašymo pagalba</h2>
-    <ul>
-        <li>Norėdami pradėti naują pastraipą, įterpkite tuščią eilutę</li>
-        <li>Norėdami įterpti pastraipos antraštę, pradėkite naują eilutę simboliais "h2. "</li>
-        <li>Norėdami sukurti nenumeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "* "</li>
-        <li>Norėdami įterpti numeruotą sąrašą, pradėkite kiekvieną eilutę simboliais "# "</li>
-        <li>Norėdami įterpti nuorodą, rašykite "nuorodos tekstas":nuoroda</li>
-        <li>Daugiau informacijos ir pavyzdžių rasite <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile svetainėje</a></li>
-    </ul>
-</div>
-{% endblock %}
