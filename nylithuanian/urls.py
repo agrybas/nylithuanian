@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import RedirectView, TemplateView, CreateView
 from views import HomeView
 
 admin.autodiscover()
@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^$', HomeView.as_view()),
     url(r'^stop/$', TemplateView.as_view(template_name = 'stop.html')),
     url(r'^home/', RedirectView.as_view(url='/')),
+    url(r'^nuotraukos/', include('photos.urls'), {'active_tab': 'nuotraukos'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^(?P<active_tab>renginiai)/', include('events.urls')),
     url(r'^(?P<active_tab>straipsniai)/', include('articles.urls')),

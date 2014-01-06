@@ -1,0 +1,22 @@
+{% extends "root.html" %}
+{% load url from future %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ object.title }}</h1>
+{% if object.description %}<p>{{ object.description }}</p>{% endif %}
+<ul class="thumbnails">
+    {% for photo in object.public %}
+    <li>
+        <a href="{{ photo.get_absolute_url }}">
+            <img src="{{ photo.get_thumbnail_url }}" class="mo {% block gallery-photo-class %}{% endblock %}" width="100" height="100" alt="{{ photo.title }}"/>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<p>&larr; <a href="{% url 'pl-gallery-list' 1 %}">Visi albumai</a></p>
+
+{% endblock %}

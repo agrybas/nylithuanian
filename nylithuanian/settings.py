@@ -183,9 +183,15 @@ INSTALLED_APPS = (
     'articles',
     'greetings',
     'sympathies',
+    'photos',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+# Photologue gallery sample size
+PHOTOS_GALLERY_SAMPLE_SIZE = 6
+PHOTOS_GALLERY_PAGINATE_BY = 5
+PHOTOS_GALLERY_LATEST_LIMIT = 3
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -265,17 +271,14 @@ INSTALLED_APPS = (
 #                           'level': 'DEBUG',
 #                           'propagate': False,
 #                           },
-#                 
 #                 'debug.articles': {
 #                                    'handlers': ['debug.articles'],
 #                                    'propagate': False,
 #                                    },
-#                 
 #                 'debug.events': {
 #                                    'handlers': ['debug.events'],
 #                                    'propagate': False,
 #                                    },
-#                 
 #                 'production': {
 #                                'handlers': ['production', 'mail_admins'],
 #                                'level': 'INFO',

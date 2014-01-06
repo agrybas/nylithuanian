@@ -23,6 +23,12 @@ class AddEventForm(ModelForm):
     
     class Meta:
         model = Event
+        widgets = {
+            'title' : TextInput(),
+            'body' : Textarea(),
+            'start_date' : TextInput(attrs={'class' : 'datepicker'}),
+            'end_date' : TextInput(attrs={'class' : 'datepicker'}),
+            }
         exclude = (
                    'is_approved',
                    'publish_date'
