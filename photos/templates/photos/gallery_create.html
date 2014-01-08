@@ -16,12 +16,12 @@
             </p>
         {% endif %}
         
-        <p>Laukeliai, pažymėti žvaigždute <abbr title="Required">*</abbr>, yra privalomi.</p>
+        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
         
         <fieldset>
 	        <legend>Informacija apie albumą</legend>
 	        <p>
-	            {{ form.title.label_tag }}<abbr title="Required">*</abbr><br />
+	            <label class="{{ form.title.css_classes }}" for="id_title">{{ form.title.label }}</label><br />
 	            {{ form.title }}
 	            {% if form.title.errors %}
 	                <span class="error">
@@ -33,7 +33,7 @@
 	            {% if form.title.help_text %}<br /><span class="helptext">{{ form.title.help_text|safe }}</span>{% endif %}
 	        </p>
 	        <p>
-	            {{ form.description.label_tag }}<abbr title="Required">*</abbr><br />
+	            <label class="{{ form.description.css_classes }}" for="id_description">{{ form.description.label }}</label><br />
 	            {{ form.description }}
 	            {% if form.description.errors %}
 	                <span class="error">
@@ -45,7 +45,7 @@
 	            {% if form.description.help_text %}<br /><span class="helptext">{{ form.description.help_text|safe }}</span>{% endif %}
 	        </p>
 	        <p>
-	            {{ form.tags.label_tag }}<abbr title="Required">*</abbr><br />
+	            <label class="{{ form.tags.css_classes }}" for="id_tags">{{ form.tags.label }}</label><br />
 	            {{ form.tags }}
 	            {% if form.tags.errors %}
 	                <span class="error">

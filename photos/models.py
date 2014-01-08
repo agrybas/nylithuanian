@@ -114,11 +114,11 @@ JPEG_QUALITY_CHOICES = (
 
 
 class Gallery(models.Model):
-    title = models.CharField(verbose_name='title', max_length=100, unique=True)
-    description = models.TextField(verbose_name='description', blank=True)
+    title = models.CharField(verbose_name='Pavadinimas', max_length=100, unique=True)
+    description = models.TextField(verbose_name='Aprašymas', blank=True)
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
-    date_added = models.DateTimeField(verbose_name='date published', default=now)
-    is_public = models.BooleanField(verbose_name='is public', default=True, help_text='Public galleries will be displayed in the default views.')
+    date_added = models.DateTimeField(verbose_name='Sukūrimo data', default=now)
+    is_public = models.BooleanField(verbose_name='Publikuojamas viešai', default=True, help_text='Public galleries will be displayed in the default views.')
     tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
 
     class Meta:

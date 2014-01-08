@@ -1,13 +1,15 @@
 #encoding=utf-8
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Textarea, TextInput
 from .models import Photo, Gallery, PhotoComment
 
+# maximum allowed single image size in MB
+MAX_IMAGE_SIZE = 2
 
 class PhotoForm(ModelForm):
     error_css_class = 'error'
     required_css_class = 'required'
 
-# TODO Check for too large file size to prevent server DOS
 class AddPhotoForm(PhotoForm):
     class Meta:
         model = Photo
@@ -21,7 +23,15 @@ class AddPhotoForm(PhotoForm):
                    'date_added',
                    'is_public',
                    )
-
+    
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        if image:
+            if image._size > MAX_IMAGE_SIZE * 1024 * 1024:
+                raise ValidationError('Nuotraukos failas per didelis ( > %sMB).' % str(MAX_IMAGE_SIZE))
+            return image
+        else:
+            raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
 
 class AddGalleryForm(PhotoForm):
     class Meta:
