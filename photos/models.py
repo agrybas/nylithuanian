@@ -183,6 +183,7 @@ class Photo(models.Model):
     date_added = models.DateTimeField(verbose_name='Nuotraukos įkėlimo data', null=False, blank=False, editable=False, default=now, help_text='Nuotraukos albume rūšiuojamos pagal šį laukelį (jei nenurodyta kitaip).')
     view_count = models.PositiveIntegerField(verbose_name='Peržiūrų skaičius', default=0, null=False, blank=False, editable=False)
     crop_from = models.CharField(verbose_name='Iškirpti nuo', blank=True, max_length=10, default='center', choices=CROP_ANCHOR_CHOICES)
+    is_cover = models.BooleanField(verbose_name="Albumo viršelis", default=False)
     is_public = models.BooleanField(verbose_name='Publikuojama viešai', default=True, help_text='Viešai publikuojamos nuotraukos bus matomos visiems.')
     tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
 

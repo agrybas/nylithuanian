@@ -9,7 +9,9 @@ from django.contrib.localflavor.us.forms import USZipCodeField
 from django.utils import timezone
 from PIL import Image
 
-UPLOAD_IMAGE_SIZE = (450, 300)
+UPLOAD_IMAGE_SIZE = (300, 200)
+# maximum allowed single image size in MB
+MAX_IMAGE_SIZE = 5
 
 import logging
 import nylithuanian.settings
@@ -35,24 +37,43 @@ class AddEventForm(EventForm):
                    'is_approved',
                    'publish_date'
                    )
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        if image:
+            if image._size > MAX_IMAGE_SIZE * 1024 * 1024:
+                raise ValidationError('Nuotraukos failas per didelis ( > %sMB).' % str(MAX_IMAGE_SIZE))
+            return image
+        else:
+            raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
+
     
     def clean_image(self):
         logger.debug(u'Checking image {0} for side length ratio...'.format(self.cleaned_data['image']))
         img = Image.open(self.cleaned_data['image'])
-        logger.debug(u'Image loaded successfully.')
+        image = self.cleaned_data.get('image', False)
+        if img:
+            logger.debug(u'Image loaded successfully.')
+            if image._size > MAX_IMAGE_SIZE * 1024 * 1024:
+                logger.info(u'Image size too big! Sizes up to {0}MB allowed, uploaded image size is {1}MB. Asking user to upload a smaller image...'.format(MAX_IMAGE_SIZE, image._size))
+                raise ValidationError('Nuotraukos failas per didelis ( > %sMB).' % str(MAX_IMAGE_SIZE))
+            target_ratio = float(UPLOAD_IMAGE_SIZE[0])/UPLOAD_IMAGE_SIZE[1]
+            logger.debug(u'Target side length ratio: {0}'.format(target_ratio))
+            img_ratio = float(img.size[0])/img.size[1]
+            logger.debug(u'Actual image side length ratio: {0}'.format(img_ratio))
+            
+            # if side length ratio is not suitable, request a cropped image
+            if (img_ratio != target_ratio): 
+                logger.info(u'Uploaded image size is not suitable. Expected width-by-height ratio of {0}, got {1}! Asking user to crop/resize image...'.format(target_ratio, img_ratio))
+                raise ValidationError(u'Image width by height ratio must be 3:2 (e.g. 150px x 100px, 450px x 300px, 900px x 600px, etc.')
+            
+            logger.info(u'Uploaded image passed side length ratio test. Proceeding...')
+            return image
+        else:
+            raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
+
+
         
-        target_ratio = float(UPLOAD_IMAGE_SIZE[0])/UPLOAD_IMAGE_SIZE[1]
-        logger.debug(u'Target side length ratio: {0}'.format(target_ratio))
-        img_ratio = float(img.size[0])/img.size[1]
-        logger.debug(u'Actual image side length ratio: {0}'.format(img_ratio))
-        
-        # if side length ratio is not suitable, request a cropped image
-        if (img_ratio != target_ratio): 
-            logger.info(u'Uploaded image size is not suitable. Expected width-by-height ratio of {0}, got {1}! Asking user to crop/resize image...'.format(target_ratio, img_ratio))
-            raise ValidationError(u'Image width by height ratio must be 3:2 (e.g. 150px x 100px, 450px x 300px, 900px x 600px, etc.')
-        
-        logger.info(u'Uploaded image passed side length ratio test. Proceeding...')
-        return self.cleaned_data['image']
                 
 # EventAttachmentFormSet = inlineformset_factory(Event, EventAttachment, form=AddEventAttachments, can_delete=False)
             

@@ -158,6 +158,7 @@ a:hover, a:active {
     color: #006a44;
 }
 
+
 /****   STRUCTURES - GENERAL   ****/
 table {
     margin: 1em;
@@ -240,6 +241,10 @@ ul li img {
 ul.clean {
     list-style: none;
     padding-left: 0;
+}
+
+ul.wide li {
+	margin-bottom: 2em;
 }
 
 

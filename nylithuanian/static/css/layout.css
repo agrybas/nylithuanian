@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* CSS Document */
 
 #header {
 	height: 200px;
@@ -370,15 +369,22 @@ p.join:hover {
     background-color: #089011;
 }
 
-#container #sidebar { padding-top: 1em; }
-
 #container #sidebar {
+	padding-top: 1em;
     width: 20em;
     float: right;
 }
 
 #container #sidebar h2 {
     clear: both;
+}
+
+#container #sidebar ul.external-links {
+	text-align: center;
+}
+
+#container #sidebar ul.external-links a {
+	border-bottom: none;
 }
 
 #container .box { margin-top: 1em; }
