@@ -14,6 +14,7 @@ from django.utils.importlib import import_module
 from django.utils.encoding import force_text
 from django.utils.encoding import smart_str, filepath_to_uri
 from django.utils.functional import curry
+from django.utils import timezone
 
 from .utils import EXIF
 from .utils.watermark import apply_watermark
@@ -579,6 +580,18 @@ class PhotoSizeCache(object):
 
     def reset(self):
         self.sizes = {}
+
+class PhotoComment(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False, editable=False) # user who uploaded the photo; only that user can edit or delete it
+    photo = models.ForeignKey(Photo, blank=False, null=False, editable = False)
+    body = models.TextField(verbose_name='Komentaras')
+    create_date = models.DateTimeField(editable=False, blank=False, null=False, default=timezone.now())
+
+    class Meta:
+        db_table = 'photo_comments'
+
+    def __unicode__(self):
+        return self.user.username + ': ' + self.body[:50]
 
 
 # Set up the accessor methods

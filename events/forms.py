@@ -19,13 +19,15 @@ if nylithuanian.settings.DEBUG:
 else:
     logger = logging.getLogger('production.' + __name__)
 
-class AddEventForm(ModelForm):
+class EventForm(ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+    
+class AddEventForm(EventForm):
     
     class Meta:
         model = Event
         widgets = {
-            'title' : TextInput(),
-            'body' : Textarea(),
             'start_date' : TextInput(attrs={'class' : 'datepicker'}),
             'end_date' : TextInput(attrs={'class' : 'datepicker'}),
             }
@@ -66,7 +68,7 @@ class AddEventForm(ModelForm):
 #        reviewed_form.save()
 #        return HttpResponseRedirect('../')
     
-class AddEventCommentForm(ModelForm):
+class AddEventCommentForm(EventForm):
     
     class Meta:
         model = EventComment
