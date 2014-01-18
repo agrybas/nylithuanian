@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}Skelbimai{% endblock %}
+
+{% block content %}
+
+<h2>{{ classified.title }}</h2>
+
+{% if classified.phone_number %}
+	<p><strong>Telefonas:</strong> {{ classified.phone_number }}</p>
+{% endif %}
+{% if classified.email_address %}
+	<p><strong>El. paštas:</strong> <a title="{{ classified.email_address }}" href="mailto:{{ classified.email_address }}">{{ classified.email_address }}</a></p>
+{% endif %}
+{{ classified.body|striptags|textile }}
+
+<p>&larr; <a href="/skelbimai/kategorijos/{{ classified.category.id }}">Atgal į skelbimų sąrašą</a></p>
+
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Pateikti" alt="Pateikti" /><a href="/skelbimai/pateikti">Įkelti skelbimą</a></li>
+        {% if user.id == classified.user_id or user.is_staff %}
+        	<li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti skelbimą</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+

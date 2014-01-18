@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}Skelbimai{% endblock %}
+
+{% block content %}
+
+{% for classified in object_list|slice:":1"%}
+	<h2>{{ classified.category }}</h2>
+{% endfor %}
+
+{% if object_list %}
+	{% for classified in object_list %}
+		<h3><a title="{{ classified.title }}" href="/skelbimai/{{ classified.id }}">{{ classified.title }}</a></h3>
+		{% if classified.phone_number %}
+			<p><strong>Telefonas:</strong> {{ classified.phone_number }}</p>
+		{% endif %}
+		{% if classified.email_address %}
+			<p><strong>El. paštas:</strong> <a title="{{ classified.email_address }}" href="mailto:{{ classified.email_address }}">{{ classified.email_address }}</a></p>
+		{% endif %}
+		{{ classified.body|striptags|truncatewords:30|textile }}
+	{% endfor %}
+{% else %}
+	<p>Skelbimų nėra</p>
+{% endif %}
+
+<p>&larr; <a href="/skelbimai/">Atgal į skelbimų kategorijų sąrašą</a></p>
+
+    {% if paginator %}
+        {% if paginator.num_pages > 1 %}
+            <ul class="page_numbers">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&larr; Atgal</a></li>
+                {% endif %}
+            
+                    {% if paginator.num_pages <= 4 %}
+                        {% for i in paginator.page_range %}
+                            {% if i == page_obj.number %}
+                                <li class="current">{{ i }}</li>
+                            {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li><a href="?page=1">1</a></li>
+                        <li><a href="?page=2">2</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                        <li class="current">{{ page_obj.number }}</li>
+                        <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                    {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Pirmyn &rarr;</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Pateikti" alt="Pateikti" /><a href="/skelbimai/pateikti">Įkelti skelbimą</a></li>
+    </ul>
+</div>
+{% endblock %}
+

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Vartotojo sąskaita{% endblock %}
+
+{% block content %}
+<div class="box large">
+    <h2 class="headline">Mėgstami straipsniai</h2>
+    {% if favorite_articles %}
+        {% for article in favorite_articles %}
+            <h4>
+                <a title="{{ article.title }}" href="/straipsniai/{{ article.id }}">{{ article.title }}</a>
+            </h4>
+            <p>
+                {{ article.body|striptags|truncatewords:50 }}
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>Jei mūsų svetainėje radai tau patinkantį straipsnį ir norėtum jį lengvai rasti ateityje, pažymėk jį favoritu. Tuomet jis visada bus pasiekiamas čia, tavo sąskaitos puslapyje!</p>
+    {% endif %}
+</div>
+
+<div class="box">
+    <h2 class="headline">Mano straipsniai</h2>
+    {% if user_articles %}
+        <ul class="clean">
+        {% for article in user_articles %}
+            <li><a href="/straipsniai/{{ article.id }}">{{ article.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Mėgsti rašyti? Norėtum išsakyti savo nuomonę Niujorko lietuvių bendruomenei tau aktualiu klausimu? Tuomet <a href="/straipsniai/pateikti">pateik straipsnį mūsų svetainėje!</a></p>
+    {% endif %}
+</div>
+
+<div class="clear"> </div>
+
+<div class="box">
+    <h2 class="headline">Mano renginiai</h2>
+    {% if user_events %}
+    	<dl class="list">
+	        {% for event in user_events %}
+	        <dt>
+	            {{ event.start_date|date:'m/d/y' }}
+	        </dt>
+	        <dd>
+	            <a href="/renginiai/{{ event.id }}">{{ event.title }}</a>
+	        </dd>
+	        {% endfor %}
+	    </dl>
+    {% else %}
+        <p>Žinai lietuvių renginį netoli Niujorko, apie kurį dar nesame paskelbę svetainėje? <a href="/renginiai/pateikti">Pranešk apie jį visiems!</a></p>
+    {% endif %}
+</div>
+
+<div class="box">
+    <h2 class="headline">Mano sveikinimai</h2>
+    {% if user_greetings %}
+        <ul class="clean">
+        {% for greeting in user_greetings %}
+            <li><a href="/sveikinimai/{{ greeting.id }}">{{ greeting.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nori pasveikinti draugą mūsų svetainėje? <a href="/sveikinimai/pateikti">Padaryk tai čia!</a></p>
+    {% endif %}
+</div>
+
+<div class="box">
+    <h2 class="headline">Pareikštos užuojautos</h2>
+    {% if user_sympathies %}
+        <ul class="clean">
+        {% for sympathy in user_sympathies %}
+            <li><a href="/uzuojautos/{{ sympathy.id }}">{{ sympathy.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Norėtum pareikšti nuoširdžią užuojautą? <a href="/uzuojautos/pateikti">Tai gali padaryti čia.</a></p>
+    {% endif %}
+</div>
+
+<div class="clear"> </div>
+
+<div class="box">
+    <h2 class="headline">Renginių priminimai</h2>
+    <dl class="list">
+        {% for reminder in event_reminders %}
+        <dt>
+            {{ reminder.remind_date }}            
+        </dt>
+        <dd>
+            {{ reminder.event.title }} (<a href="/renginiai/{{ reminder.event.id }}/nepriminti">Panaikinti</a>)
+        </dd>
+        {% endfor %}
+    </dl>
+</div>
+
+{% endblock%}
+
+{% block sidebar %}
+
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/map.png" width="32" height="32" title="Atsijungti" alt="Atsijungti" /><a href="/nariai/atsijungti">Atsijungti</a></li>
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Keisti slaptažodį" alt="Keisti slaptažodį" /><a href="/nariai/keisti-slaptazodi">Keisti slaptažodį</a></li>
+        {% comment %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Readuoti profilį" alt="Readuoti profilį" /><a href="/nariai/redaguoti">Redaguoti profilį</a></li>
+        {% endcomment %}
+    </ul>
+</div>
+{% endblock %}

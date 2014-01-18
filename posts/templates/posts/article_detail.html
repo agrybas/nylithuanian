@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>{{ article.title }}</h1>
-<p class="meta">Data: {{ article.create_date }}</p>
-<p class="meta">Autorius: {{ article.user.first_name }} {{ article.user.last_name }}</p>
-<p class="intro">{{ article.summary }}</p>
-<p>{{ article.body }}</p>
-{% endblock%}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Vartotojo registracija{% endblock %}
+
+{% block content %}
+    <h2>Vartotojo registracija</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+		{{ form.id }}
+		
+        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
+        <p>
+            <label class="{{ form.username.css_classes }}" for="id_username">{{ form.username.label }}</label><br />
+            {{ form.username }}
+            {% if form.username.errors %}
+                <span class="error">
+                    {% for error in form.username.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+            {% if form.username.help_text %}<br /><span class="helptext">{{form.username.help_text }}</span>{% endif %}
+        </p>
+        <p>
+            <label class="{{ form.password.css_classes }}" for="id_password">{{ form.password.label }}</label><br />
+            {{ form.password }}
+            {% if form.password.errors %}
+                <span class="error">
+                    {% for error in form.password.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+            {% if form.password.help_text %}<br /><span class="helptext">{{form.password.help_text }}</span>{% endif %}
+        </p>
+        <p>
+            <label class="{{ form.email.css_classes }}" for="id_email">{{ form.email.label }}</label><br />
+            {{ form.email }}
+            {% if form.email.errors %}
+                <span class="error">
+                    {% for error in form.email.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </span>
+            {% endif %}
+            {% if form.email.help_text %}<br /><span class="helptext">{{form.email.help_text }}</span>{% endif %}
+        </p>
+        <button type="submit" value="Register" >Registruotis</button>
+        <a class="cancel" href="/">Atšaukti</a>
+    </form>
+{% endblock %}
