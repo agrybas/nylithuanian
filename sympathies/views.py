@@ -17,6 +17,7 @@ class SympathyListView(ListView):
         kwargs['active_tab'] = self.kwargs['active_tab']
         return super(SympathyListView, self).get_context_data(**kwargs)
 
+
 class SympathyCreateView(CreateView):
     form_class = AddSympathyForm
     model = Sympathy
@@ -39,6 +40,7 @@ class SympathyCreateView(CreateView):
         form.instance.modify_date = form.instance.create_date = timezone.now()
         return super(SympathyCreateView, self).form_valid(form)
     
+    
 class SympathyDetailView(DetailView):
     model = Sympathy
     
@@ -47,6 +49,7 @@ class SympathyDetailView(DetailView):
         kwargs['active_tab'] = self.kwargs['active_tab']
 #        kwargs['attachment_count'] = GreetingAttachment.objects.filter(sympathy=self.kwargs['pk']).count()
         return super(SympathyDetailView, self).get_context_data(**kwargs)
+    
     
 class SympathyCommentCreateView(CreateView):
     form_class = AddSympathyCommentForm

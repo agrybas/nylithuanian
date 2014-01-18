@@ -2,19 +2,21 @@
 
 {% block content %}
     <h2>Užuojautos</h2>
-    {% if paginator %}
-    {% endif %}
-    {% for sympathy in sympathy_list %}
-        <h4>
-            <a href="/uzuojautos/{{ sympathy.id }}">
-                {{ sympathy.title }}
-            </a>
-        </h4>
-        <p>
-            {{ sympathy.body|truncatewords:50 }}
-        </p>
-    {% endfor %}
-    
+	{% if sympathy_list %}
+	    {% for sympathy in sympathy_list %}
+	        <h4>
+	            <a href="/uzuojautos/{{ sympathy.id }}">
+	                {{ sympathy.title }}
+	            </a>
+	        </h4>
+	        <p>
+	            {{ sympathy.body|truncatewords:50 }}
+	        </p>
+	    {% endfor %}
+	{% else %}
+		<p>Užuojautų nėra.</p>
+	{% endif %}    
+
     {% if paginator %}
         {% if paginator.num_pages > 1 %}
             <ul class="page_numbers">

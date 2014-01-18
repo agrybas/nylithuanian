@@ -72,7 +72,6 @@ class EventCreateView(CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.create_date = timezone.now()
         return super(EventCreateView, self).form_valid(form)
         
     
@@ -96,7 +95,7 @@ class UserOwnedObjectMixin(SingleObjectMixin):
             raise PermissionDenied
         return obj
     
-class EventUpdateView(UpdateView):
+class EventUpdateView(UserOwnedObjectMixin, UpdateView):
     model = Event
     form_class = AddEventForm
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'events/attachments'))

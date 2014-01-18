@@ -7,6 +7,7 @@ from forms import AddGreetingForm, AddGreetingCommentForm
 from models import Greeting, GreetingComment
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
+from users.models import SiteUser
 
 class GreetingListView(ListView):
     model = Greeting
@@ -40,6 +41,7 @@ class GreetingCreateView(CreateView):
         form.instance.modify_date = form.instance.create_date = timezone.now()
         return super(GreetingCreateView, self).form_valid(form)
 
+
 class GreetingDetailView(DetailView):
     model = Greeting
     
@@ -48,6 +50,7 @@ class GreetingDetailView(DetailView):
         kwargs['active_tab'] = self.kwargs['active_tab']
 #        kwargs['attachment_count'] = GreetingAttachment.objects.filter(greeting=self.kwargs['pk']).count()
         return super(GreetingDetailView, self).get_context_data(**kwargs)
+
 
 class GreetingCommentCreateView(CreateView):
     form_class = AddGreetingCommentForm
@@ -62,7 +65,7 @@ class GreetingCommentCreateView(CreateView):
         return super(GreetingCommentCreateView, self).get_context_data(**kwargs)
     
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.user = self.request.user.id
         form.instance.greeting_id = self.kwargs['pk']
         form.instance.create_date = timezone.now()
         return super(GreetingCommentCreateView, self).form_valid(form)

@@ -16,7 +16,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from forms import AddArticleForm, AddArticleCommentForm
 from models import Article, ArticleComment
-from users.models import UserProfile
+from users.models import SiteUser
 
 import logging
 import nylithuanian.settings
@@ -76,7 +76,7 @@ class ArticleDetailView(DetailView):
         kwargs['comment_count'] = ArticleComment.objects.filter(article_id=self.kwargs['pk']).count()
         kwargs['active_tab'] = self.kwargs['active_tab']
         if self.request.user.is_active:
-            kwargs['is_favorite'] = UserProfile.objects.filter(user_id=self.request.user.id).filter(favorite_articles__id=self.kwargs['pk']).exists()
+            kwargs['is_favorite'] = SiteUser.objects.filter(user_id=self.request.user.id).filter(favorite_articles__id=self.kwargs['pk']).exists()
 #        kwargs['attachment_count'] = ArticleAttachment.objects.filter(event=self.kwargs['pk']).count()
         return super(ArticleDetailView, self).get_context_data(**kwargs)
     
@@ -109,7 +109,7 @@ class ArticleCommentCreateView(CreateView):
         return super(ArticleCommentCreateView, self).get_context_data(**kwargs)
     
     def form_valid(self, form):
-        form.instance.user_id = self.request.user.id
+        form.instance.user = self.request.user
         form.instance.article_id = self.kwargs['pk']
         form.instance.create_date = timezone.now()
         return super(ArticleCommentCreateView, self).form_valid(form)
@@ -198,10 +198,10 @@ class AddArticlePreview(FormPreview):
 def toggle_favorite(request, *args, **kwargs):
     try:
         article = Article.objects.get(id=kwargs['pk'])
-        user = UserProfile.objects.get(user_id=request.user.id)
+        user = SiteUser.objects.get(user_id=request.user.id)
         
         # if article already marked as favorite
-        if UserProfile.objects.filter(user_id=request.user.id).filter(favorite_articles__id=kwargs['pk']).exists():
+        if SiteUser.objects.filter(user_id=request.user.id).filter(favorite_articles__id=kwargs['pk']).exists():
             try:
                 logger.info(u'User {0} is unmarking article "{1}" as favorite...'.format(request.user.username, article.title))
                 user.favorite_articles.remove(article)

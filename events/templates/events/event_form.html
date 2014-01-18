@@ -11,15 +11,10 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" >
     $(function() { 
-       $("#id_start_date").datetimepicker({
+       $("#id_start_date, #id_end_date").datetimepicker({
        	controlType: 'select',
        	dateFormat: 'yy-mm-dd',
        	timeFormat: 'HH:mm'
-       });
-       $("#id_end_date").datetimepicker({
-       	controlType: 'select',
-       	dateFormat: 'yy-mm-dd',
-       	timeFormat: 'HH:mm'       	
        });
 	});  
 </script>

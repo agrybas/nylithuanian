@@ -39,9 +39,7 @@
     </p>
 {% endif %}
 
-<p>
-    {{ event.body|striptags|textile }}
-</p>
+{{ event.body|striptags|textile }}
 
 {% endblock%}
 

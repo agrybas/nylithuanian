@@ -51,7 +51,7 @@ DATABASES = {
         'USER': 'nylt',  # Not used with sqlite3.
         'PASSWORD': '234wer234',  # Not used with sqlite3.
         'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+        'PORT': '3305',  # Set to empty string for default. Not used with sqlite3.
         'OPTIONS': {
                     'init_command': 'SET storage_engine=INNODB, SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
                     }
@@ -142,8 +142,9 @@ TEMPLATE_LOADERS = (
 #    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # )
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = '/home/algirdas/Web/nylithuanian.org/nylithuanian/tmp/email'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = '/home/algirdas/Web/nylithuanian.org/nylithuanian/tmp/email'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -176,14 +177,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.markup',
-#    'djcelery',
-#     'static',
     'users',
     'events',
     'articles',
     'greetings',
     'sympathies',
     'photos',
+    'classifieds'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

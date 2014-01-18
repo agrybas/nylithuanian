@@ -3,22 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-# Data model containing details about author of an article; allows an author
-# not to be a registered user, but a registered user may be associated with one or more
-# author instances
-#class ArticleAuthor(models.Model):
-#    user = models.ForeignKey(User, editable=False) # user to whom this article author entry belongs
-#    first_name = models.CharField(max_length = 30)
-#    last_name = models.CharField(max_length = 30)
-#    email = models.EmailField(verbose_name="El. pašto adresas")
-#    signature = models.TextField(verbose_name="Parašas", help_text="Papildomas tekstas, rodomas straipsnio pradžioje kartu su pagrindine informacija apie autorių.")
-#    
-#    class Meta:
-#        db_table = 'article_authors'
-#        
-#    def __unicode__(self):
-#        return u'%s %s' % (self.first_name, self.last_name)
-
 class ArticleSource(models.Model):
     title = models.CharField(verbose_name='RSS straipsnio saltinis', max_length=20, editable = False)
     image = models.FilePathField(verbose_name='Straipsnio saltinio logo')
