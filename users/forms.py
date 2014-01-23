@@ -5,16 +5,30 @@ from django.template.loader import get_template
 from django.template import Context
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 from models import SiteUser
 
 class RegisterSiteUserForm(forms.ModelForm):
+    confirm_password = forms.CharField(label='Slaptažodis (pakartoti)', max_length=128, widget=PasswordInput())
+    
     class Meta:
         model = SiteUser
         fields = ('username', 'password', 'email')
         widgets = {
             'password' : PasswordInput(),
         }
+        
+    def clean(self):
+
+        if (self.cleaned_data.get('password') !=
+            self.cleaned_data.get('confirm_password')):
+
+            raise ValidationError(
+                "Įvestos slaptažodžių reikšmės nesutampa."
+            )
+
+        return super(RegisterSiteUserForm, self).clean()
         
 #     def save(self, commit=True):
 #         instance = super(RegisterUserForm, self).save(commit)
