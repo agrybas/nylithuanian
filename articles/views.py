@@ -13,7 +13,6 @@ from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
 
-
 from forms import AddArticleForm, AddArticleCommentForm
 from models import Article, ArticleComment
 from users.models import SiteUser
@@ -26,39 +25,6 @@ if nylithuanian.settings.DEBUG:
 else:
     logger = logging.getLogger('production.' + __name__)
 
-#@login_required(login_url='/prisijungti')
-#def add_article(request):
-#    
-#    if request.method == 'POST':
-#        form = AddArticleForm(request.POST)
-#        if form.is_valid():
-#            data = form.cleaned_data
-#            Article.objects.create(title=data['title'], body=data['body'], summary=data['summary'],
-#                                   publish_date=data['publish_date'], expiry_date=data['expiry_date'], user=request.user)
-#            return HttpResponseRedirect('/straipsniai/ikelti-straipsni')
-#    else:
-#        form = AddArticleForm()
-#        return render_to_response('add_article_form.html', {'form' : form},
-#                              context_instance=RequestContext(request))
-#    
-
-#class ArticleCreateView(CreateView):
-#    form_class = AddArticleForm
-#    model = Article
-#    success_url = '../'
-#    template_name = 'articles/article_create.html'
-#    
-#    def get_initial(self):
-#        initial = super(ArticleCreateView, self).get_initial()
-#        initial = initial.copy() # copy the dictionary so we don't accidentally change a mutable dict
-#        initial['first_name'] = self.request.user.first_name
-#        initial['last_name'] = self.request.user.last_name
-#        return initial
-#    
-#    def form_valid(self, form):
-#        form.instance.user_id = self.request.user.id
-#        form.instance.modify_date = form.instance.create_date = form.instance.publish_date = timezone.now()
-#        return super(ArticleCreateView, self).form_valid(form)
 
 class ArticleListView(ListView):
     model = Article
@@ -76,7 +42,7 @@ class ArticleDetailView(DetailView):
         kwargs['comment_count'] = ArticleComment.objects.filter(article_id=self.kwargs['pk']).count()
         kwargs['active_tab'] = self.kwargs['active_tab']
         if self.request.user.is_active:
-            kwargs['is_favorite'] = SiteUser.objects.filter(user_id=self.request.user.id).filter(favorite_articles__id=self.kwargs['pk']).exists()
+            kwargs['is_favorite'] = SiteUser.objects.filter(id=self.request.user.id).filter(favorite_articles__id=self.kwargs['pk']).exists()
 #        kwargs['attachment_count'] = ArticleAttachment.objects.filter(event=self.kwargs['pk']).count()
         return super(ArticleDetailView, self).get_context_data(**kwargs)
     
@@ -146,11 +112,7 @@ class ArticleUpdateView(UpdateView, UserOwnedObjectMixin):
 class AddArticlePreview(FormPreview):
     form_template = 'articles/article_create.html'
     preview_template = 'articles/article_preview.html'
-    
-    def get_context_data(self, **kwargs):
-        kwargs['active_tab'] = self.kwargs['active_tab']
-        return super(AddArticlePreview, self).get_context_data(**kwargs)
-    
+      
     @method_decorator(login_required(login_url='/nariai/prisijungti'))
     def done(self, request, cleaned_data):
         try:

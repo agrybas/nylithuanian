@@ -3,9 +3,6 @@ from django.forms import ModelForm, Textarea, TextInput, ValidationError
 from django.forms.models import BaseModelFormSet
 from models import Event, EventComment, EventAttachment
 from django.forms.models import inlineformset_factory
-#from django.contrib.formtools.preview import FormPreview
-from django.contrib.localflavor.us.forms import USZipCodeField
-#from django.http import HttpResponseRedirect
 from django.utils import timezone
 from PIL import Image
 

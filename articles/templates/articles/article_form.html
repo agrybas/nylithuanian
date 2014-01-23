@@ -22,7 +22,7 @@
 
 {% block content %}
 <h1>{% block form_title %}{% endblock %}</h1>
-<form action="" method="post">
+<form action="" method="post" name="form">
     {% csrf_token %}
     {{ form.id }}
     

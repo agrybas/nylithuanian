@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.validators import RegexValidator
+
 
 class ArticleSource(models.Model):
     title = models.CharField(verbose_name='RSS straipsnio saltinis', max_length=20, editable = False)
@@ -29,7 +31,7 @@ class Article(models.Model):
     last_name = models.CharField(null=False, blank=True, max_length=30, verbose_name="Autoriaus pavardė")
     organization_title = models.CharField(null=False, blank = True, max_length = 100, verbose_name="Organizacijos pavadinimas", help_text="Organizacija, kuriai priklauso autorius") # if the user is an organization, its title
     signature = models.CharField(null=False, blank=True, max_length=255, verbose_name="Autoriaus parašas", help_text="Papildoma informacija apie autorių") 
-    phone_number = models.CharField(null=False, blank=True, max_length = 20, verbose_name="Telefono numeris", help_text="Autoriaus telefono numeris")
+    phone_number = models.CharField(null=False, blank=True, max_length = 20, verbose_name="Telefono numeris", help_text="Autoriaus telefono numeris", validators=[RegexValidator(r'^[-0-9+() ]*$')])
     email_address = models.EmailField(null=False, blank=True, verbose_name="El. pašto adresas", help_text="Autoriaus elektroninio pašto adresas")
     create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio ikelimo data', editable= False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio paskutinio redagavimo data', editable = False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
