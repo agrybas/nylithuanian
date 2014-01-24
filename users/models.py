@@ -112,8 +112,8 @@ class SiteUser(User):
         self.save()
         return self.temp_hash
 
-    def getHash(self):
-        return self.temp_hash
+#     def getHash(self):
+#         return self.temp_hash
 
 #     def getType(self):
 #         return self.user_type

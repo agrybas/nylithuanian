@@ -1,4 +1,4 @@
-# NYLITHUANIAN SETTINGS - DEVELOPMENT
+# NYLITHUANIAN SETTINGS - QA
 from datetime import timedelta
 
 # Add Celery support to site
@@ -27,9 +27,7 @@ from datetime import timedelta
 #                                                          },
 #                        }
 
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = False
 
 ADMINS = (
     ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
@@ -47,8 +45,8 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nylt',  # Or path to database file if using sqlite3.
-        'USER': 'nylt',  # Not used with sqlite3.
+        'NAME': 'nylt_qa',  # Or path to database file if using sqlite3.
+        'USER': 'nylt_qa_user',  # Not used with sqlite3.
         'PASSWORD': '234wer234',  # Not used with sqlite3.
         'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3305',  # Set to empty string for default. Not used with sqlite3.
@@ -85,7 +83,8 @@ LOGIN_REDIRECT_URL = '/'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/algirdas/Web/nylithuanian.org/assets/media/'
+
+MEDIA_ROOT = '/srv/www/nylithuanian.org/dev/assets/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -96,15 +95,17 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/algirdas/Web/nylithuanian.org/static/'
+
+STATIC_ROOT = '/srv/www/nylithuanian.org/dev/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
 # Additional locations of static files
+
 STATICFILES_DIRS = (
-                    '/home/algirdas/Web/nylithuanian.org/nylithuanian/static',
+                    '/srv/www/nylithuanian.org/dev/nylithuanian/static/',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -122,11 +123,11 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'wx6+!b4y_=pju5ut9jv8=rhdvb7rrox8jjt$ri9z)9kg_@oi4c'
 
 PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
@@ -142,9 +143,12 @@ TEMPLATE_LOADERS = (
 #    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = '/home/algirdas/Web/nylithuanian.org/nylithuanian/tmp/email'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # this is the default, but specifying explicitly
+EMAIL_HOST = 'nylithuanian.org'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'webmaster@nylithuanian.org'
+EMAIL_HOST_PASSWORD = 'V1k96263@1781k8^7*%SShUK'
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -162,7 +166,7 @@ ROOT_URLCONF = 'nylithuanian.urls'
 WSGI_APPLICATION = 'nylithuanian.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/algirdas/Web/nylithuanian.org/nylithuanian/templates',
+    '/srv/www/nylithuanian.org/dev/nylithuanian/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -187,11 +191,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
-# Photologue gallery sample size
-PHOTOS_GALLERY_SAMPLE_SIZE = 6
-PHOTOS_GALLERY_PAGINATE_BY = 5
-PHOTOS_GALLERY_LATEST_LIMIT = 3
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

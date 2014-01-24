@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="14.861415"
+   height="13.999999"
+   id="svg2985"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="home.svg">
+  <defs
+     id="defs2999" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1221"
+     inkscape:window-height="918"
+     id="namedview2997"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="6.7410846"
+     inkscape:cx="-13.250817"
+     inkscape:cy="16.698554"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2985" />
+  <title
+     id="title2987">White House</title>
+  <metadata
+     id="metadata7">image/svg+xml<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>White House</dc:title>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <g
+     display="inline"
+     id="g2990"
+     transform="matrix(0.03189878,0,0,0.03189878,-0.22329146,-0.66987438)"
+     style="display:inline">
+    <title
+       id="title2992">Layer 1</title>
+    <g
+       id="svg_3">
+      <path
+         id="svg_4"
+         stroke-miterlimit="4"
+         d="m 403.50797,244.09579 0,0 z m 0,0 L 239.99351,99.90828 76.384918,244.15829 l 0,206.125 c 0,5.32337 4.32016,9.59375 9.666473,9.59375 l 102.251469,0 0,-90.375 c 0,-5.32342 4.28877,-9.625 9.63511,-9.625 l 84.01689,0 c 5.34632,0 9.6351,4.30164 9.6351,9.625 l 0,90.375 102.28287,0 c 5.34632,0 6.62219,0.72968 9.63513,-9.59375 l 0,-206.1875 z m -327.123052,0.0625 0,0 z"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff;stroke-width:0.40000001;stroke-miterlimit:4" />
+      <path
+         id="svg_5"
+         stroke-miterlimit="4"
+         d="M 239.04465,21 7,225.58356 31.443241,253.04095 239.99393,69.156768 448.49707,253.04095 472.89288,225.58356 240.89569,21 239.99393,22.0397 239.04465,21 z"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff;stroke-width:0.40000001;stroke-miterlimit:4" />
+    </g>
+  </g>
+</svg>

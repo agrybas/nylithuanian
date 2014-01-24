@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from models import SiteUser
 
 class RegisterSiteUserForm(forms.ModelForm):
-    confirm_password = forms.CharField(label='Slaptažodis (pakartoti)', max_length=128, widget=PasswordInput())
+    confirm_password = forms.CharField(label='Slaptažodis (pakartoti)', max_length=128, widget=PasswordInput)
     
     class Meta:
         model = SiteUser
@@ -29,7 +29,9 @@ class RegisterSiteUserForm(forms.ModelForm):
             )
 
         return super(RegisterSiteUserForm, self).clean()
-        
+
+
+
 #     def save(self, commit=True):
 #         instance = super(RegisterUserForm, self).save(commit)
 #         user = User.objects.get(username=instance.username)

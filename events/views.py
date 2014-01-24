@@ -35,6 +35,7 @@ class UpcomingEventsListView(ListView):
     
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
+        kwargs['headline'] = 'Artimiausi renginiai'
         return super(UpcomingEventsListView, self).get_context_data(**kwargs)
     
 class PastEventsListView(ListView):
