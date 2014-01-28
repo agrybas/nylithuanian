@@ -126,7 +126,7 @@ class EventRssView(Feed):
         return Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
 
     def item_title(self, item):
-        return item.title
+        return item.title  
     
     def item_description(self, item):
         if len(item.body) <= 1000:

@@ -6,18 +6,24 @@ from django.template import Context
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordChangeForm
 
 from models import SiteUser
 
 class RegisterSiteUserForm(forms.ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+    
     confirm_password = forms.CharField(label='Slaptažodis (pakartoti)', max_length=128, widget=PasswordInput)
+    email = forms.EmailField(label='El. pašto adresas', required=True)
     
     class Meta:
         model = SiteUser
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password')
         widgets = {
             'password' : PasswordInput(),
         }
+
         
     def clean(self):
 
@@ -67,16 +73,12 @@ class PromoteUserForm(forms.Form):
                   )
     username = forms.CharField(max_length = 30, label='Vartotojo vardas')
     user_type = forms.ChoiceField(choices = USER_TYPES, label='Vartotojo tipas')
-
-class ChangePasswordForm(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput, label="Slaptažodis")
-    password_verify = forms.CharField(widget=forms.PasswordInput, label="Slaptažodis (pakartoti)")
-    
+  
 class EditSiteUserForm(forms.ModelForm):
     class Meta:
         model = SiteUser
         widgets = {
                    'is_subscribed': RadioSelect(),
                    }
-        exclude = ('username', 'password', 'email')
+        exclude = ('username', 'password', 'email', 'last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff')
         

@@ -4,7 +4,7 @@ from django.contrib.auth.views import login, logout
 
 from models import SiteUser
 from forms import RegisterSiteUserForm
-from views import SiteUserCreateView, SiteUserDetailView, SiteUserUpdateView, confirm_registration
+from views import SiteUserCreateView, SiteUserDetailView, SiteUserChangePasswordView, SiteUserUpdateView, confirm_registration
 
 urlpatterns = patterns('',
     url(r'^$', ListView.as_view(model = SiteUser,)),
@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^patvirtinti/(?P<username>\w+)/(?P<registrationHash>\S+)/$', confirm_registration),
     url(r'^prisijungti/$', login, { 'template_name' : 'users/login.html', }),
     url(r'^atsijungti/$', logout, { 'next_page' : '/', }),
+    url(r'^(?P<slug>\w+)/keisti-slaptazodi/$', SiteUserChangePasswordView.as_view()),
     url(r'^(?P<slug>\w+)/$', SiteUserDetailView.as_view()),
     url(r'^(?P<slug>\w+)/redaguoti/$', SiteUserUpdateView.as_view()),
 )

@@ -6,7 +6,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.core.signing import Signer
 from django.core.mail import mail_admins
-#from articles.models import Article
+from django_countries.fields import CountryField
 
 import datetime
 import random
@@ -65,18 +65,6 @@ BOOLEAN_YES_NO = (
                   (False, 'Ne')
                   )
 
-# Reference model of independent countries, keyed by ISO-3166-1 alpha-3 code
-class Country(models.Model):
-    country_id = models.CharField(max_length = 3, primary_key = True)
-    name = models.CharField(max_length = 45)
-    formal_name = models.CharField(max_length = 80)
-    
-    class Meta:
-        db_table = 'countries'
-    
-    def __unicode__(self):
-        return self.name
-
 # Data model containing all basic information about registered users
 class SiteUser(User):
     password_old = models.CharField(max_length=32, blank=True)
@@ -86,7 +74,7 @@ class SiteUser(User):
     birth_date = models.DateField(null=True, blank=True)
     relationship_status = models.CharField(max_length=12, blank=True, choices=RELATIONSHIP_TYPES, verbose_name="Vedybinė padėtis")
     home_town = models.CharField(max_length=20, blank=True, verbose_name="Gimtasis miestas")
-    home_country = models.ForeignKey(Country, null=True, blank=True, verbose_name="Gimtoji šalis")
+    home_country = CountryField(verbose_name='Gimtoji šalis', blank=True, null=True)
     shirt_size = models.CharField(max_length=3, blank=True, choices=SHIRT_SIZES)
     community = models.CharField(max_length=9, blank=True, choices=COMMUNITIES, verbose_name="Pageidauju priklausyti šiai Niujorko apylinkei:")
     is_subscribed = models.BooleanField(default=True, choices=BOOLEAN_YES_NO, verbose_name="Pageidauju gauti bendruomenės savaitinį el. naujienlaiškį")
