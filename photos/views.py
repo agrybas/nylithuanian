@@ -2,16 +2,26 @@ from django.conf import settings
 from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from .models import Photo, Gallery, PhotoComment
 from .forms import AddPhotoForm, AddGalleryForm, AddPhotoCommentForm
 from django.utils import timezone
+from django.views.generic.detail import SingleObjectMixin
 
 # File-scoped constants
 
 GALLERY_PAGINATE_BY = getattr(settings, 'PHOTO_GALLERY_PAGINATE_BY', 20)  # Number of galleries to display per page.
 PHOTO_PAGINATE_BY = getattr(settings, 'PHOTO_PAGINATE_BY', 20)  # Number of photos to display per page.
 GALLERY_LATEST_LIMIT = getattr(settings, 'PHOTO_GALLERY_LATEST_LIMIT', 20)  # Number of latest galleries to display
+
+class UserOwnedObjectMixin(SingleObjectMixin):
+    def get_object(self, queryset=None):
+        obj = super(UserOwnedObjectMixin, self).get_object(queryset)
+        if self.request.user.is_staff:
+            return obj
+        if obj.user_id != self.request.user.id:
+            raise PermissionDenied
+        return obj
 
 # Gallery views
 
@@ -27,12 +37,17 @@ class GalleryCreateView(GalleryView, CreateView):
     model = Gallery
     form_class = AddGalleryForm
     template_name = 'photos/gallery_create.html'
-#     success_url = '/nuotraukos/gallery'    # CreateView will use Gallery.get_absolute_url() as success_url
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.date_added = timezone.now()
         return super(GalleryCreateView, self).form_valid(form)
+    
+class GalleryUpdateView(GalleryView, UpdateView, UserOwnedObjectMixin):
+    model = Gallery
+    form_class = AddGalleryForm
+    template_name = 'photos/gallery_edit.html'
+    slug_field = 'id'
 
 
 class GalleryListView(GalleryView, ListView):
@@ -76,12 +91,18 @@ class PhotoCreateView(CreateView):
     model = Photo
     form_class = AddPhotoForm
     template_name = 'photos/photo_create.html'
-#     success_url = '/nuotraukos/gallery'    # CreateView will use Photo.get_absolute_url() as success_url
+#     success_url = '/nuotraukos/albumai'    # CreateView will use Photo.get_absolute_url() as success_url
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.date_added = timezone.now()
         return super(PhotoCreateView, self).form_valid(form)
+    
+class PhotoUpdateView(PhotoView, UpdateView, UserOwnedObjectMixin):
+    model = Photo
+    form_class = AddPhotoForm
+    template_name = 'photos/photo_edit.html'
+    slug_field = 'id'
     
 class PhotoCommentCreateView(CreateView):
     form_class = AddPhotoCommentForm

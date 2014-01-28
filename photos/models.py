@@ -132,7 +132,7 @@ class Gallery(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('pl-gallery', args=[self.id])
+        return '/nuotraukos/gallery/{0}'.format(self.id)
 
     def latest(self, limit=LATEST_LIMIT, public=True):
         if not limit:
@@ -176,7 +176,7 @@ class Photo(models.Model):
     width = models.PositiveSmallIntegerField(verbose_name='Paveikslėlio plotis', null=False, blank=False, editable=False, help_text='Paveikslėlio plotis')
     sort_number = models.PositiveIntegerField(verbose_name='Eilės numeris', editable=False, null=True, blank=True, help_text='Norėdami rūšiuoti nuotraukas albume specifine tvarka, šiame laukelyje nurodykite nuotraukos eilės numerį. Nenurodžius eilės numerio, nuotraukos bus rūšiuojamos pagal įkėlimo datą.')
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
-    gallery = models.ForeignKey(Gallery, blank=False, null=False, verbose_name="Nuotraukų albumas", help_text='Jei nematote pasirinktinų albumų, pirmiausia turite juos <a href="/nuotraukos/gallery/pateikti">sukurti</a>.')  # TODO add limit_choices_to argument to restrict galleries to only those created by current user
+    gallery = models.ForeignKey(Gallery, blank=False, null=False, verbose_name="Nuotraukų albumas", help_text='Jei nematote pasirinktinų albumų, pirmiausia turite juos <a href="/nuotraukos/albumai/pateikti">sukurti</a>.')  # TODO add limit_choices_to argument to restrict galleries to only those created by current user
     title = models.CharField(verbose_name='Nuotraukos pavadinimas', max_length=100, blank=True)
     description = models.TextField(verbose_name='Nuotraukos aprašymas', blank=True)
     date_taken = models.DateTimeField(verbose_name='Fotografijos data', null=True, blank=True, editable=False)
@@ -412,7 +412,7 @@ class Photo(models.Model):
         os.remove(path)
 
     def get_absolute_url(self):
-        return reverse('pl-photo', args=[self.id])
+        return '/nuotraukos/photo/{0}'.format(self.id)
 
     def public_galleries(self):
         """Return the public galleries to which this photo belongs."""

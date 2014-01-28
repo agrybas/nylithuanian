@@ -27,7 +27,7 @@ class AddPhotoForm(PhotoForm):
     def clean_image(self):
         image = self.cleaned_data.get('image', False)
         if image:
-            if image._size > MAX_IMAGE_SIZE * 1024 * 1024:
+            if image.size > MAX_IMAGE_SIZE * 1024 * 1024:
                 raise ValidationError('Nuotraukos failas per didelis ( > %sMB).' % str(MAX_IMAGE_SIZE))
             return image
         else:
@@ -36,10 +36,7 @@ class AddPhotoForm(PhotoForm):
 class AddGalleryForm(PhotoForm):
     class Meta:
         model = Gallery
-        exclude = (
-                   'user',
-                   'date_added',
-                   )
+        fields = ('title', 'description', 'tags')
         
 class AddPhotoCommentForm(PhotoForm):
     class Meta:
