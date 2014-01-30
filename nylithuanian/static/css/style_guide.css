@@ -332,11 +332,6 @@ form p button {
     padding: 0.2em 0.8em;
 }
 
-form abbr[title="Required"] {
-    color: #c1272d;
-    font-weight: bold;
-}
-
 form dt, form dd {
     font: normal 1.2em/150% 'Inder', serif;
     float: left;

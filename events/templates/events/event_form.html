@@ -11,10 +11,27 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" >
     $(function() { 
-       $("#id_start_date, #id_end_date").datetimepicker({
+       $("#id_start_date").datetimepicker({
        	controlType: 'select',
        	dateFormat: 'yy-mm-dd',
-       	timeFormat: 'HH:mm'
+       	timeFormat: 'HH:mm',
+       	showOtherMonths: false,
+       	selectOtherMonths: false,
+       	numberOfMonths: 2,
+       	onClose: function(selectedDate) {
+       		$("#id_end_date").datetimepicker("option", "minDate", selectedDate);
+       	}
+       });
+       $("#id_end_date").datetimepicker({
+       	controlType: 'select',
+       	dateFormat: 'yy-mm-dd',
+       	timeFormat: 'HH:mm',
+       	showOtherMonths: false,
+       	selectOtherMonths: false,
+       	numberOfMonths: 2,
+       	onClose: function(selectedDate) {
+       		$("#id_start_date").datetimepicker("option", "maxDate", selectedDate);
+       	}       	
        });
 	});  
 </script>

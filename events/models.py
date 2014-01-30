@@ -63,7 +63,7 @@ class Event(models.Model):
     #organizer = models.ForeignKey(Organizer)
     #location = models.ForeignKey(Location)
     image = models.ImageField(max_length=255, verbose_name='Renginio nuotrauka', upload_to='events/images')
-    ticket_price = models.DecimalField(verbose_name='Bilietų kaina', max_digits = 5, decimal_places = 2, blank = True, null = True, help_text="Prašome įvesti sumą JAV doleriais; įveskite tik skaičius, pvz., 10.00")
+#    ticket_price = models.DecimalField(verbose_name='Bilietų kaina', max_digits = 5, decimal_places = 2, blank = True, null = True, help_text="Prašome įvesti sumą JAV doleriais; įveskite tik skaičius, pvz., 10.00")
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved events will ever be shown publicly; only administrator can change this value
 #    publish_date = models.DateTimeField(blank = True, null = True, help_text='Kada renginys turėtų būti publikuotas? Datą įveskite formatu "mm/dd/yyyy hh:mm". Jei norite, kad renginys būtų publikuojamas iškart, palikite laukelį tuščią.') # when a post should be published (shown publicly); null means publish immediately
     create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now) # Date when the post was created
