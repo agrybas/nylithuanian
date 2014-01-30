@@ -2,7 +2,9 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
 from .views import PhotoCreateView, PhotoUpdateView, PhotoListView, PhotoDetailView, \
-GalleryCreateView, GalleryListView, GalleryDetailView, PhotoDateDetailView, GalleryDateDetailView, GalleryUpdateView
+GalleryCreateView, GalleryListView, GalleryDetailView, PhotoDateDetailView, GalleryDateDetailView, GalleryUpdateView, \
+BulkPhotoUploadView, GalleryReorderView, sort_photos
+
 
 
 urlpatterns = patterns('',
@@ -11,7 +13,9 @@ urlpatterns = patterns('',
                        url(r'^gallery/pateikti/$', login_required(login_url='/nariai/prisijungti')(GalleryCreateView.as_view())),
                        url(r'^gallery/page/(?P<page>[0-9]+)/$', GalleryListView.as_view()),
                         url(r'^gallery/(?P<slug>[\-\d\w]+)/$', GalleryDetailView.as_view()),
-                        url(r'^gallery/(?P<slug>[\-\d\w]+)/redaguoti/$', GalleryUpdateView.as_view()),
+                        url(r'^gallery/(?P<slug>[\-\d\w]+)/keisti-eiliskuma/$', login_required(login_url='/nariai/prisijungti')(GalleryReorderView.as_view())),
+                        url(r'^gallery/(?P<slug>[\-\d\w]+)/redaguoti/$', login_required(login_url='/nariai/prisijungti')(GalleryUpdateView.as_view())),
+                        url(r'^photo/sort-photos/$', sort_photos),
                         url(r'^photo/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[\-\d\w]+)/$',
                             PhotoDateDetailView.as_view()),
                         url(r'^photo/page/(?P<page>[0-9]+)/$', PhotoListView.as_view()),
@@ -20,8 +24,8 @@ urlpatterns = patterns('',
                         url(r'^photo/(?P<slug>[\-\d\w]+)/redaguoti/$',
                             login_required(login_url='/nariai/prisijungti')(PhotoUpdateView.as_view())),
 
-                        # url(r'^photo/pateikti-daug/$',
-                        #     login_required(login_url='/nariai/prisijungti')(CreateView.as_view(model=GalleryUpload))),
+                        url(r'^photo/pateikti-daug/$',
+                             login_required(login_url='/nariai/prisijungti')(BulkPhotoUploadView.as_view())),
                         url(r'^photo/(?P<slug>[\-\d\w]+)/$', PhotoDetailView.as_view()),
                        )
 

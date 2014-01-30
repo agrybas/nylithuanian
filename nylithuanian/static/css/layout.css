@@ -300,14 +300,11 @@ ul.sub-commands li {
 	font-size:1em;
 }
 
-ul.thumbnails {
+ul.thumbnails, ul.thumbnails li {
+	display: inline-block;
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-
-ul.thumbnails li {
-	display: inline;
 }
 
 ul.thumbnails li a:link {
@@ -315,10 +312,25 @@ ul.thumbnails li a:link {
 	border: 0 none;
 }
 
-ul.thumbnails li a img {
+ul.thumbnails li a img, ul.thumbnails li img {
     margin: 0;
     padding: 0;
 }
+
+ul#sortable {
+	display: inline-block;
+	list-style: none;
+	width: 100%;
+	float: none;
+}
+
+ul#sortable li {
+	float: left;
+	width: 100px;
+	height: 100px;
+	padding: 0 2px 0 0;
+}
+
 
 ul.page_numbers {
     text-align: center;

@@ -1,23 +1,38 @@
 {% extends "root.html" %}
 {% load url from future %}
 
-{% block title %}{{ object.title }}{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$("#sortable").sortable({
+			opacity: 0.5,
+			update: function(event, ui) {
+				var serial = $('#sortable').sortable('serialize');
+				$.ajax({
+					url: "/nuotraukos/photo/sort-photos/",
+					type: "post",
+					data: serial
+				});
+			},
+		}).disableSelection();
+		});
+</script>
+{% endblock %}
+
+{% block title %}Keisti nuotraukų eiliškumą{% endblock %}
 
 {% block content %}
 
-<h1>{{ object.title }}</h1>
-{% if object.description %}<p>{{ object.description }}</p>{% endif %}
-<ul class="thumbnails">
+<h1>Keisti nuotraukų eiliškumą</h1>
+<ul id="sortable" class="thumbnails">
     {% for photo in object.public %}
-    <li>
-        <a href="{{ photo.get_absolute_url }}">
-            <img src="{{ photo.get_thumbnail_url }}" class="mo {% block gallery-photo-class %}{% endblock %}" width="100" height="100" alt="{{ photo.title }}"/>
-        </a>
+    <li id="photo_{{ photo.id }}">
+        <img src="{{ photo.get_thumbnail_url }}" class="{% block gallery-photo-class %}{% endblock %}" width="100" height="100" alt="{{ photo.title }}"/>
     </li>
     {% endfor %}
 </ul>
-
-<p>&larr; <a href="/nuotraukos">Visi albumai</a></p>
 
 {% endblock %}
 
@@ -29,7 +44,6 @@
         <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="/nuotraukos/gallery/pateikti">Sukurti albumą</a></li>		
         {% if user.id == gallery.user_id or user.is_staff %}
         <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti albumą</a></li>
-        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Keisti eiliškumą" alt="Keisti eiliškumą" /><a href="keisti-eiliskuma">Keisti nuotraukų tvarką</a></li>
         {% endif %}
 
     </ul>

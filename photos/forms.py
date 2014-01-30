@@ -1,7 +1,7 @@
 #encoding=utf-8
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Textarea, TextInput
-from .models import Photo, Gallery, PhotoComment
+from .models import Photo, Gallery, PhotoComment, BulkPhotoUpload
 
 # maximum allowed single image size in MB
 MAX_IMAGE_SIZE = 5
@@ -46,3 +46,11 @@ class AddPhotoCommentForm(PhotoForm):
         form.instance.user = self.request.user.id
         form.instance.create_date = timezone.now()
         return super(AddPhotoCommentForm, self).form_valid(form)
+    
+class BulkUploadForm(ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+    
+    class Meta:
+        model = BulkPhotoUpload
+        exclude = ('is_public')

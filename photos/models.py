@@ -2,11 +2,15 @@
 # TODO check all ForeignKey relationships for ON DELETE clause
 import os
 import random
+import zipfile
+from pytz import timezone as pytz_timezone
 from datetime import datetime
+from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_init
+from django.db.models import Max
 from django.utils.timezone import now
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -15,6 +19,7 @@ from django.utils.encoding import force_text
 from django.utils.encoding import smart_str, filepath_to_uri
 from django.utils.functional import curry
 from django.utils import timezone
+
 
 from .utils import EXIF
 from .utils.watermark import apply_watermark
@@ -78,14 +83,18 @@ PHOTOS_PATH = getattr(settings, 'PHOTOS_PATH', None)
 if PHOTOS_PATH is not None:
     if callable(PHOTOS_PATH):
         get_storage_path = PHOTOS_PATH
+        get_temp_path = get_storage_path + '/temp'
     else:
         parts = PHOTOS_PATH.split('.')
         module_name = '.'.join(parts[:-1])
         module = import_module(module_name)
         get_storage_path = getattr(module, parts[-1])
+        get_temp_path = get_storage_path + '/temp'
 else:
     def get_storage_path(instance, filename):
         return os.path.join(PHOTOS_DIR, 'photos', filename)
+    def get_temp_path(instance, filename):
+        return os.path.join(PHOTOS_DIR, 'photos/temp', filename)
 
 # choices for new crop_anchor field in Photo
 CROP_ANCHOR_CHOICES = (
@@ -171,16 +180,17 @@ class Gallery(models.Model):
 
 
 class Photo(models.Model):
-    image = models.ImageField(verbose_name='Nuotraukos failas', upload_to=get_storage_path, height_field='height', width_field='width')
+    image = models.ImageField(verbose_name='Nuotraukos failas', upload_to=get_storage_path, height_field='height', width_field='width', help_text='Jei norite vienu sykiu įkelti daug nuotraukų, spauskite <a href="/nuotraukos/photo/pateikti-daug">čia</a>.')
+#    zip_file = models.FileField(verbose_name='Nuotraukų archyvo failas (.zip)', upload_to=get_storage_path, null=True, blank=True, help_text='Jei norite vienu sykiu įkelti daug nuotraukų, naudokite šį laukelį.')
     height = models.PositiveSmallIntegerField(verbose_name='Paveikslėlio aukštis', null=False, blank=False, editable=False, help_text='Paveikslėlio aukštis')
     width = models.PositiveSmallIntegerField(verbose_name='Paveikslėlio plotis', null=False, blank=False, editable=False, help_text='Paveikslėlio plotis')
-    sort_number = models.PositiveIntegerField(verbose_name='Eilės numeris', editable=False, null=True, blank=True, help_text='Norėdami rūšiuoti nuotraukas albume specifine tvarka, šiame laukelyje nurodykite nuotraukos eilės numerį. Nenurodžius eilės numerio, nuotraukos bus rūšiuojamos pagal įkėlimo datą.')
+    sort_number = models.PositiveIntegerField(verbose_name='Eilės numeris', editable=False, help_text='Norėdami rūšiuoti nuotraukas albume specifine tvarka, šiame laukelyje nurodykite nuotraukos eilės numerį. Nenurodžius eilės numerio, nuotraukos bus rūšiuojamos pagal įkėlimo datą.')
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
-    gallery = models.ForeignKey(Gallery, blank=False, null=False, verbose_name="Nuotraukų albumas", help_text='Jei nematote pasirinktinų albumų, pirmiausia turite juos <a href="/nuotraukos/albumai/pateikti">sukurti</a>.')  # TODO add limit_choices_to argument to restrict galleries to only those created by current user
+    gallery = models.ForeignKey(Gallery, blank=False, null=False, verbose_name="Nuotraukų albumas", help_text='Jei nematote pasirinktinų albumų, pirmiausia turite juos <a href="/nuotraukos/gallery/pateikti">sukurti</a>.')  # TODO add limit_choices_to argument to restrict galleries to only those created by current user
     title = models.CharField(verbose_name='Nuotraukos pavadinimas', max_length=100, blank=True)
     description = models.TextField(verbose_name='Nuotraukos aprašymas', blank=True)
     date_taken = models.DateTimeField(verbose_name='Fotografijos data', null=True, blank=True, editable=False)
-    date_added = models.DateTimeField(verbose_name='Nuotraukos įkėlimo data', null=False, blank=False, editable=False, default=now, help_text='Nuotraukos albume rūšiuojamos pagal šį laukelį (jei nenurodyta kitaip).')
+    date_added = models.DateTimeField(verbose_name='Nuotraukos įkėlimo data', null=False, blank=False, editable=False, default=timezone.now(), help_text='Nuotraukos albume rūšiuojamos pagal šį laukelį (jei nenurodyta kitaip).')
     view_count = models.PositiveIntegerField(verbose_name='Peržiūrų skaičius', default=0, null=False, blank=False, editable=False)
     crop_from = models.CharField(verbose_name='Iškirpti nuo', blank=True, max_length=10, default='center', choices=CROP_ANCHOR_CHOICES)
     is_cover = models.BooleanField(verbose_name="Albumo viršelis", default=False)
@@ -188,8 +198,8 @@ class Photo(models.Model):
     tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
 
     class Meta:
-        ordering = ['sort_number', '-date_added']
-        get_latest_by = 'date_added'
+        ordering = ['sort_number', ]
+#        get_latest_by = ('sort_number', 'date_taken')
         verbose_name = "photo"
         verbose_name_plural = "photos"
         db_table = 'photos'
@@ -389,13 +399,17 @@ class Photo(models.Model):
                     year, month, day = d.split(':')
                     hour, minute, second = t.split(':')
                     self.date_taken = datetime(int(year), int(month), int(day),
-                                               int(hour), int(minute), int(second))
+                                               int(hour), int(minute), int(second), tzinfo=pytz_timezone('US/Eastern'))
             except:
                 pass
         if self.date_taken is None:
-            self.date_taken = now()
+            self.date_taken = timezone.now()
         if self._get_pk_val():
             self.clear_cache()
+        if self.sort_number is None:
+            self.sort_number = Photo.objects.filter(gallery=self.gallery).aggregate(Max('sort_number'))['sort_number__max']
+            if self.sort_number is None:
+                self.sort_number = 1
         super(Photo, self).save(*args, **kwargs)
         self.pre_cache()
 
@@ -420,16 +434,16 @@ class Photo(models.Model):
 
     @property
     def previous_photo_exists(self):
-        return Photo.objects.filter(gallery=self.gallery).filter(date_added__gt=self.date_added).exists()
+        return Photo.objects.filter(gallery=self.gallery).filter(sort_number__lt=self.sort_number).exists()
     
     @property
     def next_photo_exists(self):
-        return Photo.objects.filter(gallery=self.gallery).filter(date_added__lt=self.date_added).exists()
+        return Photo.objects.filter(gallery=self.gallery).filter(sort_number__gt=self.sort_number).exists()
     
     @property
     def get_next_photo_url(self):
         try:
-            photo = Photo.objects.filter(gallery=self.gallery).filter(date_added__lt=self.date_added)[0]
+            photo = Photo.objects.filter(gallery=self.gallery).filter(sort_number__gt=self.sort_number)[0]
             return photo.get_absolute_url()
         except Photo.DoesNotExist:
             return None
@@ -437,11 +451,85 @@ class Photo(models.Model):
     @property
     def get_previous_photo_url(self):
         try:
-            photo = Photo.objects.filter(gallery=self.gallery).filter(id__gt=self.id).order_by('sort_number', 'date_added')[0]
+            photos = Photo.objects.filter(gallery=self.gallery).filter(sort_number__lt=self.sort_number)
+            photo = photos[len(photos)-1]
             return photo.get_absolute_url()
         except Photo.DoesNotExist:
             return None
-    
+
+
+class BulkPhotoUpload(models.Model):
+    zip_file = models.FileField(verbose_name='Nuotraukų archyvo failas (.zip)',
+                                upload_to=get_temp_path,
+                                help_text='Jei norite vienu sykiu įkelti daug nuotraukų, naudokite šį laukelį.')
+    gallery = models.ForeignKey(Gallery,
+                                verbose_name='Nuotraukų albumas',
+                                help_text='Pasirinkite nuotraukų albumą, į kurį bus sukeltos nuotraukos (jei dar nesate sukūrę albumo, padarykite tai <a href="/nuotraukos/gallery/pateikti">čia</a>).')
+    user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who uploaded photos
+    title = models.CharField(verbose_name='Nuotraukų pavadinimas',
+                             max_length=100,
+                             blank=True,
+                             help_text='Jei norite, kad visos nuotraukos turėtų tą patį pavadinimą, nurodykite jį šiame laukelyje.')
+    description = models.TextField(verbose_name='Nuotraukų aprašymas',
+                                   blank=True,
+                                   help_text='Jei norite, kad visos nuotraukos turėtų tą patį aprašymą, nurodykite jį šiame laukelyje.')
+    is_public = models.BooleanField(verbose_name='Publikuojama viešai',
+                                    default=True)
+    tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
+
+    class Meta:
+        verbose_name = 'bulk photo upload'
+        verbose_name_plural = 'bulk photo uploads'
+        
+    def get_absolute_url(self):
+        return '/nuotraukos/gallery/{0}'.format(self.gallery.id)
+
+    def save(self, *args, **kwargs):
+        super(BulkPhotoUpload, self).save(*args, **kwargs)
+        self.process_zipfile()
+        super(BulkPhotoUpload, self).delete()
+
+    def process_zipfile(self):
+        if os.path.isfile(self.zip_file.path):
+            # TODO: implement try-except here
+            zip = zipfile.ZipFile(self.zip_file.path)
+            bad_file = zip.testzip()
+            if bad_file:
+                raise Exception('"%s" in the .zip archive is corrupt.' % bad_file)
+            from cStringIO import StringIO
+            sort_index = Photo.objects.filter(gallery=self.gallery).aggregate(Max('sort_number'))['sort_number__max']
+            if sort_index is None:
+                sort_index = 0L
+            for filename in sorted(zip.namelist()):
+                if filename.startswith('__'):  # do not process meta files
+                    continue
+                data = zip.read(filename)
+                if len(data):
+                    try:
+                        # the following is taken from django.newforms.fields.ImageField:
+                        #  load() is the only method that can spot a truncated JPEG,
+                        #  but it cannot be called sanely after verify()
+                        trial_image = Image.open(StringIO(data))
+                        trial_image.load()
+                        # verify() is the only method that can spot a corrupt PNG,
+                        #  but it must be called immediately after the constructor
+                        trial_image = Image.open(StringIO(data))
+                        trial_image.verify()
+                    except Exception:
+                        # if a "bad" file is found we just skip it.
+                        continue
+                    sort_index = sort_index + 1L
+                    photo = Photo(title=self.title,
+                                  description=self.description,
+                                  user=self.user,
+                                  gallery=self.gallery,
+                                  is_public=self.is_public,
+                                  tags=self.tags,
+                                  sort_number=sort_index
+                                  )
+                    photo.image.save(filename, ContentFile(data))
+            zip.close()
+
 
 class Watermark(models.Model):
     image = models.ImageField(verbose_name='image', upload_to=PHOTOS_DIR + "/watermarks")

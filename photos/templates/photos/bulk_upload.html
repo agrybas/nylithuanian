@@ -1,0 +1,95 @@
+{% extends "root.html" %}
+
+{% block title %}Įkelti daug nuotraukų{% endblock %}
+
+{% block content %}
+
+<h1>Įkelti daug nuotraukų</h1>
+
+<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.id }}
+        
+        {% if form.errors %}
+            <p class="error">
+                Nuotraukų įkelti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+            </p>
+        {% endif %}
+        
+        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
+        
+        <fieldset>
+	        <legend>Informacija apie nuotrauką</legend>
+	        <p>
+	            <label class="{{ form.zip_file.css_classes }}" for="id_image">{{ form.zip_file.label }}</label><br />
+	            {{ form.zip_file }}
+	            {% if form.zip_file.errors %}
+	                <span class="error">
+	                    {% for error in form.zip_file.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.zip_file.help_text %}<br /><span class="helptext">{{ form.zip_file.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
+	            <label class="{{ form.gallery.css_classes }}" for="id_gallery">{{ form.gallery.label }}</label><br />
+	            {{ form.gallery }}
+	            {% if form.gallery.errors %}
+	                <span class="error">
+	                    {% for error in form.gallery.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.gallery.help_text %}<br /><span class="helptext">{{ form.gallery.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
+	            <label class="{{ form.title.css_classes }}" for="id_title">{{ form.title.label }}</label><br />
+	            {{ form.title }}
+	            {% if form.title.errors %}
+	                <span class="error">
+	                    {% for error in form.title.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.title.help_text %}<br /><span class="helptext">{{ form.title.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
+	            <label class="{{ form.description.css_classes }}" for="id_description">{{ form.description.label }}</label><br />
+	            {{ form.description }}
+	            {% if form.description.errors %}
+	                <span class="error">
+	                    {% for error in form.description.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.description.help_text %}<br /><span class="helptext">{{ form.description.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
+	            <label class="{{ form.tags.css_classes }}" for="id_tags">{{ form.tags.label }}</label><br />
+	            {{ form.tags }}
+	            {% if form.tags.errors %}
+	                <span class="error">
+	                    {% for error in form.tags.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.tags.help_text %}<br /><span class="helptext">{{ form.tags.help_text|safe }}</span>{% endif %}
+	        </p>
+        </fieldset>
+        <button type="submit" value="submit" >Įkelti</button>
+        <a class="cancel" href="/">Atšaukti</a>
+</form>
+    {% if form.non_field_errors %}
+            <ul class="error">
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+
+{% endblock %}

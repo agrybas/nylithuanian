@@ -3,10 +3,20 @@ from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView
-from .models import Photo, Gallery, PhotoComment
-from .forms import AddPhotoForm, AddGalleryForm, AddPhotoCommentForm
+from .models import Photo, Gallery, PhotoComment, BulkPhotoUpload
+from .forms import AddPhotoForm, AddGalleryForm, AddPhotoCommentForm, BulkUploadForm
 from django.utils import timezone
 from django.views.generic.detail import SingleObjectMixin
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+#from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+import django
+
+if django.get_version() <= '1.5.5':
+    from django.db import connection, transaction
+else:
+    from django.db import connection
 
 # File-scoped constants
 
@@ -48,7 +58,11 @@ class GalleryUpdateView(GalleryView, UpdateView, UserOwnedObjectMixin):
     form_class = AddGalleryForm
     template_name = 'photos/gallery_edit.html'
     slug_field = 'id'
-
+    
+class GalleryReorderView(GalleryView, UpdateView, UserOwnedObjectMixin):
+    model = Gallery
+    template_name = 'photos/gallery_reorder.html'
+    slug_field = 'id'
 
 class GalleryListView(GalleryView, ListView):
     paginate_by = GALLERY_PAGINATE_BY
@@ -91,7 +105,6 @@ class PhotoCreateView(CreateView):
     model = Photo
     form_class = AddPhotoForm
     template_name = 'photos/photo_create.html'
-#     success_url = '/nuotraukos/albumai'    # CreateView will use Photo.get_absolute_url() as success_url
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -121,3 +134,27 @@ class PhotoCommentCreateView(CreateView):
         form.instance.photo_id = self.kwargs['pk']
         form.instance.create_date = timezone.now()
         return super(CommentCreateView, self).form_valid(form)
+
+class BulkPhotoUploadView(CreateView):
+    form_class = BulkUploadForm
+    model = BulkPhotoUpload
+    template_name = 'photos/bulk_upload.html'
+#    success_url = '/nuotraukos'
+    
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super(BulkPhotoUploadView, self).form_valid(form)
+    
+@csrf_exempt
+@login_required
+def sort_photos(request, *args, **kwargs):
+    cursor = connection.cursor()
+    sql = "UPDATE photos \nSET sort_number = CASE id \n"
+    print(sql)
+    for index, photo_id in enumerate(request.POST.getlist('photo[]')):
+        sql += "WHEN %i THEN %i \n" % (int(str(photo_id)), index)
+    sql += " END WHERE id in ({0})".format(",".join(request.POST.getlist('photo[]')))
+    cursor.execute(sql)
+    if django.get_version() <= '1.5.5':
+        transaction.commit_unless_managed() # no longer needed since django v1.6
+    return HttpResponse('')
