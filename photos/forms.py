@@ -53,4 +53,4 @@ class BulkUploadForm(ModelForm):
     
     class Meta:
         model = BulkPhotoUpload
-        exclude = ('is_public')
+        exclude = ('is_public', )
