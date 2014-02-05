@@ -15,7 +15,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
-
+from django_cal.views import Events
 from models import Event, EventComment, EventAttachment, EventReminder
 from tasks import send_reminder
 from forms import AddEventForm, AddEventCommentForm
@@ -36,8 +36,8 @@ class UpcomingEventsListView(ListView):
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
         kwargs['headline'] = 'Artimiausi renginiai'
-        return super(UpcomingEventsListView, self).get_context_data(**kwargs)
-    
+        return super(UpcomingEventsListView, self).get_context_data(**kwargs) 
+
 class PastEventsListView(ListView):
     model = Event
     queryset = Event.approved.filter(start_date__lt=timezone.now()).order_by('-start_date')
@@ -109,6 +109,12 @@ class EventUpdateView(UserOwnedObjectMixin, UpdateView):
         return super(EventUpdateView, self).dispatch(*args, **kwargs)
     
     def form_valid(self, form):
+        saved_event = Event.objects.get(id=self.kwargs['pk'])
+        
+        # check if start_date or end_date is changed -- needed for ICS calendar generation
+        if (saved_event.start_date != form.instance.start_date) or (saved_event.end_date != form.instance.end_date):
+            form.instance.version_number += 1
+        
         form.instance.user = self.request.user
         form.instance.create_date = timezone.now()
         return super(EventUpdateView, self).form_valid(form)

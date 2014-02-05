@@ -67,7 +67,7 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'lt'
 
 SITE_ID = 1
-
+SITE_ROOT = '/srv/www/nylithuanian.org/public_html/'
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -84,7 +84,7 @@ LOGIN_REDIRECT_URL = '/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 
-MEDIA_ROOT = '/srv/www/nylithuanian.org/dev/assets/media/'
+MEDIA_ROOT = SITE_ROOT + 'assets/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -96,7 +96,7 @@ MEDIA_URL = '/media/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 
-STATIC_ROOT = '/srv/www/nylithuanian.org/dev/static/'
+STATIC_ROOT = SITE_ROOT + 'static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -105,7 +105,7 @@ STATIC_URL = '/static/'
 # Additional locations of static files
 
 STATICFILES_DIRS = (
-                    '/srv/www/nylithuanian.org/dev/nylithuanian/static/',
+                    SITE_ROOT + 'nylithuanian/static/',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -166,7 +166,7 @@ ROOT_URLCONF = 'nylithuanian.urls'
 WSGI_APPLICATION = 'nylithuanian.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/srv/www/nylithuanian.org/dev/nylithuanian/templates',
+    SITE_ROOT + 'nylithuanian/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -192,101 +192,96 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-# Photologue gallery sample size
-PHOTOS_GALLERY_SAMPLE_SIZE = 6
-PHOTOS_GALLERY_PAGINATE_BY = 5
-PHOTOS_GALLERY_LATEST_LIMIT = 3
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'formatters': {
-#                    'verbose': {
-#                                'format': '%(asctime)s %(process)d - %(module)s - %(levelname)s: %(message)s',
-#                                'datefmt': '%dd%mmm%YYYY %H:%M:%S'
-#                                },
-#                    'simple': {
-#                               'format': '%(asctime)s %(levelname)s: %(message)s',
-#                               'datefmt': '%d%b%Y %H:%M:%S'
-#                               },
-#                    },
-# #     'filters': {
-# #         'require_debug_false': {
-# #             '()': 'django.utils.log.RequireDebugFalse'
-# #         }
-# #     },
-#     'handlers': {
-#                  'console': {
-#                              'level': 'DEBUG',
-#                              'class': 'logging.StreamHandler',
-#                              'formatter': 'simple'
-#                              },
-#                  'debug': {
-#                           'level': 'DEBUG',
-#                           'class': 'logging.handlers.TimedRotatingFileHandler',
-#                           'when': 'd',
-#                           'utc': True,
-#                           'backupCount': 100,
-#                           'filename': 'logs/debug/main.log',
-#                           'formatter': 'simple'
-#                           },
-#                  'debug.articles': {
-#                                     'level': 'DEBUG',
-#                                     'class': 'logging.handlers.TimedRotatingFileHandler',
-#                                     'when': 'd',
-#                                     'utc': True,
-#                                     'backupCount': 100,
-#                                     'formatter': 'simple',
-#                                     'filename': 'logs/debug/articles.log'
-#                                     },
-#                  'debug.events': {
-#                                     'level': 'DEBUG',
-#                                     'class': 'logging.handlers.TimedRotatingFileHandler',
-#                                     'when': 'd',
-#                                     'utc': True,
-#                                     'backupCount': 100,
-#                                     'formatter': 'simple',
-#                                     'filename': 'logs/debug/events.log'
-#                                     },
-#                  'production': {
-#                                 'level': 'INFO',
-#                                 'class': 'logging.handlers.TimedRotatingFileHandler',
-#                                 'when': 'd',
-#                                 'utc': True,
-#                                 'backupCount': 100,
-#                                 'filename': 'logs/prod/main.log',
-#                                 'formatter': 'simple'
-#                           },
-#                  'mail_admins': {
-#                                  'level': 'ERROR',
-# #                                  'filters': ['require_debug_false'],
-#                                  'formatter': 'verbose',
-#                                  'class': 'django.utils.log.AdminEmailHandler'
-#                                  }
-#                  },
-#     'loggers': {
-#                 'debug': {
-#                           'handlers': ['console', 'debug'],
-#                           'level': 'DEBUG',
-#                           'propagate': False,
-#                           },
-#                 'debug.articles': {
-#                                    'handlers': ['debug.articles'],
-#                                    'propagate': False,
-#                                    },
-#                 'debug.events': {
-#                                    'handlers': ['debug.events'],
-#                                    'propagate': False,
-#                                    },
-#                 'production': {
-#                                'handlers': ['production', 'mail_admins'],
-#                                'level': 'INFO',
-#                                'propagate': False
-#                                }
-#                 }
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+                   'verbose': {
+                               'format': '%(asctime)s %(process)d - %(module)s - %(levelname)s: %(message)s',
+                               'datefmt': '%dd%mmm%YYYY %H:%M:%S'
+                               },
+                   'simple': {
+                              'format': '%(asctime)s %(levelname)s: %(message)s',
+                              'datefmt': '%d%b%Y %H:%M:%S'
+                              },
+                   },
+     'filters': {
+         'require_debug_false': {
+             '()': 'django.utils.log.RequireDebugFalse'
+         }
+     },
+    'handlers': {
+                 'console': {
+                             'level': 'DEBUG',
+                             'class': 'logging.StreamHandler',
+                             'formatter': 'simple'
+                             },
+                 'debug': {
+                          'level': 'DEBUG',
+                          'class': 'logging.handlers.TimedRotatingFileHandler',
+                          'when': 'd',
+                          'utc': True,
+                          'backupCount': 100,
+                          'filename': SITE_ROOT + 'logs/debug/main.log',
+                          'formatter': 'simple'
+                          },
+                 'debug.articles': {
+                                    'level': 'DEBUG',
+                                    'class': 'logging.handlers.TimedRotatingFileHandler',
+                                    'when': 'd',
+                                    'utc': True,
+                                    'backupCount': 100,
+                                    'formatter': 'simple',
+                                    'filename': SITE_ROOT + 'logs/debug/articles.log'
+                                    },
+                 'debug.events': {
+                                    'level': 'DEBUG',
+                                    'class': 'logging.handlers.TimedRotatingFileHandler',
+                                    'when': 'd',
+                                    'utc': True,
+                                    'backupCount': 100,
+                                    'formatter': 'simple',
+                                    'filename': SITE_ROOT + 'logs/debug/events.log'
+                                    },
+                 'production': {
+                                'level': 'INFO',
+                                'class': 'logging.handlers.TimedRotatingFileHandler',
+                                'when': 'd',
+                                'utc': True,
+                                'backupCount': 100,
+                                'filename': SITE_ROOT + 'logs/prod/main.log',
+                                'formatter': 'simple'
+                          },
+                 'mail_admins': {
+                                 'level': 'ERROR',
+                                  'filters': ['require_debug_false'],
+                                 'formatter': 'verbose',
+                                 'class': 'django.utils.log.AdminEmailHandler'
+                                 }
+                 },
+    'loggers': {
+                'debug': {
+                          'handlers': ['console', 'debug'],
+                          'level': 'DEBUG',
+                          'propagate': False,
+                          },
+                'debug.articles': {
+                                   'handlers': ['debug.articles'],
+                                   'propagate': False,
+                                   },
+                'debug.events': {
+                                   'handlers': ['debug.events'],
+                                   'propagate': False,
+                                   },
+                'production': {
+                               'handlers': ['production', 'mail_admins'],
+                               'level': 'INFO',
+                               'propagate': False
+                               }
+                }
+}

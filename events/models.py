@@ -5,7 +5,9 @@ from localflavor.us.models import USStateField
 from django_countries.fields import CountryField
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_text
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 # Reference model containing tags which can be associated with posts or media items
 class Tag(models.Model):
@@ -68,6 +70,7 @@ class Event(models.Model):
 #    publish_date = models.DateTimeField(blank = True, null = True, help_text='Kada renginys turėtų būti publikuotas? Datą įveskite formatu "mm/dd/yyyy hh:mm". Jei norite, kad renginys būtų publikuojamas iškart, palikite laukelį tuščią.') # when a post should be published (shown publicly); null means publish immediately
     create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now) # Date when the post was created
     modify_date = models.DateTimeField(null=False, blank=False, editable = False, default = timezone.now) # Date when the post was last modified
+    version_number = models.PositiveSmallIntegerField(null=False, blank=False, editable=False, default=1) # keeps track of changes made to object; increased if start_date or end_date is changed (used in ICS calendar generation) 
     
     objects = models.Manager()
     approved = ApprovedEventsManager()    
@@ -75,10 +78,43 @@ class Event(models.Model):
         db_table = 'events'
         
     def __unicode__(self):
-        return self.title
+        if self.start_date:
+            return u'{0} {1}'.format(self.start_date.strftime('%Y-%m-%d'), self.title)
+        else:
+            return self.title
 
     def get_absolute_url(self):
         return '/renginiai/{0}'.format(self.id)
+    
+    def get_full_address(self):
+        full_address = self.street_address1
+        if self.street_address2:
+            full_address += ", {0}".format(self.street_address2)
+        if self.street_address3:
+            full_address += ", {0}".format(self.street_address3)
+        if self.street_address4:
+            full_address += ", {0}".format(self.street_address4)
+        if self.city:
+            full_address += ", {0}".format(self.city)
+        if self.state:
+            full_address += ", {0}".format(self.state)
+        if self.zip_code:
+            full_address += ", {0}".format(self.zip_code)
+        if self.country:
+            full_address += ", {0}".format(self.country)
+        return full_address
+    
+    def get_organizer_full_name(self):
+        if self.first_name:
+            full_name = self.first_name
+            if self.last_name:
+                full_name += " {0}".format(self.last_name)
+            if self.organization_title:
+                full_name += ", {0}".format(self.organization_title)
+            return full_name
+        elif self.organization_title:
+            return self.organization_title
+        return ''
     
 class EventAttachment(models.Model):
     event = models.ForeignKey(Event, editable=False) # event the attachment is associated with
