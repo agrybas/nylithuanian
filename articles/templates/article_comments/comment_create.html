@@ -7,38 +7,42 @@
 <h1>{{ article.title }}</h1>
 
 <p>&larr; <a href="/straipsniai/{{ article.id }}">Atgal į straipsnį</a></p>
-<h2 class="headline">Mano 2 centai</h2>
-<form action="" method="post" enctype="multipart/form-data" >
-    {% csrf_token %}
-    {{ form.id }}
-        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
-        <p>
-            <label class="{{ form.body.css_classes }}" for="id_body">{{ form.body.label }}</label><br />
-            {{ form.body }}
-            {% if form.body.errors %}
-                <span class="error">
-                    {% for error in form.body.errors %}
-                        {{ error }} 
-                    {% endfor %}
-                </span>
-            {% endif %}
-            {% if form.body.help_text %}<br /><span class="helptext">{{form.body.help_text }}</span>{% endif %}
-        </p>
-    <button type="submit" value="Post" >Komentuoti</button>
-    <a class="cancel" href="/straipsniai/{{ article.id }}">Atšaukti</a>
-</form>
-{% if form.errors %}
-    <p class="error">
-        Komentaro pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
-    </p>
-    {{ form.errors }}
-    {% if form.non_field_errors %}
-        <ul class="error">
-            {% for error in form.non_field_errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% if user.is_authenticated %}
+	<h2 class="headline">Mano 2 centai</h2>
+	<form action="" method="post" enctype="multipart/form-data" >
+	    {% csrf_token %}
+	    {{ form.id }}
+	        <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
+	        <p>
+	            <label class="{{ form.body.css_classes }}" for="id_body">{{ form.body.label }}</label><br />
+	            {{ form.body }}
+	            {% if form.body.errors %}
+	                <span class="error">
+	                    {% for error in form.body.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.body.help_text %}<br /><span class="helptext">{{form.body.help_text }}</span>{% endif %}
+	        </p>
+	    <button type="submit" value="Post" >Komentuoti</button>
+	    <a class="cancel" href="/straipsniai/{{ article.id }}">Atšaukti</a>
+	</form>
+	{% if form.errors %}
+	    <p class="error">
+	        Komentaro pateikti nepavyko. Atidžiai perskaitykite klaidų pranešimus ir pabandykite dar kartą.
+	    </p>
+	    {{ form.errors }}
+	    {% if form.non_field_errors %}
+	        <ul class="error">
+	            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+	            {% endfor %}
+	        </ul>
+	    {% endif %}
+	{% endif %}
+{% else %}
+	<p>Norėdami palikti komentarą, pirmiausia turite <a title="Prisijungti" href="/nariai/prisijungti/?next=/straipsniai/{{ article.id }}/komentarai/">prisijungti</a>.</p>
 {% endif %}
 
 {% if comment_list %}
