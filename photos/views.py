@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 #from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 import django
+from events.models import Event
 
 if django.get_version() <= '1.5.5':
     from django.db import connection, transaction
@@ -134,6 +135,17 @@ class PhotoCommentCreateView(CreateView):
         form.instance.photo_id = self.kwargs['pk']
         form.instance.create_date = timezone.now()
         return super(CommentCreateView, self).form_valid(form)
+
+class EventPhotoListView(PhotoListView):
+    template_name = 'photos/eventphoto_list.html'
+    
+    def get_queryset(self):
+        return Photo.objects.filter(is_public=True).filter(gallery__event_id__exact=self.kwargs['pk'])
+    
+    def get_context_data(self, **kwargs):
+        kwargs['event'] = Event.objects.get(id=self.kwargs['pk'])
+        return super(EventPhotoListView, self).get_context_data(**kwargs)
+    
 
 class BulkPhotoUploadView(CreateView):
     form_class = BulkUploadForm

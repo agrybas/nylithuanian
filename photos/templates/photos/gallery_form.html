@@ -43,6 +43,18 @@
 	            {% if form.description.help_text %}<br /><span class="helptext">{{ form.description.help_text|safe }}</span>{% endif %}
 	        </p>
 	        <p>
+	            <label class="{{ form.event.css_classes }}" for="id_event">{{ form.event.label }}</label><br />
+	            {{ form.event }}
+	            {% if form.event.errors %}
+	                <span class="error">
+	                    {% for error in form.event.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.event.help_text %}<br /><span class="helptext">{{ form.event.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
 	            <label class="{{ form.tags.css_classes }}" for="id_tags">{{ form.tags.label }}</label><br />
 	            {{ form.tags }}
 	            {% if form.tags.errors %}

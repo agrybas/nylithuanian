@@ -5,10 +5,9 @@
 
 {% block content %}
 
-<h1>{{ object.title }}</h1>
-{% if object.description %}<p>{{ object.description }}</p>{% endif %}
+<h1>Renginio "{{ event.title }}" nuotraukos</h1>
 <ul class="thumbnails">
-    {% for photo in object.public %}
+    {% for photo in photo_list %}
     <li>
         <a href="{{ photo.get_absolute_url }}">
             <img src="{{ photo.get_thumbnail_url }}" class="mo {% block gallery-photo-class %}{% endblock %}" width="100" height="100" alt="{{ photo.title }}"/>
@@ -27,18 +26,15 @@
     <ul class="clean">
         <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="/nuotraukos/photo/pateikti">Įkelti nuotrauką</a></li>
         <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="/nuotraukos/gallery/pateikti">Sukurti albumą</a></li>		
-        {% if user.id == gallery.user_id or user.is_staff %}
-        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti albumą</a></li>
-        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Keisti eiliškumą" alt="Keisti eiliškumą" /><a href="keisti-eiliskuma">Keisti nuotraukų tvarką</a></li>
-        {% endif %}
     </ul>
 </div>
 
-{% if object.event %}
-	<div class="box">
-	    <ul class="clean">
-	        <li><img src="{{ STATIC_URL }}images/toolbar/full_page.png" width="32" height="32" title="Renginio aprašymas" alt="Renginio aprašymas" /><a title="{{ object.event.title }}" href="/renginiai/{{ object.event.id }}/">Renginio aprašymas</a></li>
-	    </ul>
-	</div>
-{% endif %}
+<div class="box">
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/full_page.png" width="32" height="32" title="Renginio aprašymas" alt="Renginio aprašymas" /><a title="{{ event.title }}" href="/renginiai/{{ event.id }}/">Renginio aprašymas</a></li>
+    </ul>
+</div>
+
 {% endblock %}
+
+

@@ -1,10 +1,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from .views import PhotoCreateView, PhotoUpdateView, PhotoListView, PhotoDetailView, \
-GalleryCreateView, GalleryListView, GalleryDetailView, PhotoDateDetailView, GalleryDateDetailView, GalleryUpdateView, \
-BulkPhotoUploadView, GalleryReorderView, sort_photos
-
+from .views import *
 
 
 urlpatterns = patterns('',
@@ -15,6 +12,10 @@ urlpatterns = patterns('',
                         url(r'^gallery/(?P<slug>[\-\d\w]+)/$', GalleryDetailView.as_view()),
                         url(r'^gallery/(?P<slug>[\-\d\w]+)/keisti-eiliskuma/$', login_required(login_url='/nariai/prisijungti')(GalleryReorderView.as_view())),
                         url(r'^gallery/(?P<slug>[\-\d\w]+)/redaguoti/$', login_required(login_url='/nariai/prisijungti')(GalleryUpdateView.as_view())),
+                                                
+                       )
+
+urlpatterns += patterns('',
                         url(r'^photo/sort-photos/$', sort_photos),
                         url(r'^photo/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[\-\d\w]+)/$',
                             PhotoDateDetailView.as_view()),
@@ -27,7 +28,11 @@ urlpatterns = patterns('',
                         url(r'^photo/pateikti-daug/$',
                              login_required(login_url='/nariai/prisijungti')(BulkPhotoUploadView.as_view())),
                         url(r'^photo/(?P<slug>[\-\d\w]+)/$', PhotoDetailView.as_view()),
-                       )
+                        )
+
+urlpatterns += patterns('',
+                        url(r'^renginys/(?P<pk>[\d]+)/$', EventPhotoListView.as_view()),
+                        )
 
 
 # url(r'^gallery/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', GalleryDayArchiveView.as_view(), name='pl-gallery-archive-day'),

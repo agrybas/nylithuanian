@@ -32,7 +32,15 @@
         {% if user.id == photo.user_id or user.is_staff %}
         <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti nuotrauką</a></li>
         {% endif %}
-
     </ul>
 </div>
+
+{% if object.gallery.event %}
+	<div class="box">
+	    <ul class="clean">
+	        <li><img src="{{ STATIC_URL }}images/toolbar/full_page.png" width="32" height="32" title="Renginio aprašymas" alt="Renginio aprašymas" /><a title="{{ object.gallery.event.title }}" href="/renginiai/{{ object.gallery.event.id }}/">Renginio aprašymas</a></li>
+	    </ul>
+	</div>
+{% endif %}
+
 {% endblock %}

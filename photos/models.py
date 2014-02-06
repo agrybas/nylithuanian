@@ -19,7 +19,15 @@ from django.utils.encoding import force_text
 from django.utils.encoding import smart_str, filepath_to_uri
 from django.utils.functional import curry
 from django.utils import timezone
+from events.models import Event
 
+import logging
+import nylithuanian.settings as settings
+
+if settings.DEBUG:
+    logger = logging.getLogger('debug.' + __name__)
+else:
+    logger = logging.getLogger('production.' + __name__)
 
 from .utils import EXIF
 from .utils.watermark import apply_watermark
@@ -126,6 +134,7 @@ class Gallery(models.Model):
     title = models.CharField(verbose_name='Pavadinimas', max_length=100, unique=True)
     description = models.TextField(verbose_name='Aprašymas', blank=True)
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
+    event = models.ForeignKey(Event, verbose_name="Albume užfiksuotos akimirkos iš šio renginio:", blank=True, null=True, help_text='Jei susisiesite albumą su renginiu, svetainės lankytojai galės rasti jūsų albumą naršydami kitą informaciją apie susietą renginį.')
     date_added = models.DateTimeField(verbose_name='Sukūrimo data', default=now)
     is_public = models.BooleanField(verbose_name='Publikuojamas viešai', default=True, help_text='Public galleries will be displayed in the default views.')
     tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
@@ -406,10 +415,13 @@ class Photo(models.Model):
             self.date_taken = timezone.now()
         if self._get_pk_val():
             self.clear_cache()
+        self.sort_number = Photo.objects.filter(gallery=self.gallery).aggregate(Max('sort_number'))['sort_number__max']
+        logger.debug('Current max sort number: {0}'.format(self.sort_number))
         if self.sort_number is None:
-            self.sort_number = Photo.objects.filter(gallery=self.gallery).aggregate(Max('sort_number'))['sort_number__max']
-            if self.sort_number is None:
-                self.sort_number = 1
+            self.sort_number = 1
+        else:
+            self.sort_number += 1
+        logger.debug('Assigning sort number {0}'.format(self.sort_number))
         super(Photo, self).save(*args, **kwargs)
         self.pre_cache()
 

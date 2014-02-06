@@ -59,6 +59,7 @@
         {% endif %}
         <li><img src="{{ STATIC_URL }}images/toolbar/add_event.png" width="32" height="32" title="Kaledorius" alt="Kalendorius" /><a href="kalendorius">Įkelti į kalendorių</a></li>
         <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
+        <li><img src="{{ STATIC_URL }}images/toolbar/image.png" width="32" height="32" title="Nuotraukos" alt="Nuotraukos" /><a href="/nuotraukos/renginys/{{ event.id }}/">Renginio nuotraukos{% if photo_count %} ({{ photo_count }}){% endif %}</a></li>
         {% if attachment_count %}
         <li><img src="{{ STATIC_URL }}images/toolbar/attachment-2.png" width="32" height="32" title="Prisegtukai" alt="Prisegtukai" /><a href="prisegtukai">Prisegtukai ({{ attachment_count }})</a></li>
         {% endif %}

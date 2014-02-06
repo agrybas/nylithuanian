@@ -15,10 +15,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
-from django_cal.views import Events
 from models import Event, EventComment, EventAttachment, EventReminder
 from tasks import send_reminder
 from forms import AddEventForm, AddEventCommentForm
+from photos.models import Photo
 
 import logging
 import nylithuanian.settings
@@ -54,6 +54,7 @@ class EventDetailView(DetailView):
     def get_context_data(self, **kwargs):
         kwargs['comment_count'] = EventComment.objects.filter(event=self.kwargs['pk']).count()
         kwargs['attachment_count'] = EventAttachment.objects.filter(event=self.kwargs['pk']).count()
+        kwargs['photo_count'] = Photo.objects.filter(is_public=True).filter(gallery__event_id__exact=self.kwargs['pk']).count()
         kwargs['has_reminder'] = EventReminder.objects.filter(user_id=self.request.user.id).filter(event_id=self.kwargs['pk']).exists()
         event = Event.objects.get(id=self.kwargs['pk'])
         kwargs['is_upcoming'] = event.start_date > timezone.now() + timedelta(hours=24)

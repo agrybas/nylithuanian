@@ -36,7 +36,7 @@ class AddPhotoForm(PhotoForm):
 class AddGalleryForm(PhotoForm):
     class Meta:
         model = Gallery
-        fields = ('title', 'description', 'tags')
+        fields = ('title', 'description', 'event', 'tags')
         
 class AddPhotoCommentForm(PhotoForm):
     class Meta:
