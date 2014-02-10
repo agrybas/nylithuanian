@@ -1,0 +1,14 @@
+{% for event in event_list %}
+{{ event.title }}
+Pradžia: {{ event.start_date }}{% if event.end_date %} | Pabaiga: {{ event.end_date }}{% endif %}
+Vieta: {{ event.get_full_address }}
+{{ event.body|truncatewords:50 }}
+Daugiau informacijos: http://dev.nylithuanian.org/renginiai/{{ event.id }}
+
+{% endfor %}
+
+
+Papildomos funkcijos:
+Mano sąskaita
+Paremti bendruomenę
+Atsisakyti naujienų

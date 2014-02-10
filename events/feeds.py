@@ -32,7 +32,7 @@ def generateEventFeed(event):
     e.add('created', event.create_date)
     e.add('last-modified', event.modify_date)
     e.add('summary', event.title)
-    e.add('description', defaultfilters.truncatewords(event.body, 100) + '\nDaugiau informacijos: http://dev.nylithuanian.org/renginiai/{0}'.format(event.id))
+    e.add('description', defaultfilters.truncatewords(event.body, 100) + '\nDaugiau informacijos: ' + DOMAIN + 'renginiai/{0}'.format(event.id))
     e.add('sequence', event.version_number)
     e.add('class', 'PUBLIC')
     e.add('status', 'CONFIRMED')

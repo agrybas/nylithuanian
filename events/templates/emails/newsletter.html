@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+	<body>
+		<table width="600px" border="0" cellpadding="0" cellspacing="0">
+			<table width="450px" border="0" cellpadding="0" cellspacing="0">
+			{% for event in event_list %}
+				<tr>
+					<td width="50px">
+						Pradžia: {{ event.start_date }}
+						{% if event.end_date %}
+							Pabaiga: {{ event.end_date }}
+						{% endif %}
+					</td>
+					<td width="400px">
+						<table width="400px" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td>{{ event.title }}</td>
+							</tr>
+							<tr>
+								<td>Vieta: {{ event.get_full_address }}</td>
+							</tr>
+							<tr>
+								<td>{{ event.body|truncatewords:50 }}</td>
+							</tr>
+							<tr>
+								<td><a href="http://dev.nylithuanian.org/renginiai/{{ event.id }}">Daugiau informacijos</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<table width="150px" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>Papildomos funkcijos:</td>
+				</tr>
+				<tr>
+					<td><a href="#">Mano sąskaita</a></td>
+				</tr>
+				<tr>
+					<td><a href="#">Paremti bendruomenę</a></td>
+				</tr>
+				<tr>
+					<td><a href="#">Atsisakyti naujienų</a></td>
+				</tr>
+			</table>
+		</table>
+	</body>
+</html>

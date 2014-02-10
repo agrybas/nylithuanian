@@ -1,6 +1,7 @@
 #encoding=utf-8
 import os
 
+from django.core.mail import mail_admins
 from celery import celery
 from datetime import timedelta
 from django.conf import settings
@@ -19,6 +20,8 @@ from models import Event, EventComment, EventAttachment, EventReminder
 from tasks import send_reminder
 from forms import AddEventForm, AddEventCommentForm
 from photos.models import Photo
+from django.template.loader import get_template
+from django.template import Context
 
 import logging
 import nylithuanian.settings
@@ -240,3 +243,19 @@ def delete_reminder(request, *args, **kwargs):
                                                           'message': u'Bandant pašalinti priminimą, įvyko klaida. Svetainės administratoriai apie tai jau informuoti. Atsiprašome už nepatogumus.',
                                                           }, context_instance=RequestContext(request))
         
+        
+def send_newsletter(request, *args, **kwargs):
+
+    upcoming_events = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+    
+    plainText = get_template('emails/newsletter.txt')
+    htmlText = get_template('emails/newsletter.html')
+    subject = u'Niujorko lietuvių naujienlaiškis'
+    c = Context({
+         'event_list' : upcoming_events,
+         })
+    
+    mail_admins(subject=subject, message=plainText.render(c), html_message=htmlText.render(c))
+    return render_to_response('events/success.html', {
+                                                        'message' : 'Ačiū! Naujienlaiškis išsiųstas sėkmingai.',
+                                                        }, context_instance=RequestContext(request))
