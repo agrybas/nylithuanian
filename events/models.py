@@ -50,7 +50,7 @@ class Event(models.Model):
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Vardas")
     last_name = models.CharField(max_length=30, blank=True, verbose_name="Pavardė")
     organization_title = models.CharField(max_length=100, blank=True, verbose_name="Organizacijos pavadinimas")
-    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-0-9+() ]*$')])
+    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-0-9+() ]*$', message=u'Telefono numeris turi būti sudarytas tik iš skaičių, tarpų ir simbolių -,+,(,).')])
     email_address = models.EmailField(verbose_name="El. pašto adresas", blank=True)
     start_date = models.DateTimeField(verbose_name='Renginio pradžia', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     end_date = models.DateTimeField(verbose_name='Renginio pabaiga', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"', null = True, blank = True)

@@ -11,9 +11,9 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import FormView
 from django.core.exceptions import PermissionDenied
 from django.core.signing import Signer
-from django.contrib.auth.forms import PasswordChangeForm
 
-from .forms import RegisterSiteUserForm, PromoteUserForm, EditSiteUserForm
+
+from .forms import RegisterSiteUserForm, PromoteUserForm, EditSiteUserForm, SiteUserPasswordChangeForm
 from models import CreateUserError, SiteUser
 from articles.models import Article
 from events.models import EventReminder, Event
@@ -48,7 +48,6 @@ class SiteUserCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.is_active = False
-        form.instance.date_joined = timezone.now()
         form.instance.password = make_password(form.instance.password)
 #        signer = Signer(salt=form.instance.date_joined.strftime("%Y-%m-%d %H:%i:%s") + str(random.randint(1, 100)))
         form.instance.temp_hash = Signer(salt=form.instance.date_joined.strftime("%Y-%m-%d %H:%i:%s") + str(random.randint(1, 100))).signature(form.instance.username)    # registration confirmation hash
@@ -107,7 +106,7 @@ class SiteUserUpdateView(UpdateView, UserOwnedObjectMixin):
 
 class SiteUserChangePasswordView(FormView):
     model = SiteUser
-    form_class = PasswordChangeForm
+    form_class = SiteUserPasswordChangeForm
     template_name = 'users/siteuser_password.html'
     success_url = '/nariai'
     

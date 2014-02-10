@@ -97,7 +97,7 @@
     </li>
 </ul>
 
-<div class="box">
+<div class="box spacious">
     <h2 class="headline"><a href="renginiai/archyvas">Ankstesni renginiai</a></h2>
     <dl class="list">
         {% for event in past_events %}
@@ -116,7 +116,7 @@
     </ul>
 </div>
 
-<div class="box large">
+<div class="box large spacious">
     <h2 class="headline"><a href="straipsniai">Straipsniai</a></h2>
     {% for article in articles %}
         <h4>
@@ -255,7 +255,9 @@
         {% endfor %}
     </dl>
     <p>Viso narių: <a title="Visi nariai" href="nariai">{{ user_count }}</a></p>
-    
+</div>
+
+<div class="box spacious">
     <h2 class="headline">Mūsų draugai</h2>
     <ul class="clean wide external-links">
     	<li><a title="Generalinis konsulatas Niujorke" target="_blank" href="http://ny.mfa.lt/"><img src="{{ STATIC_URL }}images/lt_herbas.png" /><br />Lietuvos Respublikos generalinis<br /> konsulatas Niujorke</a></li>

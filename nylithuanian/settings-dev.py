@@ -123,11 +123,11 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'wx6+!b4y_=pju5ut9jv8=rhdvb7rrox8jjt$ri9z)9kg_@oi4c'
 
 PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 

@@ -14,6 +14,14 @@
 			</p>
 		{% endif %}
 		
+	    {% if form.non_field_errors %}
+	        <ul class="error">
+	            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+	            {% endfor %}
+	        </ul>
+	    {% endif %}
+		
         <p>Privalomi laukeliai yra <span class="required">paryškinti</span>.</p>
         <p>
             <label class="{{ form.username.css_classes }}" for="id_username">{{ form.username.label }}</label><br />
@@ -33,11 +41,14 @@
             {% if form.password.errors %}
                 <span class="error">
                     {% for error in form.password.errors %}
-                        {{ error }} 
+                        {{ error }}<br />
                     {% endfor %}
                 </span>
             {% endif %}
-            {% if form.password.help_text %}<br /><span class="helptext">{{form.password.help_text }}</span>{% endif %}
+            {% if form.password.help_text %}
+            	<br />
+            	<span class="helptext">{{form.password.help_text }}</span>
+            {% endif %}
         </p>
         <p>
             <label class="{{ form.confirm_password.css_classes }}" for="id_confirm_password">{{ form.confirm_password.label }}</label><br />
@@ -66,12 +77,4 @@
         <button type="submit" value="Register" >Registruotis</button>
         <a class="cancel" href="/">Atšaukti</a>
     </form>
-    
-    {% if form.non_field_errors %}
-        <ul class="error">
-            {% for error in form.non_field_errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 {% endblock %}

@@ -97,6 +97,10 @@
 	padding: 0;
 }
 
+#container .box.spacious, #container #main .box.spacious {
+	margin-top: 50px;
+}
+
 #container #main .extra {
     clear: both;
 }

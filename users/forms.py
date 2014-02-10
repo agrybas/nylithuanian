@@ -6,62 +6,50 @@ from django.template import Context
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import MinLengthValidator, RegexValidator
 from django.contrib.auth.forms import PasswordChangeForm
 
-from models import SiteUser
+from .models import SiteUser
+from .validators import *
 
 class RegisterSiteUserForm(forms.ModelForm):
     error_css_class = 'error'
     required_css_class = 'required'
-    
+    password = forms.CharField(
+                               label='Slaptažodis',
+                               max_length=128,
+                               help_text='Slaptažodis turi būti mažiausiai 8 simbolių.',
+                               widget=PasswordInput,
+                               validators=[
+                                           MinLengthValidator(8),
+                                           validate_uncommon_word,
+                                           ]
+                               )
     confirm_password = forms.CharField(label='Slaptažodis (pakartoti)', max_length=128, widget=PasswordInput)
     email = forms.EmailField(label='El. pašto adresas', required=True)
     
     class Meta:
         model = SiteUser
-        fields = ('username', 'password')
-        widgets = {
-            'password' : PasswordInput(),
-        }
-
+        exclude = ('last_login', 'date_joined')
         
     def clean(self):
-
-        if (self.cleaned_data.get('password') !=
-            self.cleaned_data.get('confirm_password')):
-
-            raise ValidationError(
-                "Įvestos slaptažodžių reikšmės nesutampa."
-            )
-
+        password1 = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('confirm_password')
+        if password1 and password1 != password2:
+            raise ValidationError(u'Įvestos slaptažodžių reikšmės nesutampa.')
         return super(RegisterSiteUserForm, self).clean()
 
-
-
-#     def save(self, commit=True):
-#         instance = super(RegisterUserForm, self).save(commit)
-#         user = User.objects.get(username=instance.username)
-#         user.is_active = False
-#         user.set_password(self.cleaned_data['password'])
-#         user.save()
-#                 
-#         plainText = get_template('emails/reg_confirm_email.txt')
-#         htmlText = get_template('emails/reg_confirm_email.html')
-#         
-#         regHash = SiteUser.createUser(instance.username, instance.email, instance.password)
-#         
-#         # E-mail user to confirm registration
-#         subject = u'Prašome patvirtinti registraciją'
-#         c = Context({
-#                      'username' : instance.username,
-#                      'registration_hash' : regHash,
-#                      })
-#         
-#         msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, [instance.email])
-#         msg.attach_alternative(htmlText.render(c), 'text/html')
-#         msg.send()
-#         
-#         return instance
+class SiteUserPasswordChangeForm(PasswordChangeForm):
+    new_password1 = forms.CharField(
+                               label='Slaptažodis',
+                               max_length=128,
+                               help_text='Slaptažodis turi būti mažiausiai 8 simbolių.',
+                               widget=PasswordInput,
+                               validators=[
+                                           MinLengthValidator(8),
+                                           validate_uncommon_word,
+                                           ]
+                               )
 
 class PromoteUserForm(forms.Form):
     USER_TYPES = (
