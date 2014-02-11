@@ -1,7 +1,6 @@
 #encoding=utf-8
 import os
 
-from django.core.mail import mail_admins
 from celery import celery
 from datetime import timedelta
 from django.conf import settings
@@ -11,20 +10,21 @@ from django.core.exceptions import PermissionDenied
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, Context
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from models import Event, EventComment, EventAttachment, EventReminder
 from tasks import send_reminder
-from forms import AddEventForm, AddEventCommentForm
+from forms import AddEventForm, AddEventCommentForm, SendEmailForm
 from photos.models import Photo
 from django.template.loader import get_template
-from django.template import Context
+from django.core.mail import mail_admins, EmailMultiAlternatives
 
 import logging
 import nylithuanian.settings
+from django.views.generic.edit import FormView
 
 if nylithuanian.settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)
@@ -243,19 +243,36 @@ def delete_reminder(request, *args, **kwargs):
                                                           'message': u'Bandant pašalinti priminimą, įvyko klaida. Svetainės administratoriai apie tai jau informuoti. Atsiprašome už nepatogumus.',
                                                           }, context_instance=RequestContext(request))
         
-        
-def send_newsletter(request, *args, **kwargs):
 
-    upcoming_events = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+class SendNewsletterView(TemplateView):
+    form_class = SendEmailForm
+    template_name = 'emails/send_newsletter.html'
     
-    plainText = get_template('emails/newsletter.txt')
-    htmlText = get_template('emails/newsletter.html')
-    subject = u'Niujorko lietuvių naujienlaiškis'
-    c = Context({
-         'event_list' : upcoming_events,
-         })
+    def get_context_data(self, **kwargs):
+        kwargs['event_list'] = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+        return super(SendNewsletterView, self).get_context_data(**kwargs)
     
-    mail_admins(subject=subject, message=plainText.render(c), html_message=htmlText.render(c))
-    return render_to_response('events/success.html', {
-                                                        'message' : 'Ačiū! Naujienlaiškis išsiųstas sėkmingai.',
-                                                        }, context_instance=RequestContext(request))
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render_to_response('emails/send_newsletter.html', { 'form': form }, context_instance=RequestContext(request))
+        
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            upcoming_events = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+    
+            plainText = get_template('emails/newsletter.txt')
+            htmlText = get_template('emails/newsletter.html')
+            subject = u'Artimiausi renginiai Niujorke'
+            c = Context({ 'event_list' : upcoming_events, })
+            
+            msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (form.cleaned_data['email'], ))
+            msg.attach_alternative(htmlText.render(c), 'text/html')
+            msg.send()
+          
+            return render_to_response('events/success.html', {
+                                                              'message': 'Naujienlaiškis išsiųstas sėkmingai.',
+                                                              }, context_instance=RequestContext(request))
+        return render_to_response('emails/send_newsletter.html', {
+                                                                  'form': form,
+                                                                  }, context_instance=RequestContext(request))

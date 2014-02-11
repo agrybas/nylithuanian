@@ -89,28 +89,28 @@ class Event(models.Model):
     def get_full_address(self):
         full_address = self.street_address1
         if self.street_address2:
-            full_address += ", {0}".format(self.street_address2)
+            full_address += u", {0}".format(self.street_address2)
         if self.street_address3:
-            full_address += ", {0}".format(self.street_address3)
+            full_address += u", {0}".format(self.street_address3)
         if self.street_address4:
-            full_address += ", {0}".format(self.street_address4)
+            full_address += u", {0}".format(self.street_address4)
         if self.city:
-            full_address += ", {0}".format(self.city)
+            full_address += u", {0}".format(self.city)
         if self.state:
-            full_address += ", {0}".format(self.state)
+            full_address += u", {0}".format(self.state)
         if self.zip_code:
-            full_address += ", {0}".format(self.zip_code)
+            full_address += u", {0}".format(self.zip_code)
         if self.country:
-            full_address += ", {0}".format(self.country)
+            full_address += u", {0}".format(self.country)
         return full_address
     
     def get_organizer_full_name(self):
         if self.first_name:
             full_name = self.first_name
             if self.last_name:
-                full_name += " {0}".format(self.last_name)
+                full_name += u" {0}".format(self.last_name)
             if self.organization_title:
-                full_name += ", {0}".format(self.organization_title)
+                full_name += u", {0}".format(self.organization_title)
             return full_name
         elif self.organization_title:
             return self.organization_title

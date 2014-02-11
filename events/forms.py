@@ -1,6 +1,7 @@
 #encoding=utf-8
 import os
-from django.forms import ModelForm, Textarea, TextInput, ValidationError
+from django.forms import ModelForm, Textarea, TextInput, ValidationError, Form
+from django.forms import EmailField
 from django.forms.models import BaseModelFormSet
 from models import Event, EventComment, EventAttachment
 from django.forms.models import inlineformset_factory
@@ -63,8 +64,9 @@ class AddEventForm(EventForm):
             raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
 
 
-        
-                
+class SendEmailForm(Form):
+    email = EmailField(label="El. pašto adresas", help_text="Įveskite el. pašto adresą, kuriuo norėtumėte gauti naujienlaiškį.")
+
 # EventAttachmentFormSet = inlineformset_factory(Event, EventAttachment, form=AddEventAttachments, can_delete=False)
             
 #class EventPreview(FormPreview):
