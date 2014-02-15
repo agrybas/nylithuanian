@@ -18,7 +18,8 @@ from django.views.generic.detail import SingleObjectMixin
 from models import Event, EventComment, EventAttachment, EventReminder
 from tasks import send_reminder
 from forms import AddEventForm, AddEventCommentForm, SendEmailForm
-from photos.models import Photo
+from photos.models import Photo, Gallery
+from articles.models import Article
 from django.template.loader import get_template
 from django.core.mail import mail_admins, EmailMultiAlternatives
 
@@ -250,6 +251,8 @@ class SendNewsletterView(TemplateView):
     
     def get_context_data(self, **kwargs):
         kwargs['event_list'] = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+        kwargs['article_list'] = Article.public.order_by('-publish_date')[:3]
+        kwargs['gallery_list'] = Gallery.objects.filter(is_public=True)[:3]
         return super(SendNewsletterView, self).get_context_data(**kwargs)
     
     def get(self, request, *args, **kwargs):
@@ -260,11 +263,17 @@ class SendNewsletterView(TemplateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             upcoming_events = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
-    
+            recent_articles = Article.public.order_by('-publish_date')[:3]
+            recent_galleries = Gallery.objects.filter(is_public=True)[:3]
+        
             plainText = get_template('emails/newsletter.txt')
             htmlText = get_template('emails/newsletter.html')
             subject = u'Artimiausi renginiai Niujorke'
-            c = Context({ 'event_list' : upcoming_events, })
+            c = Context({
+                         'event_list' : upcoming_events,
+                         'article_list': recent_articles,
+                         'gallery_list': recent_galleries,
+                         })
             
             msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (form.cleaned_data['email'], ))
             msg.attach_alternative(htmlText.render(c), 'text/html')

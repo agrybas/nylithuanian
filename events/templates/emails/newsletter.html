@@ -9,8 +9,8 @@
 		<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
 			<tr>
 				<td width="800px">
-					<p style="text-align: center; font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:28px; line-height: 2em;">
-						<img alt="Niujorko apygarda" src="http://dev.nylithuanian.org/static/images/herbas.png" />JAV Lietuvių Bendruomenė - Niujorko Apygarda
+					<p style="text-align: center; font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:24px; line-height: 2em;">
+						JAV Lietuvių Bendruomenė - Niujorko Apygarda
 					</p>
 				</td>
 			</tr>
@@ -20,17 +20,18 @@
 				<td width="600px" style="background:url(http://dev.nylithuanian.org/static/images/background-main.png); background-color: #FAFAFA;">
 					<table height="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
 						<tr>
-							<td colspan="2" width="600px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:24px; line-height: 1.5em;">Artimiausi renginiai</td>
+							<td colspan="2" height="32px" width="600px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:20px; line-height: 1.5em; padding-bottom: 10px;">Artimiausi renginiai</td>
 						</tr>
 						{% for event in event_list %}
 							<tr>
-								<td rowspan="5" height="18px" width="50px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:24px; vertical-align: top;">
-									<p style=" text-align: center; line-height: 1em;">{{ event.start_date|date:"m" }}<br />{{ event.start_date|date:"d" }}</p>
+								<td rowspan="5" width="50px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; vertical-align: top;">
+									<p style="text-align: center; font-size:14px; font-variant: small-caps; line-height: 18px; margin-bottom: 0px;">{{ event.start_date|date:"F" }}</p>
+									<p style=" text-align: center; font-size:24px; margin-top: 0px; line-height: 20px;">{{ event.start_date|date:"d" }}</p>
 								</td>
-								<td height="24px" width="550px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-weight: bold; font-size:16px; font-variant: small-caps;">
-									<p style="line-height: 1.5em; margin-top: 0.1em; margin-bottom: 0.3em;">
-										<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="http://dev.nylithuanian.org/renginiai/{{ event.id }}">
-											<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
+								<td width="550px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; vertical-align: top;">
+									<p style="font-size:18px; font-variant: small-caps; font-weight: bold; line-height: 24px; margin-bottom: 0px;">
+										<a style="margin-top: 0px; text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="http://dev.nylithuanian.org/renginiai/{{ event.id }}">
+											<span style="margin-top: 0px; text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
 												{{ event.title }}
 											</span>
 										</a>
@@ -73,14 +74,14 @@
 					<table height="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
 						<tr>
 							<td width="200px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:18px;">
-								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 0.5em;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
 									Kitos funkcijos:
 								</p>
 							</td>
 						</tr>
 						<tr>
 							<td width="200px" style="font-family: Inder, Arial, Verdana, sans-serif; font-size:12px;">
-								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 0.5em;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
 									<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="#">
 										<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
 											Mano sąskaita
@@ -91,7 +92,7 @@
 						</tr>
 						<tr>
 							<td width="200px" style="font-family: Inder, Arial, Verdana, sans-serif; font-size:12px;">
-								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 0.5em;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
 									<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="#">
 										<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
 											Paremti bendruomenę
@@ -102,7 +103,7 @@
 						</tr>
 						<tr>
 							<td width="200px" style="font-family: Inder, Arial, Verdana, sans-serif; font-size:12px;">
-								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 0.5em;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
 									<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="#">
 										<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
 											Atsisakyti naujienų
@@ -111,6 +112,52 @@
 								</p>
 							</td>
 						</tr>
+						<tr>
+							<td height="16px" width="600px"> </td>
+						</tr>
+						<tr>
+							<td width="200px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:18px;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
+									Straipsniai:
+								</p>
+							</td>
+						</tr>
+						{% for article in article_list %}
+						<tr>
+							<td width="200px" style="font-family: Inder, Arial, Verdana, sans-serif; font-size:12px;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
+									<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="http://dev.nylithuanian.org/straipsniai/{{ article.id }}/">
+										<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
+											{{ article.title }}
+										</span>
+									</a>
+								</p>
+							</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td height="16px" width="600px"> </td>
+						</tr>
+						<tr>
+							<td width="200px" style="font-family: 'Alegreya SC', Arial, Verdana, sans-serif; font-size:18px;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
+									Nuotraukos:
+								</p>
+							</td>
+						</tr>
+						{% for gallery in gallery_list %}
+						<tr>
+							<td width="200px" style="font-family: Inder, Arial, Verdana, sans-serif; font-size:12px;">
+								<p style="line-height: 1.5em; margin-top: 0.3em; margin-bottom: 0.3em; margin-left: 5px;">
+									<a style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;" href="http://dev.nylithuanian.org/nuotraukos/gallery/{{ gallery.id }}/">
+										<span style="text-decoration: none; color: #222222; border-bottom-width: 0.1em; border-bottom-style: dotted; border-bottom-color: #222222;">
+											{{ gallery.title }}
+										</span>
+									</a>
+								</p>
+							</td>
+						</tr>
+						{% endfor %}
 					</table>
 				</td>
 			</tr>
