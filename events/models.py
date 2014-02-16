@@ -76,6 +76,7 @@ class Event(models.Model):
     approved = ApprovedEventsManager()    
     class Meta:
         db_table = 'events'
+        ordering = ['start_date', ]
         
     def __unicode__(self):
         if self.start_date:
@@ -116,6 +117,49 @@ class Event(models.Model):
             return self.organization_title
         return ''
     
+    @property
+    def next_event_exists(self):
+        return Event.approved.filter(start_date__gt=self.start_date).exists()
+    
+    @property
+    def previous_event_exists(self):
+        return Event.approved.filter(start_date__lt=self.start_date).exists()
+    
+    @property
+    def get_next_event_url(self):
+        try:
+            next_event = Event.approved.filter(start_date__gt=self.start_date)[0]
+            return next_event.get_absolute_url()
+        except Event.DoesNotExist:
+            return None    
+    
+    @property
+    def get_previous_event_url(self):
+        try:
+            previous_event = Event.approved.filter(start_date__lt=self.start_date)
+            previous_event = previous_event[len(previous_event) - 1]
+            return previous_event.get_absolute_url()    
+        except Event.DoesNotExist:
+            return None
+        
+    @property
+    def get_next_event_title(self):
+        try:
+            next_event = Event.approved.filter(start_date__gt=self.start_date)[0]
+            return next_event.title
+        except Event.DoesNotExist:
+            return None    
+
+    @property
+    def get_previous_event_title(self):
+        try:
+            previous_event = Event.approved.filter(start_date__lt=self.start_date)
+            previous_event = previous_event[len(previous_event) - 1]
+            return previous_event.title    
+        except Event.DoesNotExist:
+            return None
+
+        
 class EventAttachment(models.Model):
     event = models.ForeignKey(Event, editable=False) # event the attachment is associated with
     file = models.FileField(verbose_name='Prisegamas dokumentas', upload_to='events/attachments', blank=True)

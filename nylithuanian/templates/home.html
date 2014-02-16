@@ -39,12 +39,12 @@
 		            });
 		        };
 		                
-		        $("a#next-event").bind("click", function(){
+		        $("a.next").bind("click", function(){
 		            clearInterval(timedInterval);
 		            showNext();
 		        });
 		        
-		        $("a#previous-event").bind("click", function(){
+		        $("a.previous").bind("click", function(){
 		            clearInterval(timedInterval);
 		            showPrevious();
 		        });
@@ -63,8 +63,8 @@
 <h1 class="headline">Artimiausi renginiai</h1>
 <div id="main-top">
 	{% if upcoming_events|length > 1 %}
-    	<a href="#" title="Atgal" id="previous-event"><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" width="32" height="32" /></a>
-    	<a href="#" title="Pirmyn" id="next-event"><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" width="32" height="32" /></a>
+    	<a href="#" title="Atgal" class="previous event-photo"><img src="{{ STATIC_URL }}images/toolbar/left_arrow.png" width="32" height="32" /></a>
+    	<a href="#" title="Pirmyn" class="next event-photo"><img src="{{ STATIC_URL }}images/toolbar/right_arrow.png" width="32" height="32" /></a>
 	{% endif %}
     <ul id="main-events">
         {% for event in upcoming_events %}

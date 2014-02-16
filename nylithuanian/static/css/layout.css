@@ -121,6 +121,7 @@ h1.headline, h2.headline  {
 }
 
 #container #main {
+	position: relative;
 	float: left;
 	width: 72em;
 	clear: both;
@@ -159,37 +160,47 @@ h1.headline, h2.headline  {
     position: relative;
 }
 
-#main #main-top a#next-event, #main #main-top a#previous-event {
+a.next, a.previous {
     position: absolute;
     z-index: 1;
 	border-style: none;
-    top: 35%;
 }
 
-#main #main-top a#next-event {
-    right: 0px;
+a.next img, a.previous img {
+	vertical-align: middle;
 }
 
-#main #main-top a#previous-event {
+a.event-photo {
+    height: 100%;
+    width: 32px; /* width of the image element */
+}
+
+a.next {
+	right: 0px;
+}
+
+a.previous {
     left: 0px;
 }
 
+a.event-photo img, a.event-photo img {
+	position: absolute;
+	top: 50%; /* half the height of containing element */
+	margin-top: -16px; /* half the height of the image element */
+}
 
 ul#main-events li {
     position: relative;
-    2top: 0px;
     width: 100%;
-    1float: left;
     height: 23.5em;
-    1border: #000000 solid thin;
 }
 
 #main #main-top ul#main-events li a img {
     float: left;
     width: 300px;
     height: 200px;
-    padding: 1em 0 1em 40px;
-    margin: 0;
+    margin: 1em 0 1em 40px;
+    padding: 0;
     position: absolute;
     top: 0px;
 }

@@ -5,7 +5,16 @@
 
 {% block content %}
 
-<h1>{{ event.title }}</h1>
+<h1>
+	{{ event.title }}
+
+	{% if event.previous_event_exists %}
+		<a class="previous" title="{{ event.get_previous_event_title }}" href="{{ event.get_previous_event_url }}"><img src="{{ STATIC_URL}}images/toolbar/left_arrow.png" width="32" height="32" /></a>
+	{% endif %}
+	{% if event.next_event_exists %}
+		<a class="next" title="{{ event.get_next_event_title }}" href="{{ event.get_next_event_url }}"><img src="{{ STATIC_URL}}images/toolbar/right_arrow.png" width="32" height="32" /></a>
+	{% endif %}
+</h1>
 
 {% if event.start_date %}
     <p class="meta">
