@@ -21,20 +21,18 @@ class Tag(models.Model):
         return self.title
     
 # Data model containing locations where events can take place
-#class Location(models.Model):
-#    #location_id = models.AutoField(primary_key = True, editable = False)
-#    title = models.CharField(max_length = 45)
-#    street_address1 = models.CharField(max_length = 30)
-#    street_address2 = models.CharField(max_length = 30, blank = True)
-#    street_address3 = models.CharField(max_length = 30, blank = True)
-#    street_address4 = models.CharField(max_length = 30, blank = True)
-#    city = models.CharField(max_length = 20)
-#    zip_code = USPostalCodeField('US Zip code', blank = True, null = True)
-#    state = USStateField('US State', blank = True, null = True)
-#    country = models.ForeignKey(Country)
-#    
-#    def __unicode__(self):
-#        return self.title
+class Venue(models.Model):
+    title = models.CharField(max_length = 255)
+    street_address1 = models.CharField(verbose_name="Adresas 1", max_length = 100)
+    street_address2 = models.CharField(verbose_name="Adresas 2", max_length = 100, blank = True)
+    street_address3 = models.CharField(verbose_name="Adresas 3", max_length = 100, blank = True)
+    city = models.CharField(verbose_name="Miestas", max_length = 20, blank = True)
+    zip_code = models.CharField(max_length=10, verbose_name="Pašto indeksas", blank=True)
+    state = USStateField(verbose_name="Valstija", blank = True, null = True)
+    country = CountryField(verbose_name='Šalis', blank=True, null=True)    
+    
+    def __unicode__(self):
+        return self.title
 
 class ApprovedEventsManager(models.Manager):
     def get_query_set(self):
@@ -54,20 +52,17 @@ class Event(models.Model):
     email_address = models.EmailField(verbose_name="El. pašto adresas", blank=True)
     start_date = models.DateTimeField(verbose_name='Renginio pradžia', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     end_date = models.DateTimeField(verbose_name='Renginio pabaiga', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"', null = True, blank = True)
-    street_address1 = models.CharField(verbose_name="Renginio adresas 1", max_length = 100)
-    street_address2 = models.CharField(verbose_name="Renginio adresas 2", max_length = 100, blank = True)
-    street_address3 = models.CharField(verbose_name="Renginio adresas 3", max_length = 100, blank = True)
-    street_address4 = models.CharField(verbose_name="Renginio adresas 4", max_length = 100, blank = True)
+    address_title = models.CharField(max_length = 255, verbose_name='Vietos pavadinimas')
+    street_address1 = models.CharField(verbose_name="Adresas 1", max_length = 100)
+    street_address2 = models.CharField(verbose_name="Adresas 2", max_length = 100, blank = True)
+    street_address3 = models.CharField(verbose_name="Adresas 3", max_length = 100, blank = True)
     city = models.CharField(verbose_name="Miestas", max_length = 20, blank = True)
     zip_code = models.CharField(max_length=10, verbose_name="Pašto indeksas", blank=True)
     state = USStateField(verbose_name="Valstija", blank = True, null = True)
-    country = CountryField(verbose_name='Valstybė', blank=True, null=True)    
-    #organizer = models.ForeignKey(Organizer)
-    #location = models.ForeignKey(Location)
+    country = CountryField(verbose_name='Šalis', blank=True, null=True)    
     image = models.ImageField(max_length=255, verbose_name='Renginio nuotrauka', upload_to='events/images')
-#    ticket_price = models.DecimalField(verbose_name='Bilietų kaina', max_digits = 5, decimal_places = 2, blank = True, null = True, help_text="Prašome įvesti sumą JAV doleriais; įveskite tik skaičius, pvz., 10.00")
+    is_community_event = models.BooleanField(verbose_name="Niujorko apygardos arba apylinkės renginys", help_text="Pažymėkite, jei renginį organizuoja JAV LB Niujorko apygarda arba viena iš Niujorko apygardai priklausančių apylinkių.", null=False, blank=False, default=False)
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved events will ever be shown publicly; only administrator can change this value
-#    publish_date = models.DateTimeField(blank = True, null = True, help_text='Kada renginys turėtų būti publikuotas? Datą įveskite formatu "mm/dd/yyyy hh:mm". Jei norite, kad renginys būtų publikuojamas iškart, palikite laukelį tuščią.') # when a post should be published (shown publicly); null means publish immediately
     create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now) # Date when the post was created
     modify_date = models.DateTimeField(null=False, blank=False, editable = False, default = timezone.now) # Date when the post was last modified
     version_number = models.PositiveSmallIntegerField(null=False, blank=False, editable=False, default=1) # keeps track of changes made to object; increased if start_date or end_date is changed (used in ICS calendar generation) 
@@ -88,19 +83,19 @@ class Event(models.Model):
         return '/renginiai/{0}'.format(self.id)
     
     def get_full_address(self):
-        full_address = self.street_address1
+        full_address = self.address_title
+        if self.street_address1:
+            full_address += u", {0}".format(self.street_address1)
         if self.street_address2:
             full_address += u", {0}".format(self.street_address2)
         if self.street_address3:
             full_address += u", {0}".format(self.street_address3)
-        if self.street_address4:
-            full_address += u", {0}".format(self.street_address4)
         if self.city:
             full_address += u", {0}".format(self.city)
         if self.state:
             full_address += u", {0}".format(self.state)
         if self.zip_code:
-            full_address += u", {0}".format(self.zip_code)
+            full_address += u" {0}".format(self.zip_code)
         if self.country:
             full_address += u", {0}".format(self.country)
         return full_address

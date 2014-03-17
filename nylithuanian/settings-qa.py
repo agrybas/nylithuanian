@@ -258,6 +258,24 @@ LOGGING = {
                                 'filename': SITE_ROOT + 'logs/prod/main.log',
                                 'formatter': 'simple'
                           },
+                 'production.articles': {
+                                'level': 'INFO',
+                                'class': 'logging.handlers.TimedRotatingFileHandler',
+                                'when': 'd',
+                                'utc': True,
+                                'backupCount': 100,
+                                'filename': SITE_ROOT + 'logs/prod/articles.log',
+                                'formatter': 'simple'
+                          },
+                 'production.events': {
+                                'level': 'INFO',
+                                'class': 'logging.handlers.TimedRotatingFileHandler',
+                                'when': 'd',
+                                'utc': True,
+                                'backupCount': 100,
+                                'filename': SITE_ROOT + 'logs/prod/events.log',
+                                'formatter': 'simple'
+                          },
                  'mail_admins': {
                                  'level': 'ERROR',
                                   'filters': ['require_debug_false'],

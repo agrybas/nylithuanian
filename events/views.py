@@ -1,6 +1,5 @@
 #encoding=utf-8
 import os
-
 from celery import celery
 from datetime import timedelta
 from django.conf import settings
@@ -8,20 +7,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import FileSystemStorage
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, Context
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
-from models import Event, EventComment, EventAttachment, EventReminder
+from models import Event, EventComment, EventAttachment, EventReminder, Venue
 from tasks import send_reminder
 from forms import AddEventForm, AddEventCommentForm, SendEmailForm
 from photos.models import Photo, Gallery
 from articles.models import Article
 from django.template.loader import get_template
 from django.core.mail import mail_admins, EmailMultiAlternatives
+from django.core import serializers
 
 import logging
 import nylithuanian.settings
@@ -285,3 +285,24 @@ class SendNewsletterView(TemplateView):
         return render_to_response('emails/send_newsletter.html', {
                                                                   'form': form,
                                                                   }, context_instance=RequestContext(request))
+        
+def get_venues_list(request, *args, **kwargs):
+    try:
+        logger.info('Loading the list of venues...')
+        venues = Venue.objects.all()
+        json_data = serializers.serialize('json', venues,
+                                          fields= (
+                                                   'title',
+                                                   'street_address1',
+                                                   'street_address2',
+                                                   'street_address3',
+                                                   'city',
+                                                   'zip_code',
+                                                   'state',
+                                                   'country'
+                                                   ))
+        logger.info(json_data)
+        logger.info('List loaded successfully.')
+        return HttpResponse(json_data, content_type='application/json')
+    except Venue.DoesNotExist:
+        return HttpResponse('')

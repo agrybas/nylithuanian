@@ -3,7 +3,7 @@ import os
 from django.forms import ModelForm, Textarea, TextInput, ValidationError, Form
 from django.forms import EmailField
 from django.forms.models import BaseModelFormSet
-from models import Event, EventComment, EventAttachment
+from models import Event, EventComment, EventAttachment, Venue
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from PIL import Image

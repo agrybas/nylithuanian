@@ -3,6 +3,7 @@
 {% block header %}
     <link href="{{ STATIC_URL }}css/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="{{ STATIC_URL }}css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 {% endblock %}
 
 {% block javascript %}
@@ -10,7 +11,7 @@
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" >
-    $(function() { 
+    $(function() {
        $("#id_start_date").datetimepicker({
        	controlType: 'select',
        	dateFormat: 'yy-mm-dd',
@@ -32,6 +33,39 @@
        	onClose: function(selectedDate) {
        		$("#id_start_date").datetimepicker("option", "maxDate", selectedDate);
        	}       	
+       });
+       
+       var venues = [];
+       $.getJSON("/renginiai/get-venues-list/", function( venues_list ) {
+       		$.each(venues_list, function( idx ) {
+       			venues.push({
+       				'label': venues_list[idx].fields.title,
+       				'street_address1': venues_list[idx].fields.street_address1,
+       				'street_address2': venues_list[idx].fields.street_address2,
+       				'street_address3': venues_list[idx].fields.street_address3,
+       				'city': venues_list[idx].fields.city,
+       				'zip_code': venues_list[idx].fields.zip_code,
+       				'state': venues_list[idx].fields.state,
+       				'country': venues_list[idx].fields.country
+       				});
+       		});
+       });
+       $("#id_address_title").autocomplete({
+       		source: venues,
+       		select: function(event, ui) {
+       			var item = ui.item;
+       			if (item) {
+       				$("#id_address_title").val(item.address_title);
+       				$("#id_street_address1").val(item.street_address1);
+       				$("#id_street_address2").val(item.street_address2);
+       				$("#id_street_address3").val(item.street_address3);
+       				$("#id_city").val(item.city);
+       				$("#id_zip_code").val(item.zip_code);
+       				$("#id_state").val(item.state);
+       				$("#id_country").val(item.country);
+       			}
+       			
+       		}
        });
 	});  
 </script>
@@ -102,6 +136,18 @@
 	            {% if form.end_date.help_text %}<br /><span class="helptext">{{ form.end_date.help_text|safe }}</span>{% endif %}
 	        </p>
 	        <p>
+	            <label class="{{ form.address_title.css_classes }}" for="id_address_title">{{ form.address_title.label }}</label><br />
+	            {{ form.address_title }}
+	            {% if form.address_title.errors %}
+	                <span class="error">
+	                    {% for error in form.address_title.errors %}
+	                        {{ error }} 
+	                    {% endfor %}
+	                </span>
+	            {% endif %}
+	            {% if form.address_title.help_text %}<br /><span class="helptext">{{ form.address_title.help_text|safe }}</span>{% endif %}
+	        </p>
+	        <p>
 	            <label class="{{ form.street_address1.css_classes }}" for="id_street_address1">{{ form.street_address1.label }}</label><br />
 	            {{ form.street_address1 }}
 	            {% if form.street_address1.errors %}
@@ -136,18 +182,6 @@
 	                </span>
 	            {% endif %}
 	            {% if form.street_address3.help_text %}<br /><span class="helptext">{{ form.street_address3.help_text|safe }}</span>{% endif %}
-	        </p>
-	        <p>
-	            <label class="{{ form.street_address4.css_classes }}" for="id_street_address4">{{ form.street_address4.label }}</label><br />
-	            {{ form.street_address4 }}
-	            {% if form.street_address4.errors %}
-	                <span class="error">
-	                    {% for error in form.street_address4.errors %}
-	                        {{ error }} 
-	                    {% endfor %}
-	                </span>
-	            {% endif %}
-	            {% if form.street_address4.help_text %}<br /><span class="helptext">{{ form.street_address4.help_text|safe }}</span>{% endif %}
 	        </p>
 	        <p>
 	            <label class="{{ form.city.css_classes }}" for="id_city">{{ form.city.label }}</label><br />
@@ -278,16 +312,16 @@
 	            {% if form.image.help_text %}<br /><span class="helptext">{{ form.image.help_text|safe }}</span>{% endif %}
 	        </p>        	
 	        <p>
-	            <label class="{{ form.ticket_price.css_classes }}" for="id_ticket_price">{{ form.ticket_price.label }}</label><br />
-	            {{ form.ticket_price }}
-	            {% if form.ticket_price.errors %}
+	            <label class="{{ form.is_community_event.css_classes }}" for="id_is_community_event">{{ form.is_community_event.label }}</label><br />
+	            {{ form.is_community_event }}
+	            {% if form.is_community_event.errors %}
 	                <span class="error">
-	                    {% for error in form.ticket_price.errors %}
+	                    {% for error in form.is_community_event.errors %}
 	                        {{ error }} 
 	                    {% endfor %}
 	                </span>
 	            {% endif %}
-	            {% if form.ticket_price.help_text %}<br /><span class="helptext">{{ form.ticket_price.help_text|safe }}</span>{% endif %}
+	            {% if form.is_community_event.help_text %}<br /><span class="helptext">{{ form.is_community_event.help_text|safe }}</span>{% endif %}
 	        </p>        	
         	
         </fieldset>
