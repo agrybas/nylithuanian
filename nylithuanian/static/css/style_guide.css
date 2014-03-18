@@ -100,6 +100,10 @@ h2.headline + h4 {
     color: #c1272d;
 }
 
+#accordion h2 {
+    background-color: #EEEEEE;
+}
+
 /****   LAYOUT - EXTRAS   ****/
 
 p.sidequote {

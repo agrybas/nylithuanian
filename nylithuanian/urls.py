@@ -27,11 +27,17 @@ urlpatterns = patterns('',
     url(r'^(?P<active_tab>sveikinimai)/', include('greetings.urls')),
     url(r'^(?P<active_tab>uzuojautos)/', include('sympathies.urls')),
     url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', { 'document_root' : settings.MEDIA_ROOT }),
+                       
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Apie mus section
+urlpatterns += patterns('',
     url(r'^apie-mus/$', TemplateView.as_view(template_name='flatpages/about_us.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/susitelkimo-centrai/$', TemplateView.as_view(template_name='flatpages/susitelkimo_centrai.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/prisijunk/$', TemplateView.as_view(template_name='flatpages/prisijunk.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/apygarda/$', TemplateView.as_view(template_name='flatpages/apygarda.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/long-island-apylinke/$', TemplateView.as_view(template_name='flatpages/li.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/new-york-miesto-apylinke/$', TemplateView.as_view(template_name='flatpages/nyc.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/rytinio-long-island-apylinke/$', TemplateView.as_view(template_name='flatpages/rli.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/rochester-apylinke/$', TemplateView.as_view(template_name='flatpages/rochester.html'), { 'active_tab': 'apie-mus' })
-                       
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)

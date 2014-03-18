@@ -1,0 +1,52 @@
+{% extends 'flatpages/about_us.html' %}
+
+{% block title%}Apie mus{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script>
+	$(function() {
+		$( "#accordion" ).accordion({
+			header: 'h2',
+			heightStyle: 'auto',
+			collapsible: true,
+			active: false,
+		});
+		});
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Prisijunk!</h1>
+
+<p>Niujorko lietuvių bendruomenės nariais yra laikomi visi tautiečiai, ne tik dalyvaujantieji organizacijos veikloje. Tačiau, jei nori aktyviau įsilieti į bendruomenės gyvenimą  – bendrauti, dalyvauti, spręsti, padėti ar tiesiog turiningai praleisti laiką bendraminčių rate, yra keletas būdų tą padaryti. Rinkis tau priimtiniausią – vieną, kelis arba visus:</p>
+
+<div id="accordion">
+	<h2>Bendrauk internete</h2>
+	<div>
+		<p>Sek informaciją apie naujausius renginius, bendruomenės naujienas, skaityk straipsnius, komentuok ir siūlyk idėjas mūsų svetainėje. Taip pat mus gali surasti Facebook, Twitter ar YouTube.</p>
+	</div>
+	
+	<h2>Tapk oficialiu nariu</h2>
+	<div>
+		<p>Pranešk apie save užpildydama(s) registracijos formą mūsų svetainėje. Tai užtruks vos keletą minučių ir tu –  jau oficialių bendruomenės narių gretose. Tokiu būdu ne tik gausi periodinį naujienlaiškį su naujausia informacija apie renginius, naujienas ir skelbimus, bet svarbiausia – teisę priimti sprendimus, tai yra balsuoti savo apylinkės suvažiavimuose.</p>
+	</div>
+	
+	<h2>Dalyvauk organizacijos veikloje</h2>
+	<div>
+		<p>Jei esi veiklus, tavo galva – dūzgiantis idėjų avilys, nori daryti teigiamą pokytį bendruomenės gyvenime, tau yra ne viena galimybė save realizuoti.</p>
+		<ul>
+			<li>Tapk apygardos savanoriu. Šis būdas tikamiausias, jei nori tiesiog veikti ir nebūti įrėminta(s) organizacinės struktūros, posėdžių ir darbotvarkių. Taip pat, jei mąstai apie visuomeninę veiklą, bet dar nesi pasiruošusi(-ęs) prisiimti didelės ilgalaikės atsakomybės. Apygardos savanorių komanda tavęs laukia – čia rasi energingus, profesionalius, draugiškus lietuvius, kurie mielai priims tave į būrį. Parašyk mums į info@nylithuanian.org!</li>
+			<li>Tapk valdybos nariu? JAV lietuvių bendruomenės tarybos nariu?</li>
+		</ul>
+	</div>
+	
+	<h2>Paremk</h2>
+	<div>
+		<p>Kiekvienas bendruomenei paaukotas doleris – tai investicija į teigiamas permainas ir turiningesnį bendruomenės gyvenimą, kurio privalumus galėsi pajusti pats(i) asmeniškai. Nuo tavo visokeriopos paramos priklauso itin daug – lituanistinių mokyklų, sporto klubų veikla, kultūrinių ir švietėjiškų renginių gausa ir kokybė. Kiekviena auka, kad ir labai nedidelė, yra daugiau nei materialinė pagalba, bet ir didžiulė moralinė parama visuomeniniais pagrindais bendruomenės labui dirbantiems organizacijos nariams.</p>
+	</div>
+</div>
+
+
+{% endblock %}
