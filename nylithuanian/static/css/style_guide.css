@@ -38,7 +38,7 @@ p {
     text-align: justify;
 }
 
-p + p {
+p + p, ul + p {
     margin-top: 0.8em;
 }
 
@@ -102,6 +102,7 @@ h2.headline + h4 {
 
 #accordion h2 {
     background-color: #EEEEEE;
+    cursor: pointer;
 }
 
 /****   LAYOUT - EXTRAS   ****/
@@ -213,6 +214,10 @@ blockquote, div.extra {
 
 ul li, ol li {
     font: normal 1.2em/150% 'Inder', serif;
+}
+
+ul li p, ol li p {
+    font: normal 1em/150% 'Inder', serif;
 }
 
 ul li li, ol li li {
