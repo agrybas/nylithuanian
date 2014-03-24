@@ -1,5 +1,7 @@
 {% extends 'flatpages/about_us.html' %}
 
+{% load static %}
+
 {% block title%}Apie mus{% endblock %}
 
 {% block javascript %}
@@ -211,14 +213,23 @@
 		</p>
 		<ul>
 			<li>
-				vienkartiniu pavedimu į apygardos PayPal sąskaitą
+				<a title="Vienkartinis pavedimas" 
+				href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@nylithuanian.org&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">vienkartiniu pavedimu</a> į apygardos PayPal sąskaitą
 			</li>
 			<li>
-				reguliariais pavedimais į apygardos PayPal sąskaitą
+				reguliariais pavedimais į apygardos PayPal sąskaitą:
+				<ul>
+					<li><a title="Reguliarūs pavedimai" 
+				href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=25&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $25.00 kas mėnesį</a></li>
+					<li><a title="Reguliarūs pavedimai" 
+				href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=50&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $50.00 kas mėnesį</a></li>
+					<li><a title="Reguliarūs pavedimai" 
+				href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=100&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $100.00 kas mėnesį</a></li>
+				</ul>
 			</li>
 			<li>
 				<p>
-					išrašydama(s) čekį su pastaba „LAC NY District“ ir
+					išrašydama(s) čekį su pastaba (memo) „LAC NY District“ ir
 					išsiųsdama(s) adresu
 				</p>
 				<p>
