@@ -3,8 +3,24 @@
 {% block title%}Pradžia{% endblock %}
 
 {% block javascript %}
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+	<script>
+		$(function() {
+	
+			$("#accordion").accordion({
+				header : 'a.collapsible',
+				heightStyle : 'content',
+				collapsible : true,
+				active : false,
+				animate: 'easeOutCubic'
+			});
+	
+		}); 
+	</script>
+
 	{% if upcoming_events|length > 1 %}
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript">
 		    
 		    $(window).load(function(){
@@ -221,13 +237,16 @@
             <a href="https://www.twitter.com/nylithuanian"><img src="{{ STATIC_URL }}images/toolbar/twitter_32x32.png" width="32" height="32" title="Twitter" alt="Twitter"/></a>
         </li>
         <li>
+            <a href="https://www.youtube.com/nylithuanian"><img src="{{ STATIC_URL }}images/toolbar/youtube_32x32.png" width="32" height="32" title="YouTube" alt="YouTube"/></a>
+        </li>
+        <li>
             <a href="#"><img src="{{ STATIC_URL }}images/toolbar/rss_32x32.png" width="32" height="32" title="RSS" alt="RSS feed"/></a>
         </li>
     </ul>
 </div>
 
 <div class="box">
-    <p class="join">
+    <p class="action">
         {% if user.is_authenticated %}
             <a href="/nariai/{{ user.username }}">Mano sąskaita</a>
         {% else %}
@@ -237,6 +256,64 @@
 </div>
 
 <div class="box">
+    <p class="action">
+        <a href="/parama/">Paremk!</a>
+    </p>
+</div>
+
+<div class="box">
+	<h2 class="headline">Mūsų organizacijos</h2>
+	<ul class="clean">
+		<li>
+			<a title="Niujorko apygarda" href="/apie-mus/apygarda/">Niujorko apygarda</a>
+		</li>
+		<div id="accordion">
+			<li>
+				<a class="collapsible" href="">Niujorko apylinkės</a>
+				<div>
+					<ul class="clean">
+						<li>
+							<a title="New York miesto apylinkė" href="/apie-mus/new-york-miesto-apylinke">New York miesto</a>
+						</li>
+						<li>
+							<a title="Long Island apylinkė" href="/apie-mus/long-island-apylinke">Long Island</a>
+						</li>
+						<li>
+							<a title="Rytinio Long Island apylinkė" href="/apie-mus/rytinio-long-island-apylinke">Rytinio Long Island</a>
+						</li>
+						<li>
+							<a title="Rochester apylinkė" href="/apie-mus/rochester-apylinke">Rochester</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<a class="collapsible" href="">Lietuviškos organizacijos</a>
+				<div>
+				<ul class="clean">
+					<li>
+						<a href="/apie-mus/valstybines-organizacijos/">Valstybinės</a>
+					</li>
+					<li>
+						<a href="/apie-mus/religines-organizacijos/">Religinės</a>
+					</li>
+					<li>
+						<a href="/apie-mus/visuomenines-organizacijos/">Visuomeninės</a>
+					</li>
+					<li>
+						<a href="/apie-mus/svietimo-organizacijos/">Švietimo</a>
+					</li>
+					<li>
+						<a href="/apie-mus/ziniasklaidos-organizacijos/">Žiniasklaidos</a>
+					</li>
+				</ul>
+				</div>			
+			</li>
+		</div>
+	</ul>
+</div>
+
+<!-- <div class="box">
     <h2 class="headline">Nauji nariai</h2>
     <dl class="profiles small">
         {% for user in new_users %}
@@ -255,9 +332,9 @@
         {% endfor %}
     </dl>
     <p>Viso narių: <a title="Visi nariai" href="nariai">{{ user_count }}</a></p>
-</div>
+</div> -->
 
-<div class="box spacious">
+<div class="box">
     <h2 class="headline">Mūsų draugai</h2>
     <ul class="clean wide external-links">
     	<li><a title="Generalinis konsulatas Niujorke" target="_blank" href="http://ny.mfa.lt/"><img src="{{ STATIC_URL }}images/lt_herbas.png" /><br />Lietuvos Respublikos generalinis<br /> konsulatas Niujorke</a></li>

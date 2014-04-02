@@ -380,7 +380,7 @@ ul.page_numbers li a:active {
     background: #d0d0d0;
 }
 
-p.join {
+p.action {
     text-align: center;
     background-color: #078310;
     font: normal 1.4em/200% 'Inder', serif;
@@ -390,14 +390,14 @@ p.join {
     border-radius: 5px;
 }
 
-p.join a {
+p.action a {
     display: block;
     width: 100%;
     color: #FFF;
     border: 0 none;
 }
 
-p.join:hover {
+p.action:hover {
     background-color: #089011;
 }
 

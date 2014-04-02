@@ -252,7 +252,7 @@ ul.clean {
     padding-left: 0;
 }
 
-ul.wide li {
+ul.wide > li {
 	margin-bottom: 2em;
 }
 

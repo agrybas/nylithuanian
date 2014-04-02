@@ -40,5 +40,13 @@ urlpatterns += patterns('',
     url(r'^apie-mus/long-island-apylinke/$', TemplateView.as_view(template_name='flatpages/li.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/new-york-miesto-apylinke/$', TemplateView.as_view(template_name='flatpages/nyc.html'), { 'active_tab': 'apie-mus' }),
     url(r'^apie-mus/rytinio-long-island-apylinke/$', TemplateView.as_view(template_name='flatpages/rli.html'), { 'active_tab': 'apie-mus' }),
-    url(r'^apie-mus/rochester-apylinke/$', TemplateView.as_view(template_name='flatpages/rochester.html'), { 'active_tab': 'apie-mus' })
+    url(r'^apie-mus/rochester-apylinke/$', TemplateView.as_view(template_name='flatpages/rochester.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/valstybines-organizacijos/$', TemplateView.as_view(template_name='flatpages/valstybines_organizacijos.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/religines-organizacijos/$', TemplateView.as_view(template_name='flatpages/religines_organizacijos.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/visuomenines-organizacijos/$', TemplateView.as_view(template_name='flatpages/visuomenines_organizacijos.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/svietimo-organizacijos/$', TemplateView.as_view(template_name='flatpages/svietimo_organizacijos.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/ziniasklaidos-organizacijos/$', TemplateView.as_view(template_name='flatpages/ziniasklaidos_organizacijos.html'), { 'active_tab': 'apie-mus' }),
+    url(r'^apie-mus/redakcija/$', TemplateView.as_view(template_name='flatpages/redakcija.html'), { 'active_tab': 'redakcija' }),
+    url(r'^apie-mus/reklama/$', TemplateView.as_view(template_name='flatpages/reklama.html'), { 'active_tab': 'redakcija' }),
+    url(r'^apie-mus/rasyk/$', TemplateView.as_view(template_name='flatpages/rasyk.html'), { 'active_tab': 'redakcija' })
 )
