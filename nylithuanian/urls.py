@@ -24,8 +24,8 @@ urlpatterns = patterns('',
     url(r'^(?P<active_tab>renginiai)/', include('events.urls')),
     url(r'^(?P<active_tab>straipsniai)/', include('articles.urls')),
     url(r'^nariai/', include('users.urls')),
-    url(r'^(?P<active_tab>sveikinimai)/', include('greetings.urls')),
-    url(r'^(?P<active_tab>uzuojautos)/', include('sympathies.urls')),
+#    url(r'^(?P<active_tab>sveikinimai)/', include('greetings.urls')),
+#    url(r'^(?P<active_tab>uzuojautos)/', include('sympathies.urls')),
     url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', { 'document_root' : settings.MEDIA_ROOT }),
                        
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

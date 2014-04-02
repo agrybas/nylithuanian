@@ -180,8 +180,8 @@ INSTALLED_APPS = (
     'users',
     'events',
     'articles',
-    'greetings',
-    'sympathies',
+#     'greetings',
+#     'sympathies',
     'photos',
     'classifieds'
     # Uncomment the next line to enable admin documentation:

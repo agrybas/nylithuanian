@@ -181,50 +181,8 @@
 
 <div class="clear"></div>
 
-<div class="box">
-    <h2 class="headline">Komentarai</h2>
-    <dl class="list">
-        {% for comment in comments %}
-        <dt>
-            {{ comment.date }}
-        </dt>
-        <dd>
-            <a href="{{ comment.link }}">"{{ comment.body }}"</a>
-        </dd>
-        {% endfor %}
-    </dl>
-</div>
 
-<div class="box">
-    <h2 class="headline"><a href="sveikinimai">Sveikiname</a></h2>
-    <ul class="clean">
-        {% for greeting in greetings %}
-        <li>
-            <a href="sveikinimai/{{ greeting.id }}">{{ greeting.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <ul class="sub-commands">
-        <li>
-            <a href="sveikinimai/pateikti">Pateikti sveikinimą</a>
-        </li>
-    </ul>
-</div>
-<div class="box">
-    <h2 class="headline"><a href="/uzuojautos">Liūdime</a></h2>
-    <ul class="clean">
-        {% for sympathy in sympathies %}
-        <li>
-            <a href="uzuojautos/{{ sympathy.id }}">{{ sympathy.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <ul class="sub-commands">
-        <li>
-            <a href="uzuojautos/pateikti">Pareikšti užuojautą</a>
-        </li>
-    </ul>
-</div>
+
 {% endblock %}
 
 {% block sidebar %}
