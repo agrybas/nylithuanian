@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}{{ announcement.title }}{% endblock %}
+
+{% block content %}
+<h1>{% if is_favorite %}<span><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Favoritas" alt="Favoritas" /></span>{% endif %} {{ announcement.title }}</h1>
+
+{% if announcement.first_name %}
+    <p class="meta">
+        <b>Autorius:</b> {{ announcement.first_name }} {{ announcement.last_name }}{% if announcement.organization_title %}, {{ announcement.organization_title }}{% endif %}
+    </p>
+{% endif %}
+
+{% if announcement.phone_number or announcement.email_address %}
+    <p class="meta">
+        {% if announcement.phone_number %}
+            <b>Telefonas:</b> {{ announcement.phone_number }}
+        {% endif %}
+        {% if announcement.email_address %}
+         <b>El. paštas:</b> <a href="mailto:{{ announcement.email_address }}">{{ announcement.email_address }}</a>
+        {% endif %}
+    </p>
+{% endif %}
+
+{% if announcement.signature %}
+    <p class="meta">{{ announcement.signature }}</p>
+{% endif %}
+
+{{ announcement.body|striptags|textile }}
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Įkelti" alt="Įkelti" /><a href="../pateikti">Pateikti naują pranešimą</a></li>
+        {% if user.id == announcement.user_id or user.is_staff %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

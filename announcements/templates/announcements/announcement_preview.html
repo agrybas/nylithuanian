@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load markup %}
+
+{% block content %}
+<br />
+<p class="attention">{{ 'Dėmesio! Jūsų pranešimas dar neišsaugotas svetainėje. Žemiau galite matyti, kaip atrodytų pateiktas pranešimas. Jei norite tęsti ir paskelbti šį pranešimą svetainėje, paspauskite atitinkamą mygtuką po straipsniu.'|upper}}</p>
+
+<h1>{{ form.title.data }}</h1>
+
+{% if form.first_name.data %}
+    <p class="meta">
+        <b>Autorius:</b> {{ form.first_name.data }} {{ form.last_name.data }}{% if form.organization_title.data %}, {{ form.organization_title.data }}{% endif %}
+    </p>
+{% endif %}
+
+{% if form.phone_number.data or form.email_address.data %}
+    <p class="meta">
+        {% if form.phone_number.data %}
+            <b>Telefonas:</b> {{ form.phone_number.data }}
+        {% endif %}
+        {% if form.email_address.data %}
+         <b>El. paštas:</b> <a href="mailto:{{ form.email_address.data }}">{{ form.email_address.data }}</a>
+        {% endif %}
+    </p>
+{% endif %}
+
+{% if form.signature.data %}
+    <p class="meta">{{ form.signature.data }}</p>
+{% endif %}
+
+{{ form.body.data|textile }}
+
+<br />
+<br />
+<form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}{{ field.as_hidden }}
+    {% endfor %}
+    <input type="hidden" name="{{ stage_field }}" value="2" />
+    <input type="hidden" name="{{ hash_field }}" value="{{ hash_value }}" />
+    <button type="submit" value="Post" >Pateikti pranešimą</button>
+    <a class="cancel" href="/">Atšaukti</a>
+</form>
+
+{% endblock %}

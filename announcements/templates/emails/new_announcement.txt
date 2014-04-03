@@ -1,0 +1,5 @@
+Naujas pranešimas laukia patvirtinimo.
+
+* Pavadinimas: {{ announcement.title }}
+* Autoriaus vardas: {{ announcement.first_name }}
+* Autoriaus pavardė: {{ announcement.last_name }}

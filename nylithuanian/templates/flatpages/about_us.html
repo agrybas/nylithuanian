@@ -1,5 +1,42 @@
 {% extends 'base.html' %}
 
+{% block javascript %}
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+	<script>
+		$(function() {
+			
+			var defaultPanel = parseInt(getParam('panel'));
+	
+			$("#accordion").accordion({
+				header : 'a.collapsible',
+				heightStyle : 'content',
+				collapsible : true,
+				active : defaultPanel,
+				animate: 'easeOutCubic'
+			});
+			
+			function getParam(name) {
+				var query = location.search.substring(1);
+				if (query.length) {
+					var parts = query.split('&');
+					for (var i = 0; i < parts.length; i++) {
+						var pos = parts[i].indexOf('=');
+						if (parts[i].substring(0, pos) == name) {
+							return parts[i].substring(pos + 1);
+						}
+					}
+				}
+	
+				return false;
+	
+			}
+	
+		}); 
+	</script>
+{% endblock %}
+
 {% block title%}Apie mus{% endblock %}
 
 {% block content %}
@@ -11,23 +48,26 @@
 	Niujorko valstijoje, kai 1990 m. – 70,1 tūkst., o 1980 m. – 72,1 tūkstančio. 
 	Remiantis neoficialiais šaltiniais, šiuo metu (2014 m.) Niujorko valstijoje 
 	gyvenančių lietuvaičių skaičius gali siekti apie 80 tūkstančių. Niujorko 
-	valstija buvo ir yra tarp penkių daugiausiai lietuvių pritraukiančių 
+	valstija išlieka tarp penkių daugiausiai lietuvių pritraukiančių 
 	valstijų kartu su Kalifornijos, Ilinojaus, Masačiusetso ir Pensilvanijos 
 	valstijomis.
 </p>
 
-<h2>Bendruomenės struktūra</h2>
+<h2>Bendruomenės organizacijos ištakos</h2>
 <p>
 	Niujorkas svarbus net tik gausia lietuvių bendruomene, bet ir savo istorine 
 	reikšme jos veikloje. Čia pirmą kartą pradėta visos JAV lietuvių 
 	bendruomenės organizuota veikla, kai 1951 m. Niujorke buvo sudarytas 
 	Laikinasis Organizacinis Komitetas (LOK). Vėliau tais pačiais metais čia 
 	pat iškilmingai paskelbtas ir pasirašytas JAV Lietuvių Bendruomenės Aktas. 
+</p>
+<p>
 	1952 m. liepos 27 d. LOK nurodymu Niujorko Organizacinis Komitetas pradėjo 
 	vykdyti veiklą kaip Niujorko Lietuvių Bendruomenės apygarda. Tai  – 
 	Lietuvių Bendruomenės Niujorko apygardos organizacijos pradžia. 
 </p>
 
+<h2>Struktūra</h2>
 <p>
 	<a title="Niujorko apygarda" href="apygarda">Niujorko apygarda</a> 
 	atstovauja Niujorko valstijoje veikiančioms apylinkėms, 
@@ -37,25 +77,38 @@
 </p>
 <ul>
 	<li><a title="New York miesto apylinkė" href="new-york-miesto-apylinke">New 
-		York miesto apylinkė</a></li> 
+		York miesto</a></li> 
 	<li><a title="Long Island apylinkė", href="long-island-apylinke">Long 
-		Island apylinkė</a></li> 
+		Island</a></li> 
 	<li><a title="Rytinio Long Island apylinkė" 
-		href="rytinio-long-island-apylinke">Rytinio Long Island apylinkė</a></li> 
-	<li><a title="Rochester apylinkė" href="rochester-apylinke">Rochester 
-		apylinkė</a></li> 
+		href="rytinio-long-island-apylinke">Rytinio Long Island</a></li> 
+	<li>
+		<a title="Rochester apylinkė" href="rochester-apylinke">Rochester</a>
+	</li> 
 </ul>
 <p>
-	JAV Lietuvių Bendruomenės Krašto Valdyba įkuria apylinkes kiekvienoje 
-	vietovėje, kur yra lietuvių, norinčių puoselėti lietuvišką veiklą.
+	JAV Lietuvių Bendruomenės (JAV LB) Krašto Valdyba įkuria apylinkes kiekvienoje 
+	vietovėje, kur yra lietuvių, norinčių puoselėti lietuvišką veiklą (Visos
+	JAV LB struktūros schema pateikta žemiau).
+</p>
+
+<h2>Veikla</h2>
+<p>
+	Apylinkių vykdoma veikla yra labai įvairiapusė – jos steigia bei remia 
+	lituanistines mokyklas, organizuoja kultūros, sporto ir švietėjiškus 
+	renginius bei kitaip puoselėja tautinę veiklą. Taip pat jos renka metinį 
+	solidarumo įnašą bei remia lietuvius nelaimės atvejais. Apylinkių 
+	gyventojai veiklos organizavimui kas vienerius ar dvejus metus renka savo 
+	valdybą.
 </p>
 
 <p>
-	Apylinkių vykdoma veikla yra labai įvairiapusė – jos steigia bei remia lituanistines mokyklas, organizuoja kultūros, sporto ir švietėjiškus renginius bei kitaip puoselėja tautinę veiklą. Apylinkės renka metinį solidarumo įnašą bei remia lietuvius nelaimės atvejais. Apylinkių gyventojai veiklos organizavimui kas vienerius ar dvejus metus renka savo valdybą.
-</p>
-
-<p>
-	<a title="Niujorko apygarda" href="apygarda">Niujorko apygarda</a> taip pat turi savo valdybą, kuri renkama kas trejus metus – valdybos kadencija sutampa su JAV LB Krašto Valdybos kadencija. Ji atsakinga už apylinkių veiklos koordinavimą, bendrų, visos apygardos mastu aktualių klausimų sprendimą ir  interesų atstovavimą. Pavyzdžiui, ši interneto svetainė yra vienas iš projektų, kurį įgyvendina ir plėtoja Niujorko apygarda.
+	<a title="Niujorko apygarda" href="apygarda">Niujorko apygarda</a> taip pat 
+	turi savo valdybą, kuri renkama kas trejus metus – valdybos kadencija 
+	sutampa su JAV LB Krašto Valdybos kadencija. Ji atsakinga už apylinkių 
+	veiklos koordinavimą, bendrų, visos apygardos mastu aktualių klausimų 
+	sprendimą ir interesų atstovavimą. Pavyzdžiui, ši interneto svetainė yra 
+	vienas iš projektų, kurį įgyvendina ir plėtoja Niujorko apygarda.
 </p>
 
 <p>
@@ -73,12 +126,12 @@
 
 {% block sidebar %}
 <h2 class="headline">Daugiau apie mus</h2>
-<ul>
+<ul class="clean">
 	<li>
-		<a title="Susitelkimo centrai" href="/apie-mus/susitelkimo-centrai/">Susitelkimo centrai</a>
+		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}title="Susitelkimo centrai" href="/apie-mus/susitelkimo-centrai/">Susitelkimo centrai</a>
 	</li>
 	<li>
-		<a title="Prisijunk" href="/apie-mus/prisijunk/">Prisijunk!</a>
+		<a {% if active_item == 'prisijunk' %}class="active" {% endif %}title="Prisijunk" href="/apie-mus/prisijunk/">Prisijunk!</a>
 	</li>
 	{% comment %}
 	<li>
@@ -87,48 +140,57 @@
 	{% endcomment %}
 </ul>
 
-<h2 class="headline">Niujorko valstijoje veikia:</h2>
-<ul>
+<h2 class="headline">Mūsų organizacijos</h2>
+<ul class="clean">
 	<li>
-		<a title="Niujorko apygarda" href="/apie-mus/apygarda">Niujorko apygarda</a>
+		<a {% if active_item == 'apygarda' %}class="active" {% endif %}title="Niujorko apygarda" href="/apie-mus/apygarda">Niujorko apygarda</a>
 	</li>
-	<li>
-		<a title="New York miesto apylinkė" href="/apie-mus/new-york-miesto-apylinke">New York miesto apylinkė</a>
-	</li>
-	<li>
-		<a title="Long Island apylinkė" href="/apie-mus/long-island-apylinke">Long Island apylinkė</a>
-	</li>
-	<li>
-		<a title="Rytinio Long Island apylinkė" href="/apie-mus/rytinio-long-island-apylinke">Rytinio Long Island apylinkė</a>
-	</li>
-	<li>
-		<a title="Rochester apylinkė" href="/apie-mus/rochester-apylinke">Rochester apylinkė</a>
-	</li>
+	<div id="accordion">
+		<li>
+			<a class="collapsible" title="Niujorko apylinkės" href="">Niujorko apylinkės</a>
+			<ul class="clean">
+				<li>
+					<a {% if active_item == 'nyc' %}class="active" {% endif %}title="New York miesto apylinkė" href="/apie-mus/new-york-miesto-apylinke?panel=0">New York miesto</a>
+				</li>
+				<li>
+					<a {% if active_item == 'li' %}class="active" {% endif %}title="Long Island apylinkė" href="/apie-mus/long-island-apylinke?panel=0">Long Island</a>
+				</li>
+				<li>
+					<a {% if active_item == 'rli' %}class="active" {% endif %}title="Rytinio Long Island apylinkė" href="/apie-mus/rytinio-long-island-apylinke?panel=0">Rytinio Long Island</a>
+				</li>
+				<li>
+					<a {% if active_item == 'rochester' %}class="active" {% endif %}title="Rochester apylinkė" href="/apie-mus/rochester-apylinke?panel=0">Rochester</a>
+				</li>		
+			</ul>
+		</li>
+		<li>
+			<a class="collapsible" title="Lietuviškos organizacijos" href="">Lietuviškos organizacijos</a>
+			<ul class="clean">
+				<li>
+					<a {% if active_item == 'valstybines' %}class="active" {% endif %}href="/apie-mus/valstybines-organizacijos?panel=1">Valstybinės</a>
+				</li>
+				<li>
+					<a {% if active_item == 'religines' %}class="active" {% endif %}href="/apie-mus/religines-organizacijos?panel=1">Religinės</a>
+				</li>
+				<li>
+					<a {% if active_item == 'visuomenines' %}class="active" {% endif %}href="/apie-mus/visuomenines-organizacijos?panel=1">Visuomeninės</a>
+				</li>
+				<li>
+					<a {% if active_item == 'svietimo' %}class="active" {% endif %}href="/apie-mus/svietimo-organizacijos?panel=1">Švietimo</a>
+				</li>
+				<li>
+					<a {% if active_item == 'ziniasklaidos' %}class="active" {% endif %}href="/apie-mus/ziniasklaidos-organizacijos?panel=1">Žiniasklaidos</a>
+				</li>
+			</ul>	
+		</li>
+	</div>
 </ul>
 
-<h2 class="headline">Lietuviškos organizacijos</h2>
-<ul>
-	<li>
-		<a href="/apie-mus/valstybines-organizacijos/">Valstybinės</a>
-	</li>
-	<li>
-		<a href="/apie-mus/religines-organizacijos/">Religinės</a>
-	</li>
-	<li>
-		<a href="/apie-mus/visuomenines-organizacijos/">Visuomeninės</a>
-	</li>
-	<li>
-		<a href="/apie-mus/svietimo-organizacijos/">Švietimo</a>
-	</li>
-	<li>
-		<a href="/apie-mus/ziniasklaidos-organizacijos/">Žiniasklaidos</a>
-	</li>
-</ul>
 
-<h2 class="headline">JAV Lietuvių Bendruomenė</h2>
-<ul>
+<h2 class="headline">JAV LB</h2>
+<ul class="clean">
 	<li>
-		<a title="Apie JAV LB" href="/apie-mus/apie-jav-lb/">Apie JAV LB</a>
+		<a {% if active_item == 'apie-jav-lb' %}class="active" {% endif %}title="Apie JAV LB" href="/apie-mus/apie-jav-lb/">Apie JAV LB</a>
 	</li>
 	<li>
 		<a title="JAV Lietuvių Bendruomenės svetainė" target="_blank" href="http://www.lithuanian-american.org/">JAV LB svetainė</a>
@@ -141,21 +203,4 @@
 	</li>
 </ul>
 
-<h2 class="headline">Redakcija</h2>
-<ul>
-	<li>
-		<a href="/apie-mus/redakcija/">Komanda</a>
-	</li>
-	<li>
-		<a href="/apie-mus/reklama/">Reklama</a>
-	</li>
-	<li>
-		<a href="/apie-mus/rasyk/">Rašyk!</a>
-	</li>
-	{% comment %}
-	<li>
-		<a href="">Informacijos skelbimo politika</a>
-	</li>
-	{% endcomment %}
-</ul>
 {% endblock %}

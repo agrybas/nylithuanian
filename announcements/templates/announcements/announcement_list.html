@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Pranešimai{% endblock %}
+
+{% block content %}
+    <h2>Naujausi pranešimai</h2>
+    
+    {% if not announcement_list %}
+        <p>Pranešimų nėra.</p>
+    {% endif %}
+    
+    {% for announcement in announcement_list %}
+        <h4>
+            {% if announcement.external_link %}
+                <a title="{{ announcement.title }}" href="{{ announcement.external_link }}" target="_blank">{{ announcement.title }}</a>
+            {% else %}
+                <a title="{{ announcement.title }}" href="{{ announcement.id }}">{{ announcement.title }}</a>
+            {% endif %}
+        </h4>
+        <p>
+            {{ announcement.body|striptags|truncatewords:50 }}
+        </p>
+    {% endfor %}
+    
+    {% if paginator %}
+        {% if paginator.num_pages > 1 %}
+            <ul class="page_numbers">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&larr; Atgal</a></li>
+                {% endif %}
+            
+                    {% if paginator.num_pages <= 4 %}
+                        {% for i in paginator.page_range %}
+                            {% if i == page_obj.number %}
+                                <li class="current">{{ i }}</li>
+                            {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li><a href="?page=1">1</a></li>
+                        <li><a href="?page=2">2</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                        <li class="current">{{ page_obj.number }}</li>
+                        <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                        <li>...</li>
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                    {% endif %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Pirmyn &rarr;</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Pateikti" alt="Pateikti" /><a href="pateikti">Pateikti naują pranešimą</a></li>
+    </ul>
+</div>
+{% endblock %}

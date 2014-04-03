@@ -411,6 +411,10 @@ p.action:hover {
     clear: both;
 }
 
+#container #sidebar a.active {
+	font-weight: bold;
+}
+
 #container #sidebar ul.external-links {
 	text-align: center;
 }

@@ -1,4 +1,4 @@
-{% extends 'flatpages/about_us.html' %}
+{% extends 'base.html' %}
 
 {% block title%}Apie mus{% endblock %}
 
@@ -9,4 +9,24 @@
 
 {% endblock %}
 
-
+{% block sidebar %}
+<h2 class="headline">Daugiau</h2>
+<ul>
+	{% comment %}
+	<li>
+		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/redakcija/">Komanda</a>
+	</li>
+	{% endcomment %}
+	<li>
+		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/reklama/">Reklama</a>
+	</li>
+	<li>
+		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/rasyk/">Rašyk!</a>
+	</li>
+	{% comment %}
+	<li>
+		<a href="">Informacijos skelbimo politika</a>
+	</li>
+	{% endcomment %}
+</ul>
+{% endblock %}
