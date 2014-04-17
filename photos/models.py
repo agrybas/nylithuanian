@@ -131,7 +131,7 @@ JPEG_QUALITY_CHOICES = (
 
 
 class Gallery(models.Model):
-    title = models.CharField(verbose_name='Pavadinimas', max_length=100, unique=True)
+    title = models.CharField(verbose_name='Pavadinimas', max_length=100)
     description = models.TextField(verbose_name='Aprašymas', blank=True)
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
     event = models.ForeignKey(Event, verbose_name="Albume užfiksuotos akimirkos iš šio renginio:", blank=True, null=True, help_text='Jei susisiesite albumą su renginiu, svetainės lankytojai galės rasti jūsų albumą naršydami kitą informaciją apie susietą renginį.')

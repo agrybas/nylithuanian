@@ -12,7 +12,6 @@ from django.views.generic import FormView
 from django.core.exceptions import PermissionDenied
 from django.core.signing import Signer
 
-
 from .forms import RegisterSiteUserForm, PromoteUserForm, EditSiteUserForm, SiteUserPasswordChangeForm
 from models import CreateUserError, SiteUser
 from articles.models import Article

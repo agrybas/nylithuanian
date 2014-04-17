@@ -34,7 +34,7 @@ else:
 
 class UpcomingEventsListView(ListView):
     model = Event
-    queryset = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+    queryset = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
     paginate_by = 5
     
     def get_context_data(self, **kwargs):
@@ -44,7 +44,7 @@ class UpcomingEventsListView(ListView):
 
 class PastEventsListView(ListView):
     model = Event
-    queryset = Event.approved.filter(start_date__lt=timezone.now()).order_by('-start_date')
+    queryset = Event.public.filter(start_date__lt=timezone.now()).order_by('-start_date')
     paginate_by = 5
     
     def get_context_data(self, **kwargs):
@@ -134,7 +134,7 @@ class EventRssView(Feed):
     description = 'Artimiausi lietuvių renginiai, vykstantys Niujorko valstijoje bei kaimyninėse bendruomenėse.'
     
     def items(self):
-        return Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+        return Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
 
     def item_title(self, item):
         return item.title  
@@ -250,7 +250,7 @@ class SendNewsletterView(TemplateView):
     template_name = 'emails/send_newsletter.html'
     
     def get_context_data(self, **kwargs):
-        kwargs['event_list'] = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+        kwargs['event_list'] = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
         kwargs['article_list'] = Article.public.order_by('-publish_date')[:3]
         kwargs['gallery_list'] = Gallery.objects.filter(is_public=True)[:3]
         return super(SendNewsletterView, self).get_context_data(**kwargs)
@@ -262,7 +262,7 @@ class SendNewsletterView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            upcoming_events = Event.approved.filter(start_date__gte=timezone.now()).order_by('start_date')
+            upcoming_events = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
             recent_articles = Article.public.order_by('-publish_date')[:3]
             recent_galleries = Gallery.objects.filter(is_public=True)[:3]
         

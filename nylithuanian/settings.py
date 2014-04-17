@@ -127,6 +127,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
@@ -188,11 +189,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
-# Photologue gallery sample size
-PHOTOS_GALLERY_SAMPLE_SIZE = 6
-PHOTOS_GALLERY_PAGINATE_BY = 5
-PHOTOS_GALLERY_LATEST_LIMIT = 3
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

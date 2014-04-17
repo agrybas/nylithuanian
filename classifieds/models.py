@@ -28,6 +28,10 @@ class ClassifiedSubCategory(models.Model):
     def __unicode__(self):
         return self.category.title + ": " + self.title
 
+class PublicClassifiedsManager(models.Manager):
+    def get_query_set(self):
+        return super(PublicClassifiedsManager, self).get_query_set().filter(is_approved=True)
+
 class Classified(models.Model):
     user = models.ForeignKey(User, null=False, blank=False, editable=False) # user who created the post; only that user can edit or delete it
     category = models.ForeignKey(ClassifiedSubCategory, verbose_name="Skelbimo kategorija", null=False, blank=False)
@@ -38,6 +42,9 @@ class Classified(models.Model):
     create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, editable=False, verbose_name='Skelbimo įkėlimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, editable=False, verbose_name='Skelbimo paskutinio redagavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     is_approved = models.BooleanField(null=False, blank=False, default=True) # only approved classifieds will ever be shown publicly; only administrator can change this value
+
+    objects = models.Manager()
+    public = PublicClassifiedsManager()
 
     class Meta:
         db_table = 'classifieds'

@@ -9,6 +9,9 @@ from django.utils.encoding import smart_text
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
+import uuid
+import os
+
 # Reference model containing tags which can be associated with posts or media items
 class Tag(models.Model):
     #tag_id = models.PositiveIntegerField(primary_key = True, editable = False)
@@ -33,6 +36,32 @@ class Venue(models.Model):
     
     def __unicode__(self):
         return self.title
+
+
+class ApprovedEventImagesManager(models.Manager):
+    def get_query_set(self):
+        return super(ApprovedEventImagesManager, self).get_query_set().filter(is_approved=True)
+
+def get_image_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid().hex, ext)
+    return os.path.join('events/images', filename)
+
+# class EventImage(models.Model):
+#     title = models.CharField(max_length=45, verbose_name='Nuotraukos pavadinimas')
+#     image = models.ImageField(max_length=255, verbose_name='Nuotraukos failas', upload_to=get_image_path)
+#     upload_date = models.DateTimeField(null=False, blank=False, editable=False, default=timezone.now)
+#     is_approved = models.BooleanField(null=False, blank=False, default=True)
+#     
+#     objects = models.Manager()
+#     public = ApprovedEventImagesManager()
+#     
+#     class Meta:
+#         db_table = 'event_images'
+#     
+#     def __unicode__(self):
+#         return u'{0} {1}'.format(self.id, self.title)
+
 
 class ApprovedEventsManager(models.Manager):
     def get_query_set(self):
@@ -60,7 +89,8 @@ class Event(models.Model):
     zip_code = models.CharField(max_length=10, verbose_name="Pašto indeksas", blank=True)
     state = USStateField(verbose_name="Valstija", blank = True, null = True)
     country = CountryField(verbose_name='Šalis', blank=True, null=True)    
-    image = models.ImageField(max_length=255, verbose_name='Renginio nuotrauka', upload_to='events/images')
+#     image = models.ForeignKey(EventImage, verbose_name='Renginio nuotrauka', blank=False, null=False)
+    image = models.ImageField(max_length=255, verbose_name="Renginio nuotrauka", blank=False, null=False, upload_to=get_image_path)
     is_community_event = models.BooleanField(verbose_name="Niujorko apygardos arba apylinkės renginys", help_text="Pažymėkite, jei renginį organizuoja JAV LB Niujorko apygarda arba viena iš Niujorko apygardai priklausančių apylinkių.", null=False, blank=False, default=False)
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved events will ever be shown publicly; only administrator can change this value
     create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now) # Date when the post was created
@@ -68,7 +98,8 @@ class Event(models.Model):
     version_number = models.PositiveSmallIntegerField(null=False, blank=False, editable=False, default=1) # keeps track of changes made to object; increased if start_date or end_date is changed (used in ICS calendar generation) 
     
     objects = models.Manager()
-    approved = ApprovedEventsManager()    
+    public = ApprovedEventsManager()
+        
     class Meta:
         db_table = 'events'
         ordering = ['start_date', ]
@@ -114,16 +145,16 @@ class Event(models.Model):
     
     @property
     def next_event_exists(self):
-        return Event.approved.filter(start_date__gt=self.start_date).exists()
+        return Event.public.filter(start_date__gt=self.start_date).exists()
     
     @property
     def previous_event_exists(self):
-        return Event.approved.filter(start_date__lt=self.start_date).exists()
+        return Event.public.filter(start_date__lt=self.start_date).exists()
     
     @property
     def get_next_event_url(self):
         try:
-            next_event = Event.approved.filter(start_date__gt=self.start_date)[0]
+            next_event = Event.public.filter(start_date__gt=self.start_date)[0]
             return next_event.get_absolute_url()
         except Event.DoesNotExist:
             return None    
@@ -131,7 +162,7 @@ class Event(models.Model):
     @property
     def get_previous_event_url(self):
         try:
-            previous_event = Event.approved.filter(start_date__lt=self.start_date)
+            previous_event = Event.public.filter(start_date__lt=self.start_date)
             previous_event = previous_event[len(previous_event) - 1]
             return previous_event.get_absolute_url()    
         except Event.DoesNotExist:
@@ -140,7 +171,7 @@ class Event(models.Model):
     @property
     def get_next_event_title(self):
         try:
-            next_event = Event.approved.filter(start_date__gt=self.start_date)[0]
+            next_event = Event.public.filter(start_date__gt=self.start_date)[0]
             return next_event.title
         except Event.DoesNotExist:
             return None    
@@ -148,7 +179,7 @@ class Event(models.Model):
     @property
     def get_previous_event_title(self):
         try:
-            previous_event = Event.approved.filter(start_date__lt=self.start_date)
+            previous_event = Event.public.filter(start_date__lt=self.start_date)
             previous_event = previous_event[len(previous_event) - 1]
             return previous_event.title    
         except Event.DoesNotExist:

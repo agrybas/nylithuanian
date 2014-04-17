@@ -117,15 +117,18 @@
 </ul>
 
 <div class="box spacious">
-    <h2 class="headline"><a href="/pranesimai/">Naujausi pranešimai</a></h2>
-    <ul class="clean">
-	    {% for post in announcements %}
-			<li><a href="/pranesimai/{{ post.id }}">{{ post.title }}</a></li>
+    <h2 class="headline"><a href="/skelbimai/">Skelbimai</a></h2>
+    <ul>
+	    {% for post in classifieds %}
+			<li><a href="/skelbimai/{{ post.id }}">{{ post.title }}</a></li>
 		{% endfor %}
 	</ul>
     <ul class="sub-commands">
         <li>
-            <a href="/pranesimai/">Visi pranešimai</a>
+            <a href="/skelbimai/">Visi skelbimai</a>
+        </li>
+        <li>
+            <a href="/skelbimai/pateikti/">Pateikti skelbimą</a>
         </li>
     </ul>
 </div>
@@ -176,6 +179,25 @@
         </li>
     </ul>
 </div>
+
+<div class="box large">
+    <h2 class="headline"><a href="/pranesimai/">Pranešimai</a></h2>
+	    {% for post in announcements %}
+			<h4><a href="/pranesimai/{{ post.id }}">{{ post.title }}</a></h4>
+			<p>
+				{{ post.body|striptags|truncatewords:20 }}
+			</p>
+		{% endfor %}
+    <ul class="sub-commands">
+        <li>
+            <a href="/pranesimai/">Visi pranešimai</a>
+        </li>
+        <li>
+            <a href="/pranesimai/pateikti/">Pateikti pranešimą</a>
+        </li>
+    </ul>
+</div>
+
 
 <div class="clear"></div>
 
