@@ -30,15 +30,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """
 
+# try:
+#     import Image
+#     import ImageColor
+# except ImportError:
 try:
-    import Image
-    import ImageColor
+    from PIL import Image
+    from PIL import ImageColor
 except ImportError:
-    try:
-        from PIL import Image
-        from PIL import ImageColor
-    except ImportError:
-        raise ImportError("The Python Imaging Library was not found.")
+    raise ImportError("The Python Imaging Library was not found.")
 
 
 def add_reflection(im, bgcolor="#00000", amount=0.4, opacity=0.6):

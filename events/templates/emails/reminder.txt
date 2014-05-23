@@ -7,7 +7,7 @@ siunčiame Jums priminimą apie artėjantį Niujorko ir jo apylinkių lietuvių 
 {% if event.end_date %}* Renginio pabaiga: {{ event.end_date|date:'M j, Y g:i a' }}{% endif %}
 * Renginio vieta: {{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}
 
-Renginio aprašymas svetainėje: http://www.nylithuanian.org/renginiai/{{ article.id }}
+Renginio aprašymas svetainėje: {{ event.get_absolute_url }}
 
 Pagarbiai,
 nylithuanian.org komanda

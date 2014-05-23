@@ -28,6 +28,9 @@
 {% endif %}
 
 {{ article.body|striptags|textile }}
+
+<p>&larr; <a href="/straipsniai">Atgal į straipsnių sąrašą</a></p>
+
 {% endblock%}
 
 {% block sidebar %}
@@ -38,11 +41,16 @@
         {% if user.id == article.user_id or user.is_staff %}
         <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
         {% endif %}
+        {% if user.is_staff and not article.is_approved %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/accept_page.png" width="32" height="32" title="Patvirtinti" alt="Patvirtinti" /><a href="patvirtinti">Patvirtinti</a></li>
+        {% endif %}
+		{% comment %}
         {% if is_favorite %}
         <li><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Pašalinti iš favoritų" alt="Pašalinti iš favoritų" /><a href="pazymeti">Pašalinti iš favoritų</a></li>
         {% else %}
             <li><img src="{{ STATIC_URL }}images/toolbar/favorite.png" width="32" height="32" title="Pažymėti favoritu" alt="Pažymėti favoritu" /><a href="pazymeti">Pažymėti favoritu</a></li>
         {% endif %}
+        {% endcomment %}
         <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
     </ul>
 </div>

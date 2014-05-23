@@ -12,6 +12,7 @@
 {% if object_list %}
 	{% for classified in object_list %}
 		<h3><a title="{{ classified.title }}" href="/skelbimai/{{ classified.id }}">{{ classified.title }}</a></h3>
+		<p><strong>Paskelbta:</strong> {{ classified.create_date }}</p>
 		{% if classified.phone_number %}
 			<p><strong>Telefonas:</strong> {{ classified.phone_number }}</p>
 		{% endif %}

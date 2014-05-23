@@ -6,9 +6,9 @@
 
 {% block javascript %}
 <script type="text/javascript"
-src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
-src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script>
 	$(function() {
 
@@ -46,10 +46,10 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 {% endblock %}
 
 {% block content %}
-<h1>Prisijunk!</h1>
+<h1>Dalyvauk veikloje!</h1>
 
 <p>
-	Niujorko lietuvių bendruomenės nariais yra laikomi <em>visi</em> tautiečiai, ne tik
+	Niujorko lietuvių bendruomenės nariais yra laikomi visi tautiečiai, ne tik
 	dalyvaujantieji organizacijos veikloje. Tačiau, jei nori aktyviau įsilieti
 	į bendruomenės gyvenimą  – bendrauti, dalyvauti, spręsti, padėti ar tiesiog
 	turiningai praleisti laiką bendraminčių rate, yra keletas būdų tai padaryti.
@@ -57,7 +57,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 </p>
 
 <div id="accordion">
-	<h2>Tapk oficialiu Bendruomenės nariu (-e)</h2>
+	<h2>Tapk oficialiu nariu (-e)</h2>
 	<div>
 		<p>
 			Užpildyk <a title="Registracijos forma"
@@ -96,7 +96,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				</ul>
 			</li>
 			<li>
-				ir svarbiausia – <strong>turėsi teisę priimti sprendimus</strong>, tai yra
+				<strong>turėsi teisę priimti sprendimus</strong>, tai yra
 				balsuoti savo apylinkės metiniuose suvažiavimuose, kuriuose
 				renkami apylinkės valdybos nariai, aptariami bei sprendžiami
 				svarbiausi apylinkės klausimai (apie metinius
@@ -106,7 +106,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				susirinkimą);
 			</li>
 			<li>
-				<strong>kandidatuoti į</strong>:
+				<strong>galėsi kandidatuoti į</strong>:
 				<ul>
 					<li>
 						<a title="Kandidatuoti į apylinkės valdybos narius" 
@@ -123,6 +123,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				</ul>
 			</li>
 		</ul>
+		{% comment %}
 		<p>
 			Kad taptum oficialiu Niujorko Lietuvių Bendruomenės nariu (-e), 
 			reikia tik:
@@ -144,6 +145,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				komisijoje.
 			</li>
 		</ul>
+		{% endcomment %}
 	</div>
 
 	<h2>Tapk apylinkės valdybos nariu (-e)</h2>
@@ -161,7 +163,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				href="/nariai/registruotis/">užsiregistravęs</a> (-usi) toje 
 				apylinkėje (apie tai daugiau skaityk „<a 
 				title="Tapk oficialiu nariu" 
-				href="?panel=0">Tapk oficialiu Bendruomenės nariu (-e)</a>“);
+				href="?panel=0">Tapk oficialiu nariu (-e)</a>“);
 			</li>
 			<li>
 				tau yra 18 ir daugiau metų;
@@ -187,12 +189,14 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 			gali rinkti pusę valdybos narių kasmet arba visus valdybos
 			narius kas dveji metai.
 		</p>
+		{% comment %}
 		<p>
 			Valdybą paprastai sudaro pirmininkas, vicepirmininkas, sekretorius,
 			iždininkas ir kiti valdybos nariai. Atsižvelgiant į apylinkės
 			veiklos pobūdį, valdyboje taip pat gali veikti švietimo vadovas,
 			atstovai spaudai, sporto reikalams, kultūrai ir panašiai.
 		</p>
+		{% endcomment %}
 		<p>
 			Daugiau informacijos apie rinkimus bei apylinkės valdybos veiklą
 			gali rasti skiltyje „<a title="Apie mus" 
@@ -312,16 +316,17 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 		</p>
 	</div>
 
-	<h2>Tapk apygardos ar apylinkės kontrolės komisijos nariu (-e)</h2>
+	<h2>Tapk apylinkės kontrolės komisijos nariu (-e)</h2>
 	<div>
 		<p>
-			Rinkimų į apylinkės ir apygardos valdybas metu taip pat renkama
+			Rinkimų į apylinkės valdybas metu taip pat renkama
 			trijų asmenų kontrolės komisija, kuri bent kartą per metus tikrina
-			apylinkės/apygardos turtą, išlaidų teisėtumą bei metinių
+			apylinkės turtą, išlaidų teisėtumą bei metinių
 			susirinkimų nutarimų vykdymą. Apylinkės kontrolės komisija renkama
-			dvejiems metams, apygardos – trejiems. Apylinkės ar apygardos
-			valdybos nariai negali būti kontrolės komisijos nariais.
+			dvejiems metams. Apylinkės valdybos nariai negali būti kontrolės 
+			komisijos nariais.
 		</p>
+		{% comment %}
 		<p>
 			Kandidatuoti į apygardos kontrolės komisiją gali, jei:
 		</p>
@@ -340,6 +345,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				rinkimai.
 			</li>
 		</ul>
+		{% endcomment %}
 		<p>
 			Kandidatuoti į apylinkės kontrolės komisiją gali, jei:
 		</p>
@@ -349,7 +355,7 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 				href="/nariai/registruotis/">užsiregistravęs</a> (-usi) toje 
 				apylinkėje (apie tai daugiau skaityk „<a 
 				title="Tapk oficialiu nariu" 
-				href="?panel=0">Tapk oficialiu Bendruomenės nariu (-e)</a>“);
+				href="?panel=0">Tapk oficialiu nariu (-e)</a>“);
 			</li>
 			<li>
 				tau yra 18 ir daugiau metų;
@@ -376,117 +382,6 @@ src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 			taisyklėse</a>.
 		</p>
 	</div>
-
-	<!-- <h2>Paremk</h2>
-	<div>
-	<p>
-	Kiekvienas bendruomenei paaukotas doleris – tai investicija į
-	teigiamas permainas ir turiningesnį bendruomenės gyvenimą, kurio
-	privalumus galėsi pajusti pats(-i) asmeniškai. Nuo tavo visokeriopos
-	paramos priklauso itin daug – lituanistinių mokyklų, sporto klubų
-	veikla, kultūrinių ir švietėjiškų renginių gausa ir kokybė.
-	Kiekviena auka, kad ir labai nedidelė, yra daugiau nei materialinė
-	pagalba, bet ir didžiulė moralinė parama visuomeniniais pagrindais
-	bendruomenės labui dirbantiems organizacijos nariams.
-	</p>
-
-	<h3>Parama apygardai</h3>
-	<p>
-	Apygardos veiklos spektras labai platus: ji vysto ir administruoją
-	vienintelę Lietuvių Bendruomenės interneto svetainę Niujorko
-	valstijoje, kaupia bendruomenės veiklos archyvą, atstovauja
-	Niujorko valstijos lietuvius bendraudama su išorinėmis
-	organizacijomis ir Niujorko miesto bei valstijos valdžios
-	atstovais. Kiekvieną savaitę apygarda informuoja daugiau nei
-	tūkstantį Niujorko lietuvių apie Bendruomenės veiklą. Tai pats
-	didžiausias informacijos apie lietuvių veiklą šaltinis Niujorko
-	valstijoje.
-	</p>
-	<p>
-	Apygardą gali paremti:
-	</p>
-	<ul>
-	<li>
-	<a title="Vienkartinis pavedimas"
-	href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@nylithuanian.org&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">vienkartiniu pavedimu</a> į apygardos PayPal sąskaitą
-	</li>
-	<li>
-	reguliariais pavedimais į apygardos PayPal sąskaitą:
-	<ul>
-	<li>
-	<a title="Reguliarūs pavedimai"
-	href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=25&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $25.00 kas mėnesį</a>
-	</li>
-	<li>
-	<a title="Reguliarūs pavedimai"
-	href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=50&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $50.00 kas mėnesį</a>
-	</li>
-	<li>
-	<a title="Reguliarūs pavedimai"
-	href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business=info@nylithuanian.org&src=1&p3=1&t3=M&a3=100&srt=12&item_name=Parama JAV LB Niujorko apygardai&item_number=Niujorko apygarda&currency_code=USD&image_url=http://dev.nylithuanian.org{% static "images/logo_paypal.png" %}">12 mėnesinių mokėjimų, po $100.00 kas mėnesį</a>
-	</li>
-	</ul>
-	</li>
-	<li>
-	<p>
-	išrašydama(s) čekį su pastaba (memo) „LAC NY District“ ir
-	išsiųsdama(s) adresu
-	</p>
-	<p>
-	Lithuanian-American Community, Inc.
-	<br />
-	c/o Angele Miknius
-	<br />
-	10 W 15th Street Apt 1208
-	<br />
-	New York, NY 10011
-	</p>
-	</li>
-	</ul>
-
-	<h3>Parama apylinkėms</h3>
-	<p>
-	Apylinkės rengia kultūrinius, sporto bei švietimo renginius, svarbių
-	istorinių ir religinių datų minėjimus. Tai - kertinė veikla,
-	vienijanti, stiprinanti Niujorko bendruomenę, padedanti išlaikyti
-	lietuvybę bei ryšį su Lietuva. Nors apylinkės dažnai
-	bendradarbiauja organizuodamos renginius, kiekviena turi atskirą
-	biudžetą ir priima paramą iš tai apylinkei priklausančių
-	bendruomenės narių (kaip tapti apylinkės nariu?).
-	</p>
-	<p>
-	Apylinkes gali paremti:
-	</p>
-	<ul>
-	<li>
-	sumokėdama(s) metinį solidarumo įnašą (išsami informacija
-	pateikta tavo apylinkės skiltyje)
-	</li>
-	<li>
-	išrašydamas čekį tavo apylinkės iždininkui (išsami informacija
-	pateikta tavo apylinkės skiltyje)
-	</li>
-	<li>
-	dalyvaudama(s) renginiuose ir sumokėdama(s) savanorišką įėjimo
-	auką
-	</li>
-	</ul>
-	<p>
-	JAV Lietuvių Bendruomenė yra ne pelno siekianti organizacija,
-	atleista nuo mokesčių (turi IRS 501(c)(3) statusą). Visos aukos,
-	skirtos JAV Lietuvių Bendruomenei, jai priklausančioms apygardoms
-	ir apylinkėms gali būti nurašytos nuo mokesčių. JAV Lietuvių
-	Bendruomenė kiekvienam paaukojusiam metų pabaigoje paštu išsiunčia
-	gautas aukas patvirtinantį dokumentą.
-	</p>
-
-	<h3>Reklama svetainėje</h3>
-	<p>
-	Svetainėje nuomojame reklaminius plotus. Dėl išsamesnės informacijos
-	kreipkitės el. paštu <a
-	href="mailto:info@nylithuanian.org">info@nylithuanian.org</a>.
-	</p>
-	</div> -->
 </div>
 
 {% endblock %}

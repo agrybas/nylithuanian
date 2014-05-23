@@ -16,8 +16,6 @@ from .forms import RegisterSiteUserForm, PromoteUserForm, EditSiteUserForm, Site
 from models import CreateUserError, SiteUser
 from articles.models import Article
 from events.models import EventReminder, Event
-from greetings.models import Greeting
-from sympathies.models import Sympathy
 
 import random
 from django.template.loader import get_template
@@ -44,26 +42,12 @@ class SiteUserCreateView(CreateView):
     form_class = RegisterSiteUserForm
     model = SiteUser
     success_url = '/nariai/registruotis/priimta'
-
+      
     def form_valid(self, form):
         form.instance.is_active = False
         form.instance.password = make_password(form.instance.password)
 #        signer = Signer(salt=form.instance.date_joined.strftime("%Y-%m-%d %H:%i:%s") + str(random.randint(1, 100)))
         form.instance.temp_hash = Signer(salt=form.instance.date_joined.strftime("%Y-%m-%d %H:%i:%s") + str(random.randint(1, 100))).signature(form.instance.username)    # registration confirmation hash
-
-        # E-mail user to confirm registration
-        plainText = get_template('emails/reg_confirm_email.txt')
-        htmlText = get_template('emails/reg_confirm_email.html')
-        subject = u'Prašome patvirtinti registraciją'
-        c = Context({
-                     'username' : form.instance.username,
-                     'registration_hash' : form.instance.temp_hash,
-                     })
-        
-        
-        msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (form.instance.email, ))
-        msg.attach_alternative(htmlText.render(c), 'text/html')
-        msg.send()
 
         return super(SiteUserCreateView, self).form_valid(form)
 
@@ -73,9 +57,10 @@ class SiteUserDetailView(DetailView):
     slug_field = 'username'
     
     def get_template_names(self):
-        if self.kwargs['slug'] == self.request.user.username:
-            return 'users/user_profile.html'
-        return 'users/user_detail.html'
+#         if self.kwargs['slug'] == self.request.user.username:
+#             return 'users/user_profile.html'
+#         return 'users/user_detail.html'
+        return 'users/user_profile.html'
     
     def get_context_data(self, **kwargs):
         if self.kwargs['slug'] == self.request.user.username:
@@ -83,8 +68,6 @@ class SiteUserDetailView(DetailView):
             kwargs['user_articles'] = Article.objects.filter(id=self.request.user.id)
             kwargs['event_reminders'] = EventReminder.objects.filter(remind_date__gte=timezone.now()).order_by('-remind_date')
             kwargs['user_events'] = Event.objects.filter(user_id=self.request.user.id).order_by('-modify_date')[:5]
-            kwargs['user_greetings'] = Greeting.objects.filter(user=self.request.user).order_by('-modify_date')[:5]
-            kwargs['user_sympathies'] = Sympathy.objects.filter(user=self.request.user).order_by('-modify_date')[:5]
         return super(SiteUserDetailView, self).get_context_data(**kwargs)
     
 class UserOwnedObjectMixin(SingleObjectMixin):
@@ -107,7 +90,7 @@ class SiteUserChangePasswordView(FormView):
     model = SiteUser
     form_class = SiteUserPasswordChangeForm
     template_name = 'users/siteuser_password.html'
-    success_url = '/nariai'
+    success_url = '/'
     
     def form_valid(self, form):
         form.save()

@@ -1,1 +1,313 @@
-[{"pk": 1, "model": "classifieds.classifiedcategory", "fields": {"title": "Transportas"}}, {"pk": 2, "model": "classifieds.classifiedcategory", "fields": {"title": "Viskas namams"}}, {"pk": 3, "model": "classifieds.classifiedcategory", "fields": {"title": "Nekilnojamas turtas"}}, {"pk": 4, "model": "classifieds.classifiedcategory", "fields": {"title": "Darbas"}}, {"pk": 5, "model": "classifieds.classifiedcategory", "fields": {"title": "\u017dmon\u0117s"}}, {"pk": 6, "model": "classifieds.classifiedcategory", "fields": {"title": "Paslaugos"}}, {"pk": 7, "model": "classifieds.classifiedcategory", "fields": {"title": "Vaik\u0173 pasaulis"}}, {"pk": 8, "model": "classifieds.classifiedcategory", "fields": {"title": "Kelion\u0117s"}}, {"pk": 1, "model": "classifieds.classifiedsubcategory", "fields": {"category": 4, "title": "Ie\u0161ko darbo"}}, {"pk": 2, "model": "classifieds.classifiedsubcategory", "fields": {"category": 4, "title": "Si\u016blo darb\u0105"}}, {"pk": 3, "model": "classifieds.classifiedsubcategory", "fields": {"category": 8, "title": "L\u0117ktuv\u0173 skryd\u017eiai"}}, {"pk": 4, "model": "classifieds.classifiedsubcategory", "fields": {"category": 8, "title": "Automobili\u0173 nuoma"}}, {"pk": 5, "model": "classifieds.classifiedsubcategory", "fields": {"category": 8, "title": "Keliaukime kartu"}}, {"pk": 6, "model": "classifieds.classifiedsubcategory", "fields": {"category": 3, "title": "Parduoda"}}, {"pk": 7, "model": "classifieds.classifiedsubcategory", "fields": {"category": 3, "title": "Perka"}}, {"pk": 8, "model": "classifieds.classifiedsubcategory", "fields": {"category": 3, "title": "Si\u016blo nuom\u0105"}}, {"pk": 9, "model": "classifieds.classifiedsubcategory", "fields": {"category": 3, "title": "Ie\u0161ko nuomos"}}, {"pk": 10, "model": "classifieds.classifiedsubcategory", "fields": {"category": 3, "title": "Patalpos renginiams"}}, {"pk": 11, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "Transportas"}}, {"pk": 12, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "Sveikata, gro\u017eis"}}, {"pk": 13, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "Rengini\u0173 organizavimas"}}, {"pk": 14, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "Finansai, teis\u0117"}}, {"pk": 15, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "Valymo paslaugos"}}, {"pk": 16, "model": "classifieds.classifiedsubcategory", "fields": {"category": 6, "title": "IT paslaugos"}}, {"pk": 17, "model": "classifieds.classifiedsubcategory", "fields": {"category": 1, "title": "Parduoda"}}, {"pk": 18, "model": "classifieds.classifiedsubcategory", "fields": {"category": 1, "title": "Perka"}}, {"pk": 19, "model": "classifieds.classifiedsubcategory", "fields": {"category": 7, "title": "Prek\u0117s vaikams"}}, {"pk": 20, "model": "classifieds.classifiedsubcategory", "fields": {"category": 7, "title": "Mokslas"}}, {"pk": 21, "model": "classifieds.classifiedsubcategory", "fields": {"category": 7, "title": "Vaik\u0173 prie\u017ei\u016bra, aukl\u0117s"}}, {"pk": 22, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Baldai, interjeras"}}, {"pk": 23, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Augalai, sodai"}}, {"pk": 24, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Gyv\u016bnai, nam\u0173 augintiniai"}}, {"pk": 25, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Buitin\u0117 technika"}}, {"pk": 26, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Audio/Video technika"}}, {"pk": 27, "model": "classifieds.classifiedsubcategory", "fields": {"category": 2, "title": "Kompiuteriai"}}, {"pk": 28, "model": "classifieds.classifiedsubcategory", "fields": {"category": 5, "title": "Ie\u0161ko draugo(-\u0117s)"}}, {"pk": 29, "model": "classifieds.classifiedsubcategory", "fields": {"category": 5, "title": "Ie\u0161ko kambarioko(-\u0117s)"}}, {"pk": 30, "model": "classifieds.classifiedsubcategory", "fields": {"category": 5, "title": "Ie\u0161ko giminai\u010di\u0173"}}]
+[
+{
+    "pk": 1, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Transportas"
+    }
+},
+{
+    "pk": 2, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Viskas namams"
+    }
+},
+{
+    "pk": 3, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Nekilnojamas turtas"
+    }
+},
+{
+    "pk": 4, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Darbas"
+    }
+},
+{
+    "pk": 5, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "\u017dmon\u0117s"
+    }
+},
+{
+    "pk": 6, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Paslaugos"
+    }
+},
+{
+    "pk": 7, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Vaik\u0173 pasaulis"
+    }
+},
+{
+    "pk": 8, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Kelion\u0117s"
+    }
+},
+{
+    "pk": 9, 
+    "model": "classifieds.classifiedcategory", 
+    "fields": {
+        "title": "Kita"
+    }
+},
+{
+    "pk": 1, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 4, 
+        "title": "Ie\u0161ko darbo"
+    }
+},
+{
+    "pk": 2, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 4, 
+        "title": "Si\u016blo darb\u0105"
+    }
+},
+{
+    "pk": 3, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 8, 
+        "title": "L\u0117ktuv\u0173 skryd\u017eiai"
+    }
+},
+{
+    "pk": 4, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 8, 
+        "title": "Automobili\u0173 nuoma"
+    }
+},
+{
+    "pk": 5, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 8, 
+        "title": "Keliaukime kartu"
+    }
+},
+{
+    "pk": 6, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 3, 
+        "title": "Parduoda"
+    }
+},
+{
+    "pk": 7, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 3, 
+        "title": "Perka"
+    }
+},
+{
+    "pk": 8, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 3, 
+        "title": "Si\u016blo nuom\u0105"
+    }
+},
+{
+    "pk": 9, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 3, 
+        "title": "Ie\u0161ko nuomos"
+    }
+},
+{
+    "pk": 10, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 3, 
+        "title": "Patalpos renginiams"
+    }
+},
+{
+    "pk": 11, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "Transportas"
+    }
+},
+{
+    "pk": 12, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "Sveikata, gro\u017eis"
+    }
+},
+{
+    "pk": 13, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "Rengini\u0173 organizavimas"
+    }
+},
+{
+    "pk": 14, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "Finansai, teis\u0117"
+    }
+},
+{
+    "pk": 15, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "Valymo paslaugos"
+    }
+},
+{
+    "pk": 16, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 6, 
+        "title": "IT paslaugos"
+    }
+},
+{
+    "pk": 17, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 1, 
+        "title": "Parduoda"
+    }
+},
+{
+    "pk": 18, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 1, 
+        "title": "Perka"
+    }
+},
+{
+    "pk": 19, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 7, 
+        "title": "Prek\u0117s vaikams"
+    }
+},
+{
+    "pk": 20, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 7, 
+        "title": "Mokslas"
+    }
+},
+{
+    "pk": 21, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 7, 
+        "title": "Vaik\u0173 prie\u017ei\u016bra, aukl\u0117s"
+    }
+},
+{
+    "pk": 22, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Baldai, interjeras"
+    }
+},
+{
+    "pk": 23, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Augalai, sodai"
+    }
+},
+{
+    "pk": 24, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Gyv\u016bnai, nam\u0173 augintiniai"
+    }
+},
+{
+    "pk": 25, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Buitin\u0117 technika"
+    }
+},
+{
+    "pk": 26, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Audio/Video technika"
+    }
+},
+{
+    "pk": 27, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 2, 
+        "title": "Kompiuteriai"
+    }
+},
+{
+    "pk": 28, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 5, 
+        "title": "Ie\u0161ko draugo(-\u0117s)"
+    }
+},
+{
+    "pk": 29, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 5, 
+        "title": "Ie\u0161ko kambarioko(-\u0117s)"
+    }
+},
+{
+    "pk": 30, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 5, 
+        "title": "Ie\u0161ko giminai\u010di\u0173"
+    }
+},
+{
+    "pk": 31, 
+    "model": "classifieds.classifiedsubcategory", 
+    "fields": {
+        "category": 9, 
+        "title": "\u012evair\u016bs skelbimai"
+    }
+}
+]

@@ -36,11 +36,16 @@
     <li>
         <a {% if active_tab == 'redakcija' %} class="active"{% endif %} href="/apie-mus/redakcija/">Redakcija</a>
     </li>
-    <li>
-        {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
+    	<li>
+            <a href="/nariai/{{ user.username }}/redaguoti">Mano profilis</a>
+    	</li>
+    	<li>
             <a href="/nariai/atsijungti">Atsijungti</a>
-        {% else %}
+    	</li>
+	{% else %}
+    	<li>
             <a href="/nariai/prisijungti">Prisijungti</a>
-        {% endif %}
-    </li>    
+       </li>
+    {% endif %}
 </ul>

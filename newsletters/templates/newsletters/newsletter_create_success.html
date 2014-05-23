@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block title %}Ačiū{% endblock %}
+
+{% block content %}
+<h1>Ačiū!</h1>
+
+<p>Naujienlaiškio tekstas sėkmingai išsaugotas sistemoje.</p>
+{% endblock%}
+
+{% block sidebar %}
+<div class="box">
+    <h2 class="headline">Papildomos funkcijos</h2>
+    <ul class="clean">
+        <li><img src="{{ STATIC_URL }}images/toolbar/add.png" width="32" height="32" title="Pateikti" alt="Pateikti" /><a href="../pateikti">Sukurti naujienlaiškį</a></li>
+    </ul>
+</div>
+{% endblock %}

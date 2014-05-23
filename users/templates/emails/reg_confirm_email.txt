@@ -1,6 +1,6 @@
-Džiaugiamės, sulaukę Jūsų prašymo užsiregistruoti mūsų svetainėje. Prašome patvirtinti registraciją, paspaudžiant ant žemiau nurodytos nuorodos:
+Džiaugiamės, sulaukę Jūsų prašymo užsiregistruoti mūsų svetainėje. Prašome patvirtinti registraciją, paspaudžiant ant žemiau pateiktos nuorodos:
 
-http://www.nylithuanian.org/nariai/patvirtinti/{{ username }}/{{ registration_hash }}
+{{ SITE_URL }}/nariai/patvirtinti/{{ username }}/{{ registration_hash }}
 
 Pagarbiai,
 nylithuanian.org komanda

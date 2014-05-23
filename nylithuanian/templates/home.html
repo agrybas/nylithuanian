@@ -3,8 +3,8 @@
 {% block title%}Pradžia{% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
 	<script>
 		$(function() {
@@ -112,13 +112,13 @@
     </li>
 {% endcomment %}
     <li>
-        <a href="/renginiai/pateikti">Pranešti apie renginį</a>
+        <a class="add-content" href="/renginiai/pateikti">Pranešti apie renginį</a>
     </li>
 </ul>
 
 <div class="box spacious">
     <h2 class="headline"><a href="/skelbimai/">Skelbimai</a></h2>
-    <ul>
+    <ul class="clean">
 	    {% for post in classifieds %}
 			<li><a href="/skelbimai/{{ post.id }}">{{ post.title }}</a></li>
 		{% endfor %}
@@ -128,7 +128,7 @@
             <a href="/skelbimai/">Visi skelbimai</a>
         </li>
         <li>
-            <a href="/skelbimai/pateikti/">Pateikti skelbimą</a>
+            <a class="add-content" href="/skelbimai/pateikti/">Pateikti skelbimą</a>
         </li>
     </ul>
 </div>
@@ -152,7 +152,7 @@
             <a href="straipsniai">Visi straipsniai</a>
         </li>
         <li>
-            <a href="straipsniai/pateikti">Pateikti straipsnį</a>
+            <a class="add-content" href="straipsniai/pateikti">Pateikti straipsnį</a>
         </li>
     </ul>
 </div>
@@ -161,6 +161,14 @@
 
 <div class="box">
     <h2 class="headline"><a href="nuotraukos">Nuotraukos</a></h2>
+	<ul class="clean">
+		{% for album in photo_albums %}
+		<li>
+			<a title="{{ album.title }}" alt="{{ album.title }}" href="/nuotraukos/gallery/{{ album.id }}">{{ album.title }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% comment %}
     <dl class="covers">
         {% for album in photo_albums %}
         <dt>
@@ -173,6 +181,7 @@
         </dd>
         {% endfor %}
     </dl>
+    {% endcomment %}
     <ul class="sub-commands">
         <li>
             <a href="nuotraukos">Visos nuotraukos</a>
@@ -193,7 +202,7 @@
             <a href="/pranesimai/">Visi pranešimai</a>
         </li>
         <li>
-            <a href="/pranesimai/pateikti/">Pateikti pranešimą</a>
+            <a class="add-content" href="/pranesimai/pateikti/">Pateikti pranešimą</a>
         </li>
     </ul>
 </div>
@@ -225,21 +234,17 @@
 
 <div class="box">
     <p class="action">
-        {% if user.is_authenticated %}
-            <a href="/nariai/{{ user.username }}">Mano sąskaita</a>
-        {% else %}
-            <a href="/nariai/prisijungti">Prisijunk!</a>
-        {% endif %}
+    	<a href="/apie-mus/prisijunk/">Dalyvauk veikloje!</a>
     </p>
 </div>
 
 <div class="box">
     <p class="action">
-        <a href="/parama/">Paremk!</a>
+        <a href="/apie-mus/parama/">Paremk Bendruomenę!</a>
     </p>
 </div>
 
-<div class="box">
+<div class="box spacious">
 	<h2 class="headline">Mūsų organizacijos</h2>
 	<ul class="clean">
 		<li>
@@ -314,12 +319,12 @@
 </div>
 {% endcomment %}
 
-<div class="box">
+<div class="box spacious">
     <h2 class="headline">Mūsų draugai</h2>
     <ul class="clean wide external-links">
-    	<li><a title="Generalinis konsulatas Niujorke" target="_blank" href="http://ny.mfa.lt/"><img src="{{ STATIC_URL }}images/lt_herbas.png" /><br />Lietuvos Respublikos generalinis<br /> konsulatas Niujorke</a></li>
-    	<li><a title="JAV Lietuvių Bendruomenė" target="_blank" href="http://www.lithuanian-american.org/"><img src="{{ STATIC_URL }}images/javlb_logo.png" /><br />JAV Lietuvių Bendruomenė</a></li>
-    	<li><a title="Pasaulio Lietuvių Bendruomenė" target="_blank" href="http://plbe.org/"><img src="{{ STATIC_URL }}images/plb_logo.png" /><br />Pasaulio Lietuvių Bendruomenė</a></li>
+    	<li><a title="Generalinis konsulatas Niujorke" target="_blank" href="http://ny.mfa.lt/"><img src="{{ STATIC_URL }}images/lt_herbas.png" height="50" width="44" /><br />Lietuvos Respublikos generalinis<br /> konsulatas Niujorke</a></li>
+    	<li><a title="JAV Lietuvių Bendruomenė" target="_blank" href="http://www.lithuanian-american.org/"><img src="{{ STATIC_URL }}images/javlb_logo.png" height="50" width="44" /><br />JAV Lietuvių Bendruomenė</a></li>
+    	<li><a title="Pasaulio Lietuvių Bendruomenė" target="_blank" href="http://plbe.org/"><img src="{{ STATIC_URL }}images/plb_logo.png" height="50" width="50" /><br />Pasaulio Lietuvių Bendruomenė</a></li>
     </ul>
 </div>
 {% endblock %}

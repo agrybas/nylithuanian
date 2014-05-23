@@ -12,11 +12,12 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, Context
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from models import Event, EventComment, EventAttachment, EventReminder, Venue
 from tasks import send_reminder
-from forms import AddEventForm, AddEventCommentForm, SendEmailForm
+from forms import AddEventForm, AddEventCommentForm
 from photos.models import Photo, Gallery
 from articles.models import Article
 from django.template.loader import get_template
@@ -42,6 +43,7 @@ class UpcomingEventsListView(ListView):
         kwargs['headline'] = 'Artimiausi renginiai'
         return super(UpcomingEventsListView, self).get_context_data(**kwargs) 
 
+#@cache_control(must_revalidate=True, max_age=3600)
 class PastEventsListView(ListView):
     model = Event
     queryset = Event.public.filter(start_date__lt=timezone.now()).order_by('-start_date')
@@ -70,7 +72,7 @@ class EventCreateView(CreateView):
     form_class = AddEventForm
     template_name = 'events/event_create.html'
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'events/attachments'))
-    success_url = '/renginiai'
+    success_url = 'aciu'
     
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
@@ -78,8 +80,7 @@ class EventCreateView(CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(EventCreateView, self).form_valid(form)
-        
+        return super(EventCreateView, self).form_valid(form)    
     
 class EventAttachmentListView(ListView):
     def get_queryset(self):
@@ -120,8 +121,7 @@ class EventUpdateView(UserOwnedObjectMixin, UpdateView):
         if (saved_event.start_date != form.instance.start_date) or (saved_event.end_date != form.instance.end_date):
             form.instance.version_number += 1
         
-        form.instance.user = self.request.user
-        form.instance.create_date = timezone.now()
+        form.instance.user = self.request.user # TO-DO: don't change ownership when event is updated
         return super(EventUpdateView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -160,7 +160,6 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         form.instance.event_id = self.kwargs['pk']
-        form.instance.create_date = timezone.now()
         return super(CommentCreateView, self).form_valid(form)
     
 def create_reminder(request, *args, **kwargs):
@@ -244,48 +243,36 @@ def delete_reminder(request, *args, **kwargs):
                                                           'message': u'Bandant pašalinti priminimą, įvyko klaida. Svetainės administratoriai apie tai jau informuoti. Atsiprašome už nepatogumus.',
                                                           }, context_instance=RequestContext(request))
         
+def approve(request, *args, **kwargs):
+    try:
+        logger.info(u'Staff user {0} is approving event id={1}'.format(request.user.username, kwargs['pk']))
+        
+        event = Event.objects.get(id=kwargs['pk'])
+        event.is_approved = True
+        event.save()
+        
+        logger.info(u'Event {0} approved successfully'.format(kwargs['pk']))
+        
+        # inform event creator
+        plainText = get_template('emails/event_approved.txt')
+        htmlText = get_template('emails/event_approved.html')
+        subject = u'Pranešimas apie renginį patvirtintas'
+        c = Context({ 'event' : event })
+        msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (event.user.email, ))
+        msg.attach_alternative(htmlText.render(c), 'text/html')
+        msg.send()
+        
+        return render_to_response('events/success.html', {
+                                                          'message': u'Renginys patvirtintas sėkmingai. Renginio pranešėjas apie tai informuotas el. paštu.',
+                                                          }, context_instance=RequestContext(request))
+    
+    except Exception:
+        logger.exception(u'Exception thrown while approving event id {0}:'.format(kwargs['pk']))
+        return render_to_response('events/error.html', {
+                                                          'message': u'Renginio nepavyko patvirtinti. Prašome patikrinti, ar šis renginys egzistuoja ir tikrai laukia patvirtinimo. Svetainės administratoriai apie tai jau informuoti.',
+                                                          }, context_instance=RequestContext(request))
 
-class SendNewsletterView(TemplateView):
-    form_class = SendEmailForm
-    template_name = 'emails/send_newsletter.html'
     
-    def get_context_data(self, **kwargs):
-        kwargs['event_list'] = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
-        kwargs['article_list'] = Article.public.order_by('-publish_date')[:3]
-        kwargs['gallery_list'] = Gallery.objects.filter(is_public=True)[:3]
-        return super(SendNewsletterView, self).get_context_data(**kwargs)
-    
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render_to_response('emails/send_newsletter.html', { 'form': form }, context_instance=RequestContext(request))
-        
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            upcoming_events = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
-            recent_articles = Article.public.order_by('-publish_date')[:3]
-            recent_galleries = Gallery.objects.filter(is_public=True)[:3]
-        
-            plainText = get_template('emails/newsletter.txt')
-            htmlText = get_template('emails/newsletter.html')
-            subject = u'Artimiausi renginiai Niujorke'
-            c = Context({
-                         'event_list' : upcoming_events,
-                         'article_list': recent_articles,
-                         'gallery_list': recent_galleries,
-                         })
-            
-            msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (form.cleaned_data['email'], ))
-            msg.attach_alternative(htmlText.render(c), 'text/html')
-            msg.send()
-          
-            return render_to_response('events/success.html', {
-                                                              'message': 'Naujienlaiškis išsiųstas sėkmingai.',
-                                                              }, context_instance=RequestContext(request))
-        return render_to_response('emails/send_newsletter.html', {
-                                                                  'form': form,
-                                                                  }, context_instance=RequestContext(request))
-        
 def get_venues_list(request, *args, **kwargs):
     try:
         logger.info('Loading the list of venues...')

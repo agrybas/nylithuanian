@@ -3,4 +3,5 @@ Naujas straipsnis laukia patvirtinimo.
 * Pavadinimas: {{ article.title }}
 * Autoriaus vardas: {{ article.first_name }}
 * Autoriaus pavardė: {{ article.last_name }}
-* Publikavimo data: {{ article.publish_date }}
+
+Peržiūrėti ir patvirtinti: {{ article.get_absolute_url }}

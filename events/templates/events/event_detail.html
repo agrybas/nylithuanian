@@ -6,9 +6,9 @@
 <!-- Start Facebook Open Graph tags -->
 {% block header %}
 <meta property="og:title" content="{{ event.title }}" />
-<meta property="og:image" content="http://dev.nylithuanian.org{{ MEDIA_URL }}{{ event.image }}" />
+<meta property="og:image" content="{{ SITE_URL }}{{ MEDIA_URL }}{{ event.image }}" />
 <meta property="og:site_name" content="JAV LB Niujorko apygarda" />
-<meta property="og:url" content="http://dev.nylithuanian.org{{ event.get_absolute_url }}" />
+<meta property="og:url" content="{{ event.get_absolute_url }}" />
 <meta property="og:description" content="{{ event.body|striptags|truncatewords:50 }}" />
 {% endblock %}
 <!-- End Facebook Open Graph tags -->
@@ -65,13 +65,15 @@
 
 <p class="meta">
 	<div style="text-align: center;">
-		<div class="fb-like" data-href="http://dev.nylithuanian.org{{ event.get_absolute_url }}/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
-		<div class="fb-share-button" data-href="http://dev.nylithuanian.org{{ event.get_absolute_url }}/" data-type="button_count"></div>
+		<div class="fb-like" data-href="{{ event.get_absolute_url }}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+		<div class="fb-share-button" data-href="{{ event.get_absolute_url }}" data-type="button_count"></div>
 	</div>
 </p>
 
 
 {{ event.body|striptags|textile }}
+
+<p>&larr; <a href="/renginiai">Atgal į renginių sąrašą</a></p>
 
 {% endblock%}
 
@@ -80,6 +82,7 @@
     <h2 class="headline">Renginio informacija</h2>
     <ul class="clean">
         <li><img src="{{ STATIC_URL }}images/toolbar/map.png" width="32" height="32" title="Žemėlapis" alt="Žemėlapis" /><a href="zemelapis">Renginio vieta</a></li>
+		{% comment %}
         {% if is_upcoming %}
             <li><img src="{{ STATIC_URL }}images/toolbar/event.png" width="32" height="32" title="Priminimas" alt="Priminimas" />
                 {% if has_reminder %}
@@ -89,6 +92,7 @@
                 {% endif %}
                 </li>
         {% endif %}
+        {% endcomment %}
         <li><img src="{{ STATIC_URL }}images/toolbar/add_event.png" width="32" height="32" title="Kaledorius" alt="Kalendorius" /><a href="kalendorius">Įkelti į kalendorių</a></li>
         <li><img src="{{ STATIC_URL }}images/toolbar/comments.png" width="32" height="32" title="Komentarai" alt="Komentarai" /><a href="komentarai">Komentarai{% if comment_count %} ({{ comment_count }}){% endif %}</a></li>
         <li><img src="{{ STATIC_URL }}images/toolbar/image.png" width="32" height="32" title="Nuotraukos" alt="Nuotraukos" /><a href="/nuotraukos/renginys/{{ event.id }}/">Renginio nuotraukos{% if photo_count %} ({{ photo_count }}){% endif %}</a></li>
@@ -104,6 +108,10 @@
         {% if user.id == event.user_id or user.is_staff %}
         <li><img src="{{ STATIC_URL }}images/toolbar/edit.png" width="32" height="32" title="Redaguoti" alt="Redaguoti" /><a href="redaguoti">Redaguoti</a></li>
         {% endif %}
+        {% if user.is_staff and not event.is_approved %}
+        <li><img src="{{ STATIC_URL }}images/toolbar/accept_page.png" width="32" height="32" title="Patvirtinti" alt="Patvirtinti" /><a href="patvirtinti">Patvirtinti</a></li>
+        {% endif %}
+
     </ul>
 </div>
 {% endblock %}

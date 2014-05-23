@@ -7,6 +7,8 @@
 
 <h2>{{ classified.title }}</h2>
 
+<p><strong>Paskelbta:</strong> {{ classified.create_date }}</p>
+
 {% if classified.phone_number %}
 	<p><strong>Telefonas:</strong> {{ classified.phone_number }}</p>
 {% endif %}

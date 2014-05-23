@@ -12,6 +12,8 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 from forms import AddArticleForm, AddArticleCommentForm
 from models import Article, ArticleComment
@@ -29,7 +31,7 @@ else:
 class ArticleListView(ListView):
     model = Article
     paginate_by = 10
-    queryset = Article.public.order_by('-publish_date')
+    queryset = Article.public.order_by('-create_date')
     
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
@@ -52,7 +54,7 @@ class ArticleRssView(Feed):
     description = 'Naujausi straipsniai apie Amerikos lietuvius. Straipsniai publikuojami www.nylithuanian.org ir Amerikos spaudoje.'
     
     def items(self):
-        return Article.public.filter(external_link='').order_by('-publish_date')
+        return Article.public.filter(external_link='').order_by('-create_date')
 
     def item_title(self, item):
         return item.title
@@ -77,7 +79,6 @@ class ArticleCommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.article_id = self.kwargs['pk']
-        form.instance.create_date = timezone.now()
         return super(ArticleCommentCreateView, self).form_valid(form)
     
     @method_decorator(login_required(login_url='/nariai/prisijungti'))
@@ -127,7 +128,6 @@ class AddArticlePreview(FormPreview):
             logger.debug(u'phone: {0}'.format(cleaned_data['phone_number']))
             logger.debug(u'email: {0}'.format(cleaned_data['email_address']))
             logger.debug(u'signature: {0}'.format(cleaned_data['signature']))
-            logger.debug(u'publication_date: {0}'.format(cleaned_data['publish_date']))
             
             reviewed_form.instance.user = request.user
             logger.debug(u'User ID: {0}'.format(reviewed_form.instance.user.id))
@@ -138,18 +138,7 @@ class AddArticlePreview(FormPreview):
             #logger.debug(u'Date modified: {0}'.format(reviewed_form.instance.modify_date))
             
             reviewed_form.save()
-            logger.info(u'Article has been added successfully.')
-            
-            # inform admins about the pending article
-            plainText = get_template('emails/new_article.txt')
-            htmlText = get_template('emails/new_article.html')
-            subject = u'Naujas straipsnis'
-            c = Context({
-                     'article' : cleaned_data,
-                     })
-        
-            mail_admins(subject=subject, message=plainText.render(c), html_message=htmlText.render(c))
-            
+            logger.info(u'Article has been added successfully.')        
             
             return render_to_response('articles/success.html', {
                                         'message' : 'Ačiū! Jūsų straipsnis buvo sėkmingai pateiktas. Svetainės administratoriai artimiausiu metu perskaitys Jūsų straipsnį ir nedelsiant paskelbs jį svetainėje. Jei kiltų neaiškumų, susisieksime su Jumis tiesiogiai.',
@@ -195,4 +184,33 @@ def toggle_favorite(request, *args, **kwargs):
         return render_to_response('articles/error.html', {
                                         'message' : 'Bandant pakeisti straipsnio favorito statusą, įvyko klaida. Apie tau jau pranešta svetainės administratoriams. Atsiprašome už nepatogumus.',
                                         }, context_instance=RequestContext(request))
+        
+def approve(request, *args, **kwargs):
+    try:
+        logger.info(u'Staff user {0} is approving article id={1}'.format(request.user.username, kwargs['pk']))
+        
+        article = Article.objects.get(id=kwargs['pk'])
+        article.is_approved = True
+        article.save()
+        
+        logger.info(u'Article {0} approved successfully'.format(kwargs['pk']))
+        
+        # inform article author
+        plainText = get_template('emails/article_approved.txt')
+        htmlText = get_template('emails/article_approved.html')
+        subject = u'Straipsnis patvirtintas'
+        c = Context({ 'article' : article })
+        msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (article.user.email, ))
+        msg.attach_alternative(htmlText.render(c), 'text/html')
+        msg.send()
+        
+        return render_to_response('articles/success.html', {
+                                                          'message': u'Straipsnis patvirtintas sėkmingai. Straipsnio autorius apie tai informuotas el. paštu.',
+                                                          }, context_instance=RequestContext(request))
+    
+    except Exception:
+        logger.exception(u'Exception thrown while approving article id={0}:'.format(kwargs['pk']))
+        return render_to_response('events/error.html', {
+                                                          'message': u'Straipsnio nepavyko patvirtinti. Prašome patikrinti, ar šis straipsnis egzistuoja ir ar tikrai laukia patvirtinimo. Svetainės administratoriai apie tai jau informuoti.',
+                                                          }, context_instance=RequestContext(request))
         

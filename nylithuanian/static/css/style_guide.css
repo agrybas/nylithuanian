@@ -163,6 +163,12 @@ a:hover, a:active {
     color: #006a44;
 }
 
+a.add-content {
+	color: #006a44;
+	font-weight: bold;
+	border-bottom-color: #006a44; 
+}
+
 
 /****   STRUCTURES - GENERAL   ****/
 table {
@@ -232,10 +238,6 @@ ol, ul {
     margin-left: 1.5em;
     padding-left: 1.5em;
     padding-top: 5px;
-}
-
-ol ol {
-    list-style-type: lower-alpha;
 }
 
 ul {

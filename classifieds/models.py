@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class ClassifiedCategory(models.Model):
     title = models.CharField(null=False, blank=False, max_length=255, verbose_name='Kategorijos pavadinimas')
@@ -39,8 +40,8 @@ class Classified(models.Model):
     body = models.TextField(null=False, blank=False, verbose_name='Skelbimo tekstas', help_text='Tekstas turi būti rašomas naudojant <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile</a> žymėjimo kalbą.')
     phone_number = models.CharField(null=False, blank=True, max_length=20, verbose_name="Telefono numeris")
     email_address = models.EmailField(null=False, blank=True, verbose_name="El. pašto adresas")
-    create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, editable=False, verbose_name='Skelbimo įkėlimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
-    modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, editable=False, verbose_name='Skelbimo paskutinio redagavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    create_date = models.DateTimeField(null=False, auto_now_add=True, verbose_name='Skelbimo įkėlimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    modify_date = models.DateTimeField(null=False, auto_now=True, verbose_name='Skelbimo paskutinio redagavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     is_approved = models.BooleanField(null=False, blank=False, default=True) # only approved classifieds will ever be shown publicly; only administrator can change this value
 
     objects = models.Manager()
@@ -54,5 +55,5 @@ class Classified(models.Model):
         return self.user.username + ': ' + self.title
     
     def get_absolute_url(self):
-        return '/skelbimai/{0}'.format(self.id)
+        return settings.SITE_URL + '/skelbimai/{0}'.format(self.id)
     

@@ -1,11 +1,22 @@
 # NYLITHUANIAN SETTINGS - PRODUCTION
 from datetime import timedelta
 
-# Add Celery support to site
-# CELERY_RESULT_BACKEND = 'amqp'
-# BROKER_URL = 'amqp://rabbit_user:234wer234@localhost:5672/macvhost'
-# import  djcelery
-# djcelery.setup_loader()
+CELERY_RESULT_BACKEND = 'amqp'
+BROKER_URL = 'amqp://rabbit_prod_user:9225AnwY6VXQ6vWb@nylt1:5672/nylt_prod_host'
+CELERYD_NODES = "w1"
+CELERYD_CHDIR = "/var/www/nylithuanian/"
+CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
+CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
+CELERY_ENABLE_UTC = False
+#CELERY_TIMEZONE = "US/Eastern"
+CELERYD_OPTS = "--time-limit=300 --concurrency=8"
+CELERYD_LOG_FILE = "/var/log/celery/celery.log"
+CELERYD_PID_FILE = "/var/run/celery/celery.pid"
+#CELERYD_USER = "celery"
+#CELERYD_GROUP = "celery"
+
+import  djcelery
+djcelery.setup_loader()
 # 
 # CELERYBEAT_SCHEDULE = {
 #                        'atnaujinti-delfi-straipsnius' : {
@@ -28,18 +39,20 @@ from datetime import timedelta
 #                        }
 
 DEBUG = False
+SITE_URL = 'https://www.nylithuanian.org'
 
 ADMINS = (
     ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
 )
 
 MANAGERS = ADMINS
+EVENTS_PRIMARY_EMAIL = 'events@nylithuanian.org'
 
 SERVER_EMAIL = 'info@nylithuanian.org'
 SEND_BROKEN_LINK_EMAILS = True
 
 ALLOWED_HOSTS = [
-                 '.nylithuanian.org',
+                 'www.nylithuanian.org',
                  ]
 
 DATABASES = {
@@ -67,7 +80,7 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'lt'
 
 SITE_ID = 1
-SITE_ROOT = '/srv/www/nylithuanian.org/public_html/'
+SITE_ROOT = '/var/www/nylithuanian/'
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -84,7 +97,7 @@ LOGIN_REDIRECT_URL = '/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 
-MEDIA_ROOT = SITE_ROOT + 'assets/media/'
+MEDIA_ROOT = '/www-media/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -96,7 +109,7 @@ MEDIA_URL = '/media/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 
-STATIC_ROOT = SITE_ROOT + 'static/'
+STATIC_ROOT = '/www-media/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -128,6 +141,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
@@ -144,10 +158,11 @@ TEMPLATE_LOADERS = (
 # )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # this is the default, but specifying explicitly
-EMAIL_HOST = 'nylithuanian.org'
+#EMAIL_USE_TLS = True
+EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'webmaster@nylithuanian.org'
-EMAIL_HOST_PASSWORD = 'V1k96263@1781k8^7*%SShUK'
+#EMAIL_HOST_USER = 'webmaster@nylithuanian.org'
+#EMAIL_HOST_PASSWORD = 'V1k96263@1781k8^7*%SShUK'
 
 
 MIDDLEWARE_CLASSES = (
@@ -184,13 +199,11 @@ INSTALLED_APPS = (
     'users',
     'events',
     'articles',
-#    'greetings',
-#    'sympathies',
     'photos',
     'classifieds',
-    'announcements'
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'announcements',
+    'newsletters',
+    'djcelery'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -228,7 +241,7 @@ LOGGING = {
                           'when': 'd',
                           'utc': True,
                           'backupCount': 100,
-                          'filename': SITE_ROOT + 'logs/debug/main.log',
+                          'filename': '/var/log/nylithuanian/debug/main.log',
                           'formatter': 'simple'
                           },
                  'debug.articles': {
@@ -238,7 +251,7 @@ LOGGING = {
                                     'utc': True,
                                     'backupCount': 100,
                                     'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/articles.log'
+                                    'filename': '/var/log/nylithuanian/debug/articles.log'
                                     },
                  'debug.events': {
                                     'level': 'DEBUG',
@@ -247,7 +260,7 @@ LOGGING = {
                                     'utc': True,
                                     'backupCount': 100,
                                     'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/events.log'
+                                    'filename': '/var/log/nylithuanian/debug/events.log'
                                     },
                  'production': {
                                 'level': 'INFO',
@@ -255,7 +268,7 @@ LOGGING = {
                                 'when': 'd',
                                 'utc': True,
                                 'backupCount': 100,
-                                'filename': SITE_ROOT + 'logs/prod/main.log',
+                                'filename': '/var/log/nylithuanian/prod/main.log',
                                 'formatter': 'simple'
                           },
                  'mail_admins': {

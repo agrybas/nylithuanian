@@ -1,5 +1,6 @@
 #encoding=utf-8
 import os
+from django.contrib.auth.models import User
 from django.forms import ModelForm, Textarea, TextInput, ValidationError, Form
 from django.forms import EmailField
 from django.forms.models import BaseModelFormSet
@@ -7,15 +8,18 @@ from models import Event, EventComment, EventAttachment, Venue
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from PIL import Image
+from django.template.loader import get_template
+from django.template import Context
+from django.core.mail import EmailMultiAlternatives
 
 UPLOAD_IMAGE_SIZE = (300, 200)
 # maximum allowed single image size in MB
 MAX_IMAGE_SIZE = 5
 
 import logging
-import nylithuanian.settings
+from django.conf import settings
 
-if nylithuanian.settings.DEBUG:
+if settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)
 else:
     logger = logging.getLogger('production.' + __name__)
@@ -34,15 +38,49 @@ class AddEventForm(EventForm):
             }
         exclude = (
                    'is_approved',
-                   'publish_date'
                    )
+    
+    def save(self):
+        event = super(AddEventForm, self).save()
+        user = User.objects.get(id = event.user_id)
+        
+        if not event.is_approved:
+            # inform admins about the pending event
+            logger.info(u'Sending email about a pending event id={0} edited by user id={1}'.format(event.id, user.id))          
+            c = Context({
+                         'event' : event,
+                         'user' : user
+                          })
+            subject = u'Naujas renginys laukia patvirtinimo'
+            plainText = get_template('emails/new_event.txt').render(c)
+            htmlText = get_template('emails/new_event.html').render(c)
+            
+            msg = EmailMultiAlternatives(subject, plainText, settings.SERVER_EMAIL, to=(settings.EVENTS_PRIMARY_EMAIL,))
+            msg.attach_alternative(htmlText, 'text/html')
+            msg.send()
+            logger.info(u'Email sent successfully.')
+            
+        else:
+            # inform admins about edited existing article
+            logger.info(u'Sending email about an edited existing event id={0} edited by user id={1}'.format(event.id, user.id))
+            c = Context({ 'event' : event })
+            subject = u'Renginys buvo redaguotas'
+            plainText = get_template('emails/edited_event.txt').render(c)
+            htmlText = get_template('emails/edited_event.html').render(c)
+
+            msg = EmailMultiAlternatives(subject, plainText, settings.SERVER_EMAIL, to=(settings.EVENTS_PRIMARY_EMAIL,))
+            msg.attach_alternative(htmlText, 'text/html')
+            msg.send()
+            logger.info(u'Email sent successfully.')
+                    
+        return event 
     
     def clean_image(self):
         logger.debug(u'Checking image {0} for side length ratio...'.format(self.cleaned_data['image']))
         image = self.cleaned_data.get('image', False)
-        img = Image.open(image)
         
         if image:
+            img = Image.open(image)
             logger.debug(u'Image loaded to memory successfully.')
             if len(image) > MAX_IMAGE_SIZE * 1024 * 1024:
                 logger.info(u'Image size too big! Sizes up to {0}MB allowed, uploaded image size is {1}MB. Asking user to upload a smaller image...'.format(MAX_IMAGE_SIZE, len(image)))
@@ -61,11 +99,10 @@ class AddEventForm(EventForm):
             logger.info(u'Uploaded image passed side length ratio test. Proceeding...')
             return image
         else:
-            raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
+            logger.warning("Failed to load user's image file, using a default.")
+            return os.path.join('events','images','default.png')
+#             raise ValidationError("Nepavyko perskaityti įkeltos nuotraukos failo.")
 
-
-class SendEmailForm(Form):
-    email = EmailField(label="El. pašto adresas", help_text="Įveskite el. pašto adresą, kuriuo norėtumėte gauti naujienlaiškį.")
 
 # EventAttachmentFormSet = inlineformset_factory(Event, EventAttachment, form=AddEventAttachments, can_delete=False)
             

@@ -140,7 +140,6 @@ class UnitTestSuite(unittest.TestCase):
         form_data = {
                      'title': 'some title',
                      'body': 'body text',
-                     'publish_date': '01/01/14 12:00',
                      }                     
         form = AddArticleForm(form_data)
         self.assertEqual(form.is_valid(), False)

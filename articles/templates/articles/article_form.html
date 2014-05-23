@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" >
     $(function() { 
@@ -133,21 +133,6 @@
                     </span>
                 {% endif %}
                 {% if form.signature.help_text %}<br /><span class="helptext">{{form.signature.help_text }}</span>{% endif %}
-            </p>
-        </fieldset>
-        <fieldset>
-            <legend>Papildoma informacija</legend>
-            <p>
-                <label class="{{ form.publish_date.css_classes }}" for="id_publish_date">{{ form.publish_date.label }}</label><br />
-                {{ form.publish_date }}
-                {% if form.publish_date.errors %}
-                    <span class="error">
-                        {% for error in form.publish_date.errors %}
-                            {{ error }} 
-                        {% endfor %}
-                    </span>
-                {% endif %}
-                {% if form.publish_date.help_text %}<br /><span class="helptext">{{ form.publish_date.help_text }}</span>{% endif %}
             </p>
         </fieldset>
   

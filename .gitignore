@@ -1,0 +1,9 @@
+*.pyc
+*log*
+*.txt
+upload_dev_data.sh
+nylt_dev.sql
+.settings/*
+.idea/*
+dev/*
+assets/*

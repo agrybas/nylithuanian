@@ -4,10 +4,9 @@ from django.contrib.auth.models import User
 from localflavor.us.models import USStateField
 from django_countries.fields import CountryField
 from django.utils import timezone
-from django.utils.translation import ugettext as _
-from django.utils.encoding import smart_text
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 import uuid
 import os
@@ -44,7 +43,7 @@ class ApprovedEventImagesManager(models.Manager):
 
 def get_image_path(instance, filename):
     ext = filename.split('.')[-1]
-    filename = "%s.%s" % (uuid.uuid().hex, ext)
+    filename = "%s.%s" % (uuid.uuid4().hex, ext)
     return os.path.join('events/images', filename)
 
 # class EventImage(models.Model):
@@ -77,7 +76,7 @@ class Event(models.Model):
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Vardas")
     last_name = models.CharField(max_length=30, blank=True, verbose_name="Pavardė")
     organization_title = models.CharField(max_length=100, blank=True, verbose_name="Organizacijos pavadinimas")
-    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-0-9+() ]*$', message=u'Telefono numeris turi būti sudarytas tik iš skaičių, tarpų ir simbolių -,+,(,).')])
+    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-x0-9+() ]*$', message=u'Telefono numeris turi būti sudarytas tik iš skaičių, tarpų ir simbolių -,+,(,).')])
     email_address = models.EmailField(verbose_name="El. pašto adresas", blank=True)
     start_date = models.DateTimeField(verbose_name='Renginio pradžia', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     end_date = models.DateTimeField(verbose_name='Renginio pabaiga', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"', null = True, blank = True)
@@ -90,11 +89,11 @@ class Event(models.Model):
     state = USStateField(verbose_name="Valstija", blank = True, null = True)
     country = CountryField(verbose_name='Šalis', blank=True, null=True)    
 #     image = models.ForeignKey(EventImage, verbose_name='Renginio nuotrauka', blank=False, null=False)
-    image = models.ImageField(max_length=255, verbose_name="Renginio nuotrauka", blank=False, null=False, upload_to=get_image_path)
+    image = models.ImageField(max_length=255, verbose_name="Renginio nuotrauka", null=True, blank=True, upload_to=get_image_path)
     is_community_event = models.BooleanField(verbose_name="Niujorko apygardos arba apylinkės renginys", help_text="Pažymėkite, jei renginį organizuoja JAV LB Niujorko apygarda arba viena iš Niujorko apygardai priklausančių apylinkių.", null=False, blank=False, default=False)
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved events will ever be shown publicly; only administrator can change this value
-    create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now) # Date when the post was created
-    modify_date = models.DateTimeField(null=False, blank=False, editable = False, default = timezone.now) # Date when the post was last modified
+    create_date = models.DateTimeField(null=False, auto_now_add=True) # Date when the post was created
+    modify_date = models.DateTimeField(null=False, auto_now=True) # Date when the post was last modified
     version_number = models.PositiveSmallIntegerField(null=False, blank=False, editable=False, default=1) # keeps track of changes made to object; increased if start_date or end_date is changed (used in ICS calendar generation) 
     
     objects = models.Manager()
@@ -111,7 +110,7 @@ class Event(models.Model):
             return self.title
 
     def get_absolute_url(self):
-        return '/renginiai/{0}'.format(self.id)
+        return settings.SITE_URL + '/renginiai/{0}'.format(self.id)
     
     def get_full_address(self):
         full_address = self.address_title
@@ -191,7 +190,7 @@ class EventAttachment(models.Model):
     file = models.FileField(verbose_name='Prisegamas dokumentas', upload_to='events/attachments', blank=True)
     title = models.CharField(max_length=100, verbose_name='Dokumento pavadinimas', blank=True)
     description = models.CharField(max_length=255, verbose_name='Dokumento aprašymas', blank=True)
-    upload_date = models.DateTimeField(editable=False) # date & time when the document was uploaded
+    upload_date = models.DateTimeField(auto_now_add=True) # date & time when the document was uploaded
     
     class Meta:
         db_table = 'event_attachments'
@@ -203,7 +202,7 @@ class EventComment(models.Model):
     user = models.ForeignKey(User, editable=False) # user who created the post; only that user can edit or delete it
     event = models.ForeignKey(Event, editable = False)
     body = models.TextField(verbose_name='Komentaras')
-    create_date = models.DateTimeField('Date when the post was created', editable= False, default = timezone.now())
+    create_date = models.DateTimeField('Date when the post was created', auto_now_add=True)
 
     class Meta:
         db_table = 'event_comments'

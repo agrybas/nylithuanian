@@ -38,6 +38,28 @@ class RegisterSiteUserForm(forms.ModelForm):
         if password1 and password1 != password2:
             raise ValidationError(u'Įvestos slaptažodžių reikšmės nesutampa.')
         return super(RegisterSiteUserForm, self).clean()
+    
+    def save(self):
+        
+        siteUser = super(RegisterSiteUserForm, self).save()
+        
+        # E-mail user to confirm registration
+        plainText = get_template('emails/reg_confirm_email.txt')
+        htmlText = get_template('emails/reg_confirm_email.html')
+        subject = u'Prašome patvirtinti registraciją'
+        c = Context({
+                     'username' : siteUser.username,
+                     'registration_hash' : siteUser.temp_hash,
+                     'SITE_URL': settings.SITE_URL,
+                     })
+        
+        
+        msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, (siteUser.email, ))
+        msg.attach_alternative(htmlText.render(c), 'text/html')
+        msg.send()
+        
+        return siteUser
+    
 
 class SiteUserPasswordChangeForm(PasswordChangeForm):
     new_password1 = forms.CharField(

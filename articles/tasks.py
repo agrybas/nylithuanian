@@ -1,18 +1,20 @@
 from __future__ import absolute_import
-from articles.celery import celery
-import feedparser
-from articles.models import Article, ArticleSource
+
+from .celery import app
+from .models import Article, ArticleSource
 from users.models import User
+
 from time import mktime
 from datetime import datetime
+import feedparser
 import pytz
 import logging
-import nylithuanian.settings
+from django.conf import settings
 from django.core.mail import mail_admins
 from django.template import Context
 from django.template.loader import get_template
 
-if nylithuanian.settings.DEBUG:
+if settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)
 else:
     logger = logging.getLogger('production.' + __name__)
@@ -29,14 +31,14 @@ TIMEZONES = {
              'http://www.lrytas.lt' : 'Europe/Vilnius',
              }
 
-@celery.task
+@app.task
 def pull_rss_articles(path):
     parser = feedparser.parse(path)
     source = ArticleSource.objects.get(title = SOURCES[parser.feed.link])
     logger.info(u'Found {0} articles from {1} RSS feed...'.format(len(parser.entries), source.title))
     
     logger.debug(u'Looking for articles of source_id={0}'.format(source.id))
-    articles = Article.objects.filter(source_id=source.id).order_by('-publish_date')
+    articles = Article.objects.filter(source_id=source.id).order_by('-create_date')
     logger.info(u'Found {0} articles from {1} currently stored in local database'.format(len(articles), SOURCES[parser.feed.link]))
     
     tz = pytz.timezone(TIMEZONES[parser.feed.link])
@@ -47,7 +49,7 @@ def pull_rss_articles(path):
     # if there exist articles in the database from this source
     if articles:
         recent_article = articles[0]
-        recent_pub_date = recent_article.publish_date.replace(tzinfo = pytz.utc)
+        recent_pub_date = recent_article.create_date.replace(tzinfo = pytz.utc)
         logger.debug(u'Most recent article: "{0}", published on {1}'.format(recent_article.title, recent_pub_date))
         
         for entry in parser.entries:
@@ -62,7 +64,7 @@ def pull_rss_articles(path):
                                   user = User.objects.get(id=1),
                                   title = entry.title,
                                   body = entry.description,
-                                  publish_date = pub_date,
+                                  create_date = pub_date,
                                   #create_date = timezone.now(),
                                   #modify_date = timezone.now(),
                                   source = source,
@@ -96,7 +98,7 @@ def pull_rss_articles(path):
                                   user = User.objects.get(id=1),
                                   title = entry.title,
                                   body = entry.description,
-                                  publish_date = pub_date,
+                                  create_date = pub_date,
                                   #create_date = timezone.now(),
                                   #modify_date = timezone.now(),
                                   source = source,

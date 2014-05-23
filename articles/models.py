@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import RegexValidator
-
+from django.conf import settings
 
 class ArticleSource(models.Model):
     title = models.CharField(verbose_name='RSS straipsnio saltinis', max_length=20, editable = False)
@@ -17,7 +17,7 @@ class ArticleSource(models.Model):
     
 class PublicArticlesManager(models.Manager):
     def get_query_set(self):
-        return super(PublicArticlesManager, self).get_query_set().filter(is_approved=True).filter(publish_date__lte=timezone.now())
+        return super(PublicArticlesManager, self).get_query_set().filter(is_approved=True)
 
 # Data model for articles; articles may contain a short summary that will be used to briefly introduce the article
 # Article must be approved by administrator before it's shown publicly; Name and contact info shown next to article will be that of
@@ -33,9 +33,8 @@ class Article(models.Model):
     signature = models.CharField(null=False, blank=True, max_length=255, verbose_name="Autoriaus parašas", help_text="Papildoma informacija apie autorių") 
     phone_number = models.CharField(null=False, blank=True, max_length = 20, verbose_name="Telefono numeris", help_text="Autoriaus telefono numeris", validators=[RegexValidator(r'^[-0-9+() ]*$')])
     email_address = models.EmailField(null=False, blank=True, verbose_name="El. pašto adresas", help_text="Autoriaus elektroninio pašto adresas")
-    create_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio ikelimo data', editable= False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
-    modify_date = models.DateTimeField(null=False, blank=False, default=timezone.now, verbose_name='Straipsnio paskutinio redagavimo data', editable = False, help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
-    publish_date = models.DateTimeField(null=False, blank=True, default=timezone.now, verbose_name='Publikavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    create_date = models.DateTimeField(null=False, auto_now_add=True, verbose_name='Straipsnio ikelimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
+    modify_date = models.DateTimeField(null=False, auto_now=True, verbose_name='Straipsnio paskutinio redagavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     is_approved = models.BooleanField(null=False, blank=False, default = False) # only approved articles will ever be shown publicly; only administrator can change this value
     external_link = models.URLField(null=True, blank=True, verbose_name='Nuoroda į RSS straipsnį')
     source = models.ForeignKey(ArticleSource, null=True, blank=True, verbose_name='RSS straipsnio šaltinis')
@@ -50,13 +49,13 @@ class Article(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return '/straipsniai/{0}'.format(self.id)
+        return settings.SITE_URL + '/straipsniai/{0}'.format(self.id)
     
 class ArticleComment(models.Model):
     user = models.ForeignKey(User, null=False, blank=False, editable=False) # user who created the post; only that user can edit or delete it
     article = models.ForeignKey(Article, null=False, blank=False, editable = False)
     body = models.TextField(null=False, blank=False, verbose_name='Komentaras')
-    create_date = models.DateTimeField(null=False, blank=False, editable= False, default = timezone.now, verbose_name='Date when the post was created')
+    create_date = models.DateTimeField(null=False, auto_now_add=True, verbose_name='Date when the post was created')
 
     
     class Meta:

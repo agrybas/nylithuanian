@@ -1,0 +1,13 @@
+<p>
+    Informuojame, kad {{ user.first_name }} {{ user.last_name }} 
+    ({{ user.username }}) redagavo žemiau pateiktą renginį.
+</p>
+
+<ul>
+    <li>Pavadinimas: {{ event.title }}</li>
+    <li>Aprašymas: {{ event.body|striptags|truncatewords:50 }}</li>
+    <li>Pradžia: {{ event.start_date }}</li>
+    <li>Adresas: {{ event.get_full_address }}</li>
+</ul>
+
+<p><a href="{{ event.get_absolute_url }}">Peržiūrėti</a></p>

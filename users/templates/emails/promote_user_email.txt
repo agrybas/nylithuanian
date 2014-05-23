@@ -7,4 +7,4 @@ Prašomas tipas: {{ new_user_type }}
 
 Prašome apsilankyti žemiau nurodytu adresu ir patvirtinti:
 
-http://www.nylithuanian.org/patvirtinti/{{ new_user_type }}/{{ username }}/{{ registration_hash }}
+{{ SITE_URL }}/patvirtinti/{{ new_user_type }}/{{ username }}/{{ registration_hash }}

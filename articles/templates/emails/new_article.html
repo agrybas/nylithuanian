@@ -6,5 +6,6 @@
     <li>Pavadinimas: {{ article.title }}</li>
     <li>Autoriaus vardas: {{ article.first_name }}</li>
     <li>Autoriaus pavardė: {{ article.last_name }}</li>
-    <li>Publikavimo data: {{ article.publish_date }}</li>
 </ul>
+
+<p><a href="{{ article.get_absolute_url }}">Peržiūrėti ir patvirtinti</a></p>

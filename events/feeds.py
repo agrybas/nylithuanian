@@ -8,7 +8,7 @@ from django.utils.encoding import smart_text
 from django.template import defaultfilters
 from .models import Event
 
-DOMAIN = 'http://dev.nylithuanian.org/'
+DOMAIN = 'https://www.nylithuanian.org/'
 
 if settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)

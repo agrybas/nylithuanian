@@ -1,33 +1,45 @@
 # NYLITHUANIAN SETTINGS - DEVELOPMENT
 from datetime import timedelta
 
-# Add Celery support to site
-# CELERY_RESULT_BACKEND = 'amqp'
-# BROKER_URL = 'amqp://rabbit_user:234wer234@localhost:5672/macvhost'
-# import  djcelery
-# djcelery.setup_loader()
-# 
-# CELERYBEAT_SCHEDULE = {
-#                        'atnaujinti-delfi-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.delfi.lt/rss/feeds/emigrants.xml',)
-#                                                          },
-# 
-#                        'atnaujinti-balsas-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.balsas.lt/rss/sarasas/85',)
-#                                                          },
-#                        
-#                        'atnaujinti-lrytas-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.lrytas.lt/rss/?tema=37',)
-#                                                          },
-#                        }
+# site-wide Celery settings
+CELERY_RESULT_BACKEND = 'amqp'
+BROKER_URL = 'amqp://rabbit_user:234wer234@meskis:5672/nylt_dev_host'
+CELERYD_NODES = "w1"
+CELERYD_CHDIR = "/home/algirdas/Web/nylithuanian.org/"
+CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
+CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
+CELERY_ENABLE_UTC = False
+#CELERY_TIMEZONE = "US/Eastern"
+CELERYD_OPTS = "--time-limit=300 --concurrency=8"
+CELERYD_LOG_FILE = "/var/log/celery/celery.log"
+CELERYD_PID_FILE = "/var/run/celery/celery.pid"
+#CELERYD_USER = "celery"
+#CELERYD_GROUP = "celery"
 
+import  djcelery
+djcelery.setup_loader()
+ 
+CELERYBEAT_SCHEDULE = {
+                       'atnaujinti-delfi-straipsnius' : {
+                                                         'task' : 'articles.tasks.pull_rss_articles',
+                                                         'schedule' : timedelta(minutes=1),
+                                                         'args' : ('http://www.delfi.lt/rss/feeds/emigrants.xml',)
+                                                         },
 
+                       'atnaujinti-balsas-straipsnius' : {
+                                                         'task' : 'articles.tasks.pull_rss_articles',
+                                                         'schedule' : timedelta(minutes=1),
+                                                         'args' : ('http://www.balsas.lt/rss/sarasas/85',)
+                                                         },
+                       
+                       'atnaujinti-lrytas-straipsnius' : {
+                                                         'task' : 'articles.tasks.pull_rss_articles',
+                                                         'schedule' : timedelta(minutes=1),
+                                                         'args' : ('http://www.lrytas.lt/rss/?tema=37',)
+                                                         },
+                       }
+
+SITE_URL = "http://localhost:8000"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -36,6 +48,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+EVENTS_PRIMARY_EMAIL = 'events@nylithuanian.org'
 
 SERVER_EMAIL = 'info@nylithuanian.org'
 SEND_BROKEN_LINK_EMAILS = True
@@ -47,7 +60,7 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nylt',  # Or path to database file if using sqlite3.
+        'NAME': 'nylt',  # DB name or path to database file if using sqlite3.
         'USER': 'nylt',  # Not used with sqlite3.
         'PASSWORD': '234wer234',  # Not used with sqlite3.
         'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
@@ -86,7 +99,7 @@ LOGIN_REDIRECT_URL = '/'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/algirdas/Web/nylithuanian.org/assets/media/'
+MEDIA_ROOT = SITE_ROOT + 'assets/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -97,7 +110,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/algirdas/Web/nylithuanian.org/static/'
+STATIC_ROOT = SITE_ROOT + 'static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -105,7 +118,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-                    '/home/algirdas/Web/nylithuanian.org/nylithuanian/static',
+                    SITE_ROOT + 'nylithuanian/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -128,6 +141,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
@@ -143,9 +157,10 @@ TEMPLATE_LOADERS = (
 #    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = '/home/algirdas/Web/nylithuanian.org/nylithuanian/tmp/email'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = SITE_ROOT + 'nylithuanian/tmp/email'
+# EMAIL_FILE_PATH = '/tmp/email'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -163,7 +178,7 @@ ROOT_URLCONF = 'nylithuanian.urls'
 WSGI_APPLICATION = 'nylithuanian.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/algirdas/Web/nylithuanian.org/nylithuanian/templates',
+    SITE_ROOT + 'nylithuanian/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -181,15 +196,14 @@ INSTALLED_APPS = (
     'users',
     'events',
     'articles',
-#    'greetings',
-#    'sympathies',
     'photos',
     'classifieds',
-    'announcements'
+    'announcements',
+    'newsletters',
+    'djcelery'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

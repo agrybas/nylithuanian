@@ -11,22 +11,20 @@
 
 {% block sidebar %}
 <h2 class="headline">Daugiau</h2>
-<ul>
+<ul class="clean">
 	{% comment %}
 	<li>
 		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/redakcija/">Komanda</a>
 	</li>
 	{% endcomment %}
 	<li>
-		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/reklama/">Reklama</a>
+		<a {% if active_item == 'reklama' %}class="active" {% endif %}href="/apie-mus/reklama/">Reklama</a>
 	</li>
 	<li>
-		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}href="/apie-mus/rasyk/">Rašyk!</a>
+		<a {% if active_item == 'pranesk' %}class="active" {% endif %}href="/apie-mus/pranesk/">Pranešk!</a>
 	</li>
-	{% comment %}
 	<li>
-		<a href="">Informacijos skelbimo politika</a>
+		<a {% if active_item == 'nuostatos' %}class="active" {% endif %}href="/apie-mus/nuostatos/">Informacijos skelbimo nuostatos</a>
 	</li>
-	{% endcomment %}
 </ul>
 {% endblock %}

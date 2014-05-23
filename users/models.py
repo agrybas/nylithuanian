@@ -7,6 +7,8 @@ from django.template.loader import get_template
 from django.core.signing import Signer
 from django.core.mail import mail_admins
 from django_countries.fields import CountryField
+from localflavor.us.models import USStateField
+from django.core.validators import RegexValidator
 
 import datetime
 import random
@@ -67,9 +69,15 @@ BOOLEAN_YES_NO = (
 
 # Data model containing all basic information about registered users
 class SiteUser(User):
-    password_old = models.CharField(max_length=32, blank=True)
-    saved_new_password = models.BooleanField(default=False) # whether the user has set a new password (if not, site asks to do so on the next login)
-    organization_title = models.CharField(max_length=100, blank=True, verbose_name="Organizacijos pavadinimas", help_text="Jei šią vartotojo sąskaitą naudosite kaip organizacija, įrašykite organizacijos pavadinimą") # if the user is an organization, its title
+    # organization_title = models.CharField(max_length=100, blank=True, verbose_name="Organizacijos pavadinimas", help_text="Jei šią vartotojo sąskaitą naudosite kaip organizacija, įrašykite organizacijos pavadinimą") # if the user is an organization, its title
+    phone_number = models.CharField(max_length = 20, verbose_name="Telefono numeris", blank=True, validators=[RegexValidator(r'^[-0-9+() ]*$', message=u'Telefono numeris turi būti sudarytas tik iš skaičių, tarpų ir simbolių -,+,(,).')])
+    street_address1 = models.CharField(verbose_name="Adresas 1", max_length = 100, blank = True)
+    street_address2 = models.CharField(verbose_name="Adresas 2", max_length = 100, blank = True)
+    street_address3 = models.CharField(verbose_name="Adresas 3", max_length = 100, blank = True)
+    city = models.CharField(verbose_name="Miestas", max_length = 20, blank = True)
+    zip_code = models.CharField(max_length=10, verbose_name="Pašto indeksas", blank=True)
+    state = USStateField(verbose_name="Valstija", blank = True, null = True)
+    country = CountryField(verbose_name='Šalis', blank=True, null=True)
     gender = models.CharField(max_length=6, blank=True, choices=GENDER_LIST, verbose_name="Lytis")
     birth_date = models.DateField(null=True, blank=True)
     relationship_status = models.CharField(max_length=12, blank=True, choices=RELATIONSHIP_TYPES, verbose_name="Vedybinė padėtis")
@@ -80,7 +88,7 @@ class SiteUser(User):
     is_subscribed = models.BooleanField(default=True, choices=BOOLEAN_YES_NO, verbose_name="Pageidauju gauti bendruomenės savaitinį el. naujienlaiškį")
     temp_hash = models.CharField(max_length=32, blank=True, verbose_name='Temporary confirmation hash')
     favorite_articles = models.ManyToManyField('articles.Article', related_name='article+', null=True, blank=True, verbose_name='Vartotojo mėgstami straipsniai') # articles marked as favorite
-
+    modify_date = models.DateTimeField(verbose_name="Sąskaitos atnaujinimo data", null=False, auto_now=True)
 #     objects = SiteUserManager()
 
     class Meta:
@@ -89,9 +97,6 @@ class SiteUser(User):
 
     def __unicode__(self):
         return self.username
-
-    def joined_recently(self):
-        return self.user.date_joined >= timezone.now() - datetime.timedelta(days=7)
 
     # Generate hash for confirmation
     def generateHash(self):

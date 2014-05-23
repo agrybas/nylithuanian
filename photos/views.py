@@ -51,7 +51,6 @@ class GalleryCreateView(GalleryView, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.date_added = timezone.now()
         return super(GalleryCreateView, self).form_valid(form)
     
 class GalleryUpdateView(GalleryView, UpdateView, UserOwnedObjectMixin):
@@ -109,7 +108,6 @@ class PhotoCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.date_added = timezone.now()
         return super(PhotoCreateView, self).form_valid(form)
     
 class PhotoUpdateView(PhotoView, UpdateView, UserOwnedObjectMixin):
@@ -133,7 +131,6 @@ class PhotoCommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         form.instance.photo_id = self.kwargs['pk']
-        form.instance.create_date = timezone.now()
         return super(CommentCreateView, self).form_valid(form)
 
 class EventPhotoListView(PhotoListView):

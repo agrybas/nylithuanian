@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block javascript %}
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
 	<script>
 		$(function() {
@@ -114,12 +114,13 @@
 <p>
 	Jei nori įsilieti į bendruomenės veiklą – būti naujienų bei įvykių sukūryje, 
 	dalyvauti renginiuose, bendrauti, priimti sprendimus, sužinok, kaip tai 
-	gali padaryti, paspaudęs (-usi) <a title="Prisijunk" 
-	href="prisijunk">"Prisijunk!"</a>
+	gali padaryti, paspaudęs (-usi) <a title="Dalyvauk veikloje!" 
+	href="prisijunk">"Dalyvauk veikloje!"</a>
 </p>
 
 <p style="text-align: center;">
-	<img alt="JAV LB struktūra" title="JAV LB struktūra" src="{{ STATIC_URL }}images/jav_lb_struktura.jpg" />
+	<img alt="JAV LB struktūra" title="JAV LB struktūra" 
+	src="{{ STATIC_URL }}images/jav_lb_struktura.jpg" />
 </p>
 
 {% endblock %}
@@ -131,7 +132,10 @@
 		<a {% if active_item == 'susitelkimo-centrai' %}class="active" {% endif %}title="Susitelkimo centrai" href="/apie-mus/susitelkimo-centrai/">Susitelkimo centrai</a>
 	</li>
 	<li>
-		<a {% if active_item == 'prisijunk' %}class="active" {% endif %}title="Prisijunk" href="/apie-mus/prisijunk/">Prisijunk!</a>
+		<a {% if active_item == 'prisijunk' %}class="active" {% endif %}title="Prisijunk" href="/apie-mus/prisijunk/">Dalyvauk veikloje!</a>
+	</li>
+	<li>
+		<a {% if active_item == 'parama' %}class="active" {% endif %}title="Parama" href="/apie-mus/parama/">Parama Bendruomenei</a>
 	</li>
 	{% comment %}
 	<li>

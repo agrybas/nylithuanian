@@ -4,7 +4,7 @@ from django.forms import ModelForm, Textarea, TextInput
 from .models import Photo, Gallery, PhotoComment, BulkPhotoUpload
 
 # maximum allowed single image size in MB
-MAX_IMAGE_SIZE = 5
+MAX_IMAGE_SIZE = 10
 
 class PhotoForm(ModelForm):
     error_css_class = 'error'

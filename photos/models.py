@@ -22,6 +22,7 @@ from django.utils import timezone
 from events.models import Event
 
 import logging
+import uuid
 import nylithuanian.settings as settings
 
 if settings.DEBUG:
@@ -34,20 +35,20 @@ from .utils.watermark import apply_watermark
 
 # Required PIL classes may or may not be available from the root namespace
 # depending on the installation method used.
+# try:
+#     import Image
+#     import ImageFile
+#     import ImageFilter
+#     import ImageEnhance
+# except ImportError:
 try:
-    import Image
-    import ImageFile
-    import ImageFilter
-    import ImageEnhance
+    from PIL import Image
+    from PIL import ImageFile
+    from PIL import ImageFilter
+    from PIL import ImageEnhance
 except ImportError:
-    try:
-        from PIL import Image
-        from PIL import ImageFile
-        from PIL import ImageFilter
-        from PIL import ImageEnhance
-    except ImportError:
-        raise ImportError(
-            'Unable to import the Python Imaging Library. Please confirm it`s installed and available on your current Python path.')
+    raise ImportError(
+        'Unable to import the Python Imaging Library. Please confirm it`s installed and available on your current Python path.')
 
 # attempt to load the django-tagging TagField from default location,
 # otherwise we substitute a dummy TagField.
@@ -100,9 +101,13 @@ if PHOTOS_PATH is not None:
         get_temp_path = get_storage_path + '/temp'
 else:
     def get_storage_path(instance, filename):
-        return os.path.join(PHOTOS_DIR, 'photos', filename)
+            ext = filename.split('.')[-1]
+            filename = "%s.%s" % (uuid.uuid4().hex, ext)
+            return os.path.join(PHOTOS_DIR, 'photos', filename)
     def get_temp_path(instance, filename):
-        return os.path.join(PHOTOS_DIR, 'photos/temp', filename)
+            ext = filename.split('.')[-1]
+            filename = "%s.%s" % (uuid.uuid4().hex, ext)
+            return os.path.join(PHOTOS_DIR, 'photos/temp', filename)
 
 # choices for new crop_anchor field in Photo
 CROP_ANCHOR_CHOICES = (
@@ -135,7 +140,7 @@ class Gallery(models.Model):
     description = models.TextField(verbose_name='Aprašymas', blank=True)
     user = models.ForeignKey(User, blank=False, null=False, editable=False)  # user who created the gallery
     event = models.ForeignKey(Event, verbose_name="Albume užfiksuotos akimirkos iš šio renginio:", blank=True, null=True, help_text='Jei susisiesite albumą su renginiu, svetainės lankytojai galės rasti jūsų albumą naršydami kitą informaciją apie susietą renginį.')
-    date_added = models.DateTimeField(verbose_name='Sukūrimo data', default=now)
+    date_added = models.DateTimeField(verbose_name='Sukūrimo data', auto_now_add=True)
     is_public = models.BooleanField(verbose_name='Publikuojamas viešai', default=True, help_text='Public galleries will be displayed in the default views.')
     tags = TagField(verbose_name='Raktiniai žodžiai', help_text='Raktinius žodžius atskirkite tarpeliais, raktines frazes įveskite kabutėse.')
 
@@ -150,7 +155,7 @@ class Gallery(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/nuotraukos/gallery/{0}'.format(self.id)
+        return settings.SITE_URL + '/nuotraukos/gallery/{0}'.format(self.id)
 
     def latest(self, limit=LATEST_LIMIT, public=True):
         if not limit:
@@ -199,7 +204,7 @@ class Photo(models.Model):
     title = models.CharField(verbose_name='Nuotraukos pavadinimas', max_length=100, blank=True)
     description = models.TextField(verbose_name='Nuotraukos aprašymas', blank=True)
     date_taken = models.DateTimeField(verbose_name='Fotografijos data', null=True, blank=True, editable=False)
-    date_added = models.DateTimeField(verbose_name='Nuotraukos įkėlimo data', null=False, blank=False, editable=False, default=timezone.now(), help_text='Nuotraukos albume rūšiuojamos pagal šį laukelį (jei nenurodyta kitaip).')
+    date_added = models.DateTimeField(verbose_name='Nuotraukos įkėlimo data', null=False, auto_now_add=True, help_text='Nuotraukos albume rūšiuojamos pagal šį laukelį (jei nenurodyta kitaip).')
     view_count = models.PositiveIntegerField(verbose_name='Peržiūrų skaičius', default=0, null=False, blank=False, editable=False)
     crop_from = models.CharField(verbose_name='Iškirpti nuo', blank=True, max_length=10, default='center', choices=CROP_ANCHOR_CHOICES)
     is_cover = models.BooleanField(verbose_name="Albumo viršelis", default=False)
@@ -686,7 +691,7 @@ class PhotoComment(models.Model):
     user = models.ForeignKey(User, blank=False, null=False, editable=False) # user who uploaded the photo; only that user can edit or delete it
     photo = models.ForeignKey(Photo, blank=False, null=False, editable = False)
     body = models.TextField(verbose_name='Komentaras')
-    create_date = models.DateTimeField(editable=False, blank=False, null=False, default=timezone.now())
+    create_date = models.DateTimeField(null=False, auto_now_add=True)
 
     class Meta:
         db_table = 'photo_comments'

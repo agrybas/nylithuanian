@@ -1,6 +1,6 @@
 #encoding=utf-8
 from events.celery import celery
-from nylithuanian import settings
+from django.conf import settings
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
@@ -14,7 +14,7 @@ def send_reminder(event, recipient_email):
     c = Context({
                      'event' : event,
                      })
-    
+     
     msg = EmailMultiAlternatives(subject, plainText.render(c), settings.SERVER_EMAIL, to)
     msg.attach_alternative(htmlText.render(c), 'text/html')
     msg.send()

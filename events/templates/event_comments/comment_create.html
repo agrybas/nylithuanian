@@ -50,7 +50,7 @@
     <div id="comments">
         {% for comment in comment_list %}
             <dl class="profiles small">
-                <dt><a href='/nariai/{{ comment.user.username }}'>{{ comment.user.username }}</a></dt>
+                <dt></dt>
                 <dd><p><i>{{ comment.user.username }}:</i> {{ comment.body|textile }}</p></dd>
                 <dd>{{ comment.create_date }}</dd>
             </dl>
