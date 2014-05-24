@@ -5,7 +5,8 @@
 {% block javascript %}
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-
+	<script language="Javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.countdown.min.js"></script>
+	
 	<script>
 		$(function() {
 	
@@ -16,7 +17,12 @@
 				active : false,
 				animate: 'easeOutCubic'
 			});
-	
+		
+			$('#digits').countdown({
+				image: "{{ STATIC_URL }}images/countdown/digits.png",
+				format: "dd:hh:mm:ss",
+          		endTime: new Date(2014, 5, 25, 13, 0, 0)
+			});
 		}); 
 	</script>
 
@@ -75,6 +81,14 @@
 {% endblock %}
 
 {% block content %}
+<div id="holder">
+	<p>Nepamiršk balsuoti LR Prezidento ir Europos Parlamento rinkimuose!</p>
+	<div id="digits"></div>
+	<span class="countdown">Dienos</span>
+	<span class="countdown">Valandos</span>
+	<span class="countdown">Minutės</span>
+	<span class="countdown">Sekundės</span>
+</div>
 
 <h1 class="headline">Artimiausi renginiai</h1>
 <div id="main-top">
@@ -328,4 +342,3 @@
     </ul>
 </div>
 {% endblock %}
-

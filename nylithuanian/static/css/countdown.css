@@ -1,0 +1,26 @@
+#holder {
+  width: 100%;
+  height: 100%;
+  margin: 10px auto;
+}
+
+#holder .countdown {
+	margin-left: 100px;
+}
+
+#holder > p {
+	font: normal 2em/200% 'Alegreya SC';
+	margin-bottom: 10px;
+}
+
+.cntSeparator { display: none; }
+
+
+.cntDigit#cnt_0 { margin-left: 52px; }
+.cntDigit#cnt_2 { margin-left: 7px; }
+
+.countdown {
+	float: left;
+	width: 35px;
+	font: normal 1.3em/150% 'Inder'; 
+}
