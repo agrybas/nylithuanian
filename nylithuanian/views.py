@@ -16,6 +16,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 import logging
 import settings
+import pytz
 
 if settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)
@@ -33,6 +34,8 @@ class HomeView(TemplateView):
         context['announcements'] = Announcement.public.order_by('-create_date')[:3]
         context['classifieds'] = Classified.public.order_by('-create_date')[:5]
         context['photo_albums'] = Gallery.objects.filter(is_public=True).order_by('-date_added')[:5]
+        context['cutoff_time'] = timezone.datetime(2014,5,25,17,0,0, tzinfo=timezone.utc)
+        context['current_time'] = timezone.now()
 #        context['user_count'] = SiteUser.objects.filter(is_active=True).count()
         return context
     

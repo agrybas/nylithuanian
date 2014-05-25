@@ -81,14 +81,16 @@
 {% endblock %}
 
 {% block content %}
-<div id="holder">
-	<p>Nepamiršk balsuoti LR Prezidento ir Europos Parlamento rinkimuose!</p>
-	<div id="digits"></div>
-	<span class="countdown">Dienos</span>
-	<span class="countdown">Valandos</span>
-	<span class="countdown">Minutės</span>
-	<span class="countdown">Sekundės</span>
-</div>
+{% if cutoff_time > current_time %}
+	<div id="holder">
+		<p>Nepamiršk balsuoti LR Prezidento ir Europos Parlamento rinkimuose!</p>
+		<div id="digits"></div>
+		<span class="countdown">Dienos</span>
+		<span class="countdown">Valandos</span>
+		<span class="countdown">Minutės</span>
+		<span class="countdown">Sekundės</span>
+	</div>
+{% endif %}
 
 <h1 class="headline">Artimiausi renginiai</h1>
 <div id="main-top">
