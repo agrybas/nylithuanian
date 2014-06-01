@@ -91,15 +91,8 @@ def send(request, *args, **kwargs):
     recent_classifieds = Classified.public.order_by('-create_date')[:3]
     logger.info(u'{0} recent classifieds'.format(recent_classifieds.count())) 
     
-    newsletter = Newsletter.objects.get(id=kwargs['pk'])
-      
-    subscribers = SiteUser.objects.filter(is_subscribed=True).values_list('email', flat=True)
-    logger.info(u'{0} subscribers'.format(subscribers.count()))
-    
-    plainText = get_template('newsletters/newsletter_detail.txt')
-    htmlText = get_template('newsletters/newsletter_detail.html')
+    newsletter = Newsletter.objects.get(id=kwargs['pk'])        
     subject = u'Artimiausi renginiai Niujorke'
-    from_address = 'events@nylithuanian.org'
     
     c = Context({
                  'event_list' : upcoming_events,
@@ -113,21 +106,23 @@ def send(request, *args, **kwargs):
                  'google_analytics_event_heading': '?utm_source=newsletter&utm_medium=email&utm_campaign=newsletter&utm_content=heading',
                  'google_analytics_event_description': '?utm_source=newsletter&utm_medium=email&utm_campaign=newsletter&utm_content=description',
                  })
-       
-    conn = get_connection()
-    conn.open() # open single SMTP connection to use for mass email
+
+    plainText = get_template('newsletters/newsletter_detail.txt').render(c)
+    htmlText = get_template('newsletters/newsletter_detail.html').render(c)
     
-    for to_address in subscribers:
-        try:
-            msg = EmailMultiAlternatives(subject, plainText.render(c), from_address, to=(to_address,), connection=conn)
-            msg.attach_alternative(htmlText.render(c), 'text/html')
-            msg.send(fail_silently=False)
-        except SMTPException:
-            logger.error(u'An SMTP error occurred while sending email to {0}'.format(to_address))
-        
-    conn.close() # no more emails to send -- close connection
-    logger.info(u'Newsletter sent successfully.')
-  
+#     subscribers = ['algirdas.grybas@gmail.com', 'agrybas@nylithuanian.org']
+#     logger.info(u'{0} subscribers'.format(len(subscribers)))
+    subscribers = SiteUser.objects.filter(is_subscribed=True).values_list('email', flat=True)
+    logger.info(u'{0} subscribers'.format(subscribers.count()))
+    subscribers = list(subscribers.all())
+    split = int(ceil(len(subscribers)/4.))
+    split_sets = [subscribers[i * split : (i+1) * split] for i in range(4)] 
+    
+    i = 0
+    for recipients in split_sets:
+        send_newsletter.apply_async((subject, settings.EVENTS_PRIMARY_EMAIL, recipients, plainText, htmlText), countdown = 300*i)
+        i += 1
+    
     return render_to_response('events/success.html', {
                                                       'message': 'Naujienlaiškis išsiųstas sėkmingai.',
                                                       }, context_instance=RequestContext(request))

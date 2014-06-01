@@ -42,6 +42,7 @@ CELERYBEAT_SCHEDULE = {
 SITE_URL = "http://localhost:8000"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+INTERNAL_IPS = ('192.168.1.100',)
 
 ADMINS = (
     ('Algirdas Grybas', 'webmaster@nylithuanian.org'),

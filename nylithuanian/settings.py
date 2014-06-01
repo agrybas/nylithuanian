@@ -5,7 +5,7 @@ from datetime import timedelta
 CELERY_RESULT_BACKEND = 'amqp'
 BROKER_URL = 'amqp://rabbit_user:234wer234@meskis:5672/nylt_dev_host'
 CELERYD_NODES = "w1"
-CELERYD_CHDIR = "/var/www/nylithuanian/"
+CELERYD_CHDIR = "/home/algirdas/Web/nylithuanian.org/"
 CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
 CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
 CELERY_ENABLE_UTC = False
