@@ -179,6 +179,7 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 #EMAIL_HOST_USER = 'webmaster@nylithuanian.org'
 #EMAIL_HOST_PASSWORD = 'V1k96263@1781k8^7*%SShUK'
+EMAIL_FILE_PATH = '/tmp/email' # if using filebased EmailBackend (for testing)
 
 
 MIDDLEWARE_CLASSES = (
