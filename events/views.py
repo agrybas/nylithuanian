@@ -33,6 +33,7 @@ if nylithuanian.settings.DEBUG:
 else:
     logger = logging.getLogger('production.' + __name__)
 
+
 class UpcomingEventsListView(ListView):
     model = Event
     queryset = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')

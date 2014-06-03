@@ -109,10 +109,8 @@ def send(request, *args, **kwargs):
 
     plainText = get_template('newsletters/newsletter_detail.txt').render(c)
     htmlText = get_template('newsletters/newsletter_detail.html').render(c)
-    
-#     subscribers = ['algirdas.grybas@gmail.com', 'agrybas@nylithuanian.org']
-#     logger.info(u'{0} subscribers'.format(len(subscribers)))
-    subscribers = SiteUser.objects.filter(is_subscribed=True).values_list('email', flat=True)
+
+    subscribers = SiteUser.objects.filter(is_subscribed=True).order_by('email').values_list('email', flat=True)
     logger.info(u'{0} subscribers'.format(subscribers.count()))
     subscribers = list(subscribers.all())
     split = int(ceil(len(subscribers)/4.))
@@ -120,6 +118,8 @@ def send(request, *args, **kwargs):
     
     i = 0
     for recipients in split_sets:
+        logger.info(u'Scheduling a task for {0}'.format(timezone.now() + timezone.timedelta(seconds=300*i)))
+        logger.debug(u'Will e-mail these addresses: {0}'.format(recipients))
         send_newsletter.apply_async((subject, settings.EVENTS_PRIMARY_EMAIL, recipients, plainText, htmlText), countdown = 300*i)
         i += 1
     
@@ -127,7 +127,7 @@ def send(request, *args, **kwargs):
                                                       'message': 'Naujienlaiškis išsiųstas sėkmingai.',
                                                       }, context_instance=RequestContext(request))
     
-def send_test(request, *args, **kwargs):
+def test_send(request, *args, **kwargs):
     logger.info(u'Preparing to test-send newsletter.')
             
     upcoming_events = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
@@ -164,17 +164,19 @@ def send_test(request, *args, **kwargs):
     plainText = get_template('newsletters/newsletter_detail.txt').render(c)
     htmlText = get_template('newsletters/newsletter_detail.html').render(c)
     
-#     subscribers = ['algirdas.grybas@gmail.com', 'agrybas@nylithuanian.org']
-#     logger.info(u'{0} subscribers'.format(len(subscribers)))
-    subscribers = SiteUser.objects.filter(is_subscribed=True).values_list('email', flat=True)
+    subscribers = SiteUser.objects.filter(is_subscribed=True).order_by('email').values_list('email', flat=True)
     logger.info(u'{0} subscribers'.format(subscribers.count()))
     subscribers = list(subscribers.all())
     split = int(ceil(len(subscribers)/4.))
     split_sets = [subscribers[i * split : (i+1) * split] for i in range(4)] 
     
+    i = 0
     for recipients in split_sets:
-        send_newsletter.apply_async((subject, settings.EVENTS_PRIMARY_EMAIL, recipients, plainText, htmlText), countdown = random.randint(0, 100))
-    
+        logger.info(u'Scheduling a task for {0}'.format(timezone.now() + timezone.timedelta(seconds=300*i)))
+        logger.debug(u'Will e-mail these addresses: {0}'.format(recipients))
+        test_send_newsletter.apply_async((subject, settings.EVENTS_PRIMARY_EMAIL, recipients, plainText, htmlText), countdown = 300*i)
+        i += 1
+        
     return render_to_response('events/success.html', {
                                                       'message': 'Naujienlaiškis išsiųstas sėkmingai.',
                                                       }, context_instance=RequestContext(request))

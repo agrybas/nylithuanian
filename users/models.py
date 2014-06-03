@@ -85,7 +85,7 @@ class SiteUser(User):
     home_country = CountryField(verbose_name='Gimtoji šalis', blank=True, null=True)
     shirt_size = models.CharField(max_length=3, blank=True, choices=SHIRT_SIZES)
     community = models.CharField(max_length=9, blank=True, choices=COMMUNITIES, verbose_name="Pageidauju priklausyti šiai Niujorko apylinkei:")
-    is_subscribed = models.BooleanField(default=True, choices=BOOLEAN_YES_NO, verbose_name="Pageidauju gauti bendruomenės savaitinį el. naujienlaiškį")
+    is_subscribed = models.BooleanField(default=BOOLEAN_YES_NO[0][0], choices=BOOLEAN_YES_NO, verbose_name="Pageidauju gauti bendruomenės savaitinį el. naujienlaiškį")
     temp_hash = models.CharField(max_length=32, blank=True, verbose_name='Temporary confirmation hash')
     favorite_articles = models.ManyToManyField('articles.Article', related_name='article+', null=True, blank=True, verbose_name='Vartotojo mėgstami straipsniai') # articles marked as favorite
     modify_date = models.DateTimeField(verbose_name="Sąskaitos atnaujinimo data", null=False, auto_now=True)

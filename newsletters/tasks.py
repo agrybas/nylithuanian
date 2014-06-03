@@ -33,6 +33,26 @@ if not settings.DEBUG:
     @app.task
     def send_newsletter(subject, from_address, recipient_list, message, html_message):
            
+        conn = get_connection()
+        conn.open() # open single SMTP connection to use for mass email
+        
+        count = 0
+        for to_address in recipient_list:
+            try:
+                logger.debug(u'Sending newsletter to {0}'.format(to_address))
+                msg = EmailMultiAlternatives(subject, message, from_address, to=(to_address,), connection=conn)
+                msg.attach_alternative(html_message, 'text/html')
+                msg.send()
+                count += 1
+            except SMTPException:
+                logger.error(u'An SMTP error occurred while sending email to {0}'.format(to_address))
+            
+        conn.close() # no more emails to send -- close connection
+        logger.info(u'{0} newsletters sent successfully.'.format(count))
+    
+    @app.task
+    def test_send_newsletter(subject, from_address, recipient_list, message, html_message):
+           
         conn = get_connection(backend='django.core.mail.backends.filebased.EmailBackend',)
         conn.open() # open single SMTP connection to use for mass email
         

@@ -246,53 +246,107 @@ LOGGING = {
          }
      },
     'handlers': {
-                 'console': {
-                             'level': 'DEBUG',
-                             'class': 'logging.StreamHandler',
-                             'formatter': 'simple'
-                             },
-                 'debug': {
-                          'level': 'DEBUG',
-                          'class': 'logging.handlers.TimedRotatingFileHandler',
-                          'when': 'd',
-                          'utc': True,
-                          'backupCount': 100,
-                          'filename': '/var/log/nylithuanian/debug/main.log',
-                          'formatter': 'simple'
-                          },
-                 'debug.articles': {
-                                    'level': 'DEBUG',
-                                    'class': 'logging.handlers.TimedRotatingFileHandler',
-                                    'when': 'd',
-                                    'utc': True,
-                                    'backupCount': 100,
-                                    'formatter': 'simple',
-                                    'filename': '/var/log/nylithuanian/debug/articles.log'
-                                    },
-                 'debug.events': {
-                                    'level': 'DEBUG',
-                                    'class': 'logging.handlers.TimedRotatingFileHandler',
-                                    'when': 'd',
-                                    'utc': True,
-                                    'backupCount': 100,
-                                    'formatter': 'simple',
-                                    'filename': '/var/log/nylithuanian/debug/events.log'
-                                    },
-                 'production': {
-                                'level': 'INFO',
-                                'class': 'logging.handlers.TimedRotatingFileHandler',
-                                'when': 'd',
-                                'utc': True,
-                                'backupCount': 100,
-                                'filename': '/var/log/nylithuanian/prod/main.log',
-                                'formatter': 'simple'
-                          },
-                 'mail_admins': {
-                                 'level': 'ERROR',
-                                  'filters': ['require_debug_false'],
-                                 'formatter': 'verbose',
-                                 'class': 'django.utils.log.AdminEmailHandler'
-                                 }
+                    'console': {
+                              'level': 'DEBUG',
+                              'class': 'logging.StreamHandler',
+                              'formatter': 'simple'
+                              },
+                    'debug': {
+                           'level': 'DEBUG',
+                           'class': 'logging.handlers.TimedRotatingFileHandler',
+                           'when': 'd',
+                           'utc': True,
+                           'backupCount': 100,
+                           'filename': '/var/log/nylithuanian/debug/main.log',
+                           'formatter': 'simple'
+                           },
+                    'debug.articles': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/debug/articles.log'
+                                     },
+                    'debug.events': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/debug/events.log'
+                                     },
+                    'debug.newsletters': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/debug/newsletters.log'
+                                     },
+                    'debug.photos': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/debug/photos.log'
+                                     },
+                    'production': {
+                                 'level': 'INFO',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'filename': '/var/log/nylithuanian/prod/main.log',
+                                 'formatter': 'simple'
+                           },
+                    'production.articles': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/prod/articles.log'
+                                     },
+                    'production.events': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/prod/events.log'
+                                     },
+                    'production.newsletters': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/prod/newsletters.log'
+                                     },
+                    'production.photos': {
+                                     'level': 'DEBUG',
+                                     'class': 'logging.handlers.TimedRotatingFileHandler',
+                                     'when': 'd',
+                                     'utc': True,
+                                     'backupCount': 100,
+                                     'formatter': 'simple',
+                                     'filename': '/var/log/nylithuanian/prod/photos.log'
+                                     },
+                    'mail_admins': {
+                                  'level': 'ERROR',
+                                 'filters': ['require_debug_false'],
+                                  'formatter': 'verbose',
+                                  'class': 'django.utils.log.AdminEmailHandler'
+                                  }
                  },
     'loggers': {
                 'debug': {
@@ -308,10 +362,34 @@ LOGGING = {
                                    'handlers': ['debug.events'],
                                    'propagate': False,
                                    },
+                'debug.newsletters': {
+                                   'handlers': ['debug.newsletters'],
+                                   'propagate': False,
+                                   },
+                'debug.photos': {
+                                   'handlers': ['debug.photos'],
+                                   'propagate': False,
+                                   },
                 'production': {
                                'handlers': ['production', 'mail_admins'],
                                'level': 'INFO',
                                'propagate': False
-                               }
+                               },
+                'production.articles': {
+                                   'handlers': ['production.articles'],
+                                   'propagate': False,
+                                   },
+                'production.events': {
+                                   'handlers': ['production.events'],
+                                   'propagate': False,
+                                   },
+                'production.newsletters': {
+                                   'handlers': ['production.newsletters'],
+                                   'propagate': False,
+                                   },
+                'production.photos': {
+                                   'handlers': ['production.photos'],
+                                   'propagate': False,
+                                   }
                 }
 }

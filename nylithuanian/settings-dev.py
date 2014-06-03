@@ -9,12 +9,12 @@ CELERYD_CHDIR = "/home/algirdas/Web/nylithuanian.org/"
 CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
 CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
 CELERY_ENABLE_UTC = False
-#CELERY_TIMEZONE = "US/Eastern"
+# CELERY_TIMEZONE = "US/Eastern"
 CELERYD_OPTS = "--time-limit=300 --concurrency=8"
 CELERYD_LOG_FILE = "/var/log/celery/celery.log"
 CELERYD_PID_FILE = "/var/run/celery/celery.pid"
-#CELERYD_USER = "celery"
-#CELERYD_GROUP = "celery"
+# CELERYD_USER = "celery"
+# CELERYD_GROUP = "celery"
 
 import  djcelery
 djcelery.setup_loader()
@@ -42,7 +42,6 @@ CELERYBEAT_SCHEDULE = {
 SITE_URL = "http://localhost:8000"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-INTERNAL_IPS = ('192.168.1.100',)
 
 ADMINS = (
     ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
@@ -158,7 +157,7 @@ TEMPLATE_LOADERS = (
 #    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # )
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = SITE_ROOT + 'nylithuanian/tmp/email'
 # EMAIL_FILE_PATH = '/tmp/email'
@@ -230,53 +229,107 @@ LOGGING = {
         }
     },
     'handlers': {
-                 'console': {
-                             'level': 'DEBUG',
-                             'class': 'logging.StreamHandler',
-                             'formatter': 'simple'
-                             },
-                 'debug': {
+                    'console': {
                           'level': 'DEBUG',
-                          'class': 'logging.handlers.TimedRotatingFileHandler',
-                          'when': 'd',
-                          'utc': True,
-                          'backupCount': 100,
-                          'filename': SITE_ROOT + 'logs/debug/main.log',
+                          'class': 'logging.StreamHandler',
                           'formatter': 'simple'
                           },
-                 'debug.articles': {
-                                    'level': 'DEBUG',
-                                    'class': 'logging.handlers.TimedRotatingFileHandler',
-                                    'when': 'd',
-                                    'utc': True,
-                                    'backupCount': 100,
-                                    'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/articles.log'
-                                    },
-                 'debug.events': {
-                                    'level': 'DEBUG',
-                                    'class': 'logging.handlers.TimedRotatingFileHandler',
-                                    'when': 'd',
-                                    'utc': True,
-                                    'backupCount': 100,
-                                    'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/events.log'
-                                    },
-                 'production': {
-                                'level': 'INFO',
-                                'class': 'logging.handlers.TimedRotatingFileHandler',
-                                'when': 'd',
-                                'utc': True,
-                                'backupCount': 100,
-                                'filename': SITE_ROOT + 'logs/prod/main.log',
-                                'formatter': 'simple'
-                          },
-                 'mail_admins': {
-                                 'level': 'ERROR',
-                                'filters': ['require_debug_false'],
-                                 'formatter': 'verbose',
-                                 'class': 'django.utils.log.AdminEmailHandler'
-                                 }
+                    'debug': {
+                       'level': 'DEBUG',
+                       'class': 'logging.handlers.TimedRotatingFileHandler',
+                       'when': 'd',
+                       'utc': True,
+                       'backupCount': 100,
+                       'filename': SITE_ROOT + 'logs/debug/main.log',
+                       'formatter': 'simple'
+                       },
+                    'debug.articles': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/debug/articles.log'
+                                 },
+                    'debug.events': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/debug/events.log'
+                                 },
+                    'debug.newsletters': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/debug/newsletters.log'
+                                 },
+                    'debug.photos': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/debug/photos.log'
+                                 },
+                    'production': {
+                             'level': 'INFO',
+                             'class': 'logging.handlers.TimedRotatingFileHandler',
+                             'when': 'd',
+                             'utc': True,
+                             'backupCount': 100,
+                             'filename': SITE_ROOT + 'logs/prod/main.log',
+                             'formatter': 'simple'
+                       },
+                    'production.articles': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/prod/articles.log'
+                                 },
+                    'production.events': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/prod/events.log'
+                                 },
+                    'production.newsletters': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/prod/newsletters.log'
+                                 },
+                    'production.photos': {
+                                 'level': 'DEBUG',
+                                 'class': 'logging.handlers.TimedRotatingFileHandler',
+                                 'when': 'd',
+                                 'utc': True,
+                                 'backupCount': 100,
+                                 'formatter': 'simple',
+                                 'filename': SITE_ROOT + 'logs/prod/photos.log'
+                                 },
+                    'mail_admins': {
+                              'level': 'ERROR',
+                              'filters': ['require_debug_false'],
+                              'formatter': 'verbose',
+                              'class': 'django.utils.log.AdminEmailHandler'
+                              }
                  },
     'loggers': {
                 'debug': {
@@ -292,10 +345,34 @@ LOGGING = {
                                    'handlers': ['debug.events'],
                                    'propagate': False,
                                    },
+                'debug.newsletters': {
+                                   'handlers': ['debug.newsletters'],
+                                   'propagate': False,
+                                   },
+                'debug.photos': {
+                                   'handlers': ['debug.photos'],
+                                   'propagate': False,
+                                   },
                 'production': {
                                'handlers': ['production', 'mail_admins'],
                                'level': 'INFO',
                                'propagate': False
-                               }
+                               },
+                'production.articles': {
+                                   'handlers': ['production.articles'],
+                                   'propagate': False,
+                                   },
+                'production.events': {
+                                   'handlers': ['production.events'],
+                                   'propagate': False,
+                                   },
+                'production.newsletters': {
+                                   'handlers': ['production.newsletters'],
+                                   'propagate': False,
+                                   },
+                'production.photos': {
+                                   'handlers': ['production.photos'],
+                                   'propagate': False,
+                                   }
                 }
 }

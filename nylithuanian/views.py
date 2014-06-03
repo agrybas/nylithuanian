@@ -28,7 +28,6 @@ class HomeView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['DEBUG'] = settings.DEBUG
         context['upcoming_events'] = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
         context['articles'] = Article.public.order_by('-create_date')[:3]
         context['announcements'] = Announcement.public.order_by('-create_date')[:3]
