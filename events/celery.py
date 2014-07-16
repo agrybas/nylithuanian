@@ -1,12 +1,11 @@
 from __future__ import absolute_import
 from celery import Celery
+from django.conf import settings
+import os
 
-celery = Celery('events.celery', broker='amqp://rabbit_user:234wer234@localhost:5672/macvhost', backend='amqp://', include=['events.tasks'])
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nylithuanian.settings')
 
-celery.conf.update(
-                   CELERY_TASK_RESULT_EXPIRES = 3600,
-                   )
+app = Celery('events')
 
-if __name__ == '__main__':
-    celery.start()
-    
+app.config_from_object('nylithuanian.settings')
+# app.autodiscover_tasks(['events'])

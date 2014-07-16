@@ -30,7 +30,7 @@ class RegisterSiteUserForm(forms.ModelForm):
     
     class Meta:
         model = SiteUser
-        exclude = ('last_login', 'date_joined')
+        fields = ('username', 'password', 'confirm_password', 'email')
         
     def clean(self):
         password1 = self.cleaned_data.get('password')

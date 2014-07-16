@@ -44,6 +44,7 @@ class SiteUserCreateView(CreateView):
     success_url = '/nariai/registruotis/priimta'
       
     def form_valid(self, form):
+        form.instance.is_subscribed = True
         form.instance.is_active = False
         form.instance.password = make_password(form.instance.password)
 #        signer = Signer(salt=form.instance.date_joined.strftime("%Y-%m-%d %H:%i:%s") + str(random.randint(1, 100)))

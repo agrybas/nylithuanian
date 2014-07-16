@@ -1,6 +1,6 @@
 #encoding=utf-8
 import os
-from celery import celery
+from celery import app
 from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, Context
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_control
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from models import Event, EventComment, EventAttachment, EventReminder, Venue
@@ -27,6 +26,7 @@ from django.core import serializers
 import logging
 import nylithuanian.settings
 from django.views.generic.edit import FormView
+from django.db.models import Q
 
 if nylithuanian.settings.DEBUG:
     logger = logging.getLogger('debug.' + __name__)
@@ -36,8 +36,14 @@ else:
 
 class UpcomingEventsListView(ListView):
     model = Event
-    queryset = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
+#     queryset = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
     paginate_by = 5
+    
+    def get_queryset(self):
+        return Event.public.filter(
+                                   Q(end_date__isnull = False) & Q(end_date__gt = timezone.now()) |
+                                   Q(start_date__gt = timezone.now())
+                                   )
     
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
@@ -47,8 +53,14 @@ class UpcomingEventsListView(ListView):
 #@cache_control(must_revalidate=True, max_age=3600)
 class PastEventsListView(ListView):
     model = Event
-    queryset = Event.public.filter(start_date__lt=timezone.now()).order_by('-start_date')
+#     queryset = Event.public.filter(start_date__lt=timezone.now()).order_by('-start_date')
     paginate_by = 5
+    
+    def get_queryset(self):
+        return Event.public.filter(
+                                   Q(end_date__isnull = False) & Q(end_date__lt = timezone.now()) |
+                                   Q(start_date__lt=timezone.now())
+                                   ).order_by('-start_date')
     
     def get_context_data(self, **kwargs):
         kwargs['headline'] = 'Praėjusių renginių sąrašas'
@@ -229,7 +241,7 @@ def delete_reminder(request, *args, **kwargs):
                                                           }, context_instance=RequestContext(request))
         
         # revoke celery reminder task
-        celery.control.revoke(reminder.task_id, terminate=True)
+        app.control.revoke(reminder.task_id, terminate=True)
         
         # delete associated reminder entry in the database
         reminder.delete()

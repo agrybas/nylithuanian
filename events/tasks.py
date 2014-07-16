@@ -1,11 +1,11 @@
 #encoding=utf-8
-from events.celery import celery
+from events.celery import app
 from django.conf import settings
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 
-@celery.task
+@app.task
 def send_reminder(event, recipient_email):
     plainText = get_template('emails/reminder.txt')
     htmlText = get_template('emails/reminder.html')

@@ -104,7 +104,7 @@
             <a href="/renginiai/{{ event.id }}"><img width="300" height="200" src="{{ MEDIA_URL }}{{ event.image }}" /></a>
             <div class="event_info">
                 <h2>{{ event.title }}</h2>
-                <h6>Data: {{ event.start_date|date:'M j, Y' }} | Laikas: {{ event.start_date|date:'g:i a' }}</h6>
+                <h6>Pradžia: {{ event.start_date|date:'M j, Y' }} | Laikas: {{ event.start_date|date:'g:i a' }}</h6>
                 <h6>Adresas: {{ event.street_address1 }}{% if event.street_address2 %}, {{ event.street_address2 }}{% endif %}{% if event.street_address3 %}, {{ event.street_address3 }}{% endif %}{% if event.street_address4 %}, {{ event.street_address4 }}{% endif %}{% if event.city %}, {{ event.city }}{% endif %}{% if event.state %}, {{ event.state }}{% endif %}{% if event.zip_code %} {{ event.zip_code }}{% endif %}{% if event.country %}, {{ event.country }}{% endif %}</h6>
                 <p>
                     <a href="/renginiai/{{ event.id }}">Daugiau informacijos</a>

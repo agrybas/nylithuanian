@@ -13,6 +13,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from forms import SendEmailForm
 from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Q
 
 import logging
 import settings
@@ -28,7 +29,10 @@ class HomeView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['upcoming_events'] = Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
+        context['upcoming_events'] = Event.public.filter(
+                                   Q(end_date__isnull = False) & Q(end_date__gt = timezone.now()) |
+                                   Q(start_date__gt = timezone.now())
+                                   )
         context['articles'] = Article.public.order_by('-create_date')[:3]
         context['announcements'] = Announcement.public.order_by('-create_date')[:3]
         context['classifieds'] = Classified.public.order_by('-create_date')[:5]

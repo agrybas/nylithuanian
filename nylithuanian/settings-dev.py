@@ -201,7 +201,7 @@ INSTALLED_APPS = (
     'classifieds',
     'announcements',
     'newsletters',
-    'djcelery'
+    'djcelery',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -241,7 +241,7 @@ LOGGING = {
                        'when': 'd',
                        'utc': True,
                        'backupCount': 100,
-                       'filename': SITE_ROOT + 'logs/debug/main.log',
+                       'filename': '/var/log/nylithuanian/debug/main.log',
                        'formatter': 'simple'
                        },
                     'debug.articles': {
@@ -251,7 +251,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/debug/articles.log'
+                                 'filename': '/var/log/nylithuanian/debug/articles.log'
                                  },
                     'debug.events': {
                                  'level': 'DEBUG',
@@ -260,7 +260,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/debug/events.log'
+                                 'filename': '/var/log/nylithuanian/debug/events.log'
                                  },
                     'debug.newsletters': {
                                  'level': 'DEBUG',
@@ -269,7 +269,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/debug/newsletters.log'
+                                 'filename': '/var/log/nylithuanian/debug/newsletters.log'
                                  },
                     'debug.photos': {
                                  'level': 'DEBUG',
@@ -278,7 +278,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/debug/photos.log'
+                                 'filename': '/var/log/nylithuanian/debug/photos.log'
                                  },
                     'production': {
                              'level': 'INFO',
@@ -286,7 +286,7 @@ LOGGING = {
                              'when': 'd',
                              'utc': True,
                              'backupCount': 100,
-                             'filename': SITE_ROOT + 'logs/prod/main.log',
+                             'filename': '/var/log/nylithuanian/prod/main.log',
                              'formatter': 'simple'
                        },
                     'production.articles': {
@@ -296,7 +296,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/prod/articles.log'
+                                 'filename': '/var/log/nylithuanian/prod/articles.log'
                                  },
                     'production.events': {
                                  'level': 'DEBUG',
@@ -305,7 +305,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/prod/events.log'
+                                 'filename': '/var/log/nylithuanian/prod/events.log'
                                  },
                     'production.newsletters': {
                                  'level': 'DEBUG',
@@ -314,7 +314,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/prod/newsletters.log'
+                                 'filename': '/var/log/nylithuanian/prod/newsletters.log'
                                  },
                     'production.photos': {
                                  'level': 'DEBUG',
@@ -323,7 +323,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': SITE_ROOT + 'logs/prod/photos.log'
+                                 'filename': '/var/log/nylithuanian/prod/photos.log'
                                  },
                     'mail_admins': {
                               'level': 'ERROR',

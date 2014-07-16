@@ -5,7 +5,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import TemplateView
 
 import views
-import tasks
 
 urlpatterns = patterns('',
     url(r'^$', staff_member_required(views.NewsletterListView.as_view())),

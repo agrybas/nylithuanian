@@ -3,14 +3,10 @@ import os
 from celery import Celery
 from django.conf import settings
 
-if not settings.DEBUG:
-    # set the default Django settings module for the 'celery' program.
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nylithuanian.settings')
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nylithuanian.settings')
     
-    app = Celery('nylithuanian')
-    
-    
-    # Using a string here means the worker will not have to
-    # pickle the object when using Windows.
-    app.config_from_object('django.conf:settings')
-    app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+app = Celery('nylithuanian')
+
+app.config_from_object('nylithuanian.settings')
+app.autodiscover_tasks(settings.INSTALLED_APPS)

@@ -31,34 +31,50 @@
         {% if paginator.num_pages > 1 %}
             <ul class="page_numbers">
                 {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}">&larr; Atgal</a></li>
+                	<li><a href="?page={{ page_obj.previous_page_number }}">&larr; Atgal</a></li>
                 {% endif %}
             
-                    {% if paginator.num_pages <= 4 %}
-                        {% for i in paginator.page_range %}
-                            {% if i == page_obj.number %}
-                                <li class="current">{{ i }}</li>
-                            {% else %}
-                                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <li><a href="?page=1">1</a></li>
-                        <li><a href="?page=2">2</a></li>
-                        <li>...</li>
-                        <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-                        <li class="current">{{ page_obj.number }}</li>
-                        <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-                        <li>...</li>
-                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
-                    {% endif %}
-                {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}">Pirmyn &rarr;</a></li>
+            	{% if page_obj.number == 1 %}
+                	<li class="current">{{ page_obj.number }}</li>
+            	{% else %}
+            		<li><a href="?page=1">1</a></li>
+        		{% endif %}
+            	
+            	{% if page_obj.number == 2 %}
+                	<li class="current">{{ page_obj.number }}</li>
+            	{% else %}
+            		<li><a href="?page=2">2</a></li>
+        		{% endif %}
+
+				{% if paginator.num_pages > 2 %}
+					{% if page_obj.number > 2 %}
+	                	<li>...</li>
+	                	
+	                	{% if page_obj.previous_page_number > 2%}
+	                		<li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+	            		{% endif %}
+	                	<li class="current">{{ page_obj.number }}</li>
+	                	
+	                	{% if page_obj.has_next and page_obj.next_page_number < paginator.num_pages %}
+	                		<li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+	            		{% endif %}
+	            		
+	            		{% if page_obj.number < paginator.num_pages %}
+	            			<li>...</li>
+                			<li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+            			{% endif %}
+        			{% else %}
+        				<li>...</li>
+            			<li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+            		{% endif %}
+            	{% endif %}
+            	{% if page_obj.has_next %}
+                	<li><a href="?page={{ page_obj.next_page_number }}">Pirmyn &rarr;</a></li>
                 {% endif %}
             </ul>
         {% endif %}
     {% endif %}
-
+    
 {% endblock %}
 
 {% block sidebar %}

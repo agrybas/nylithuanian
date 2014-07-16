@@ -8,7 +8,7 @@ class PublicNewslettersManager(models.Manager):
     
 class Newsletter(models.Model):
     title = models.CharField(null=False, blank=False, max_length=255, verbose_name='Pavadinimas')
-    body = models.TextField(null=False, blank=False, verbose_name='Naujienlaiškio tekstas', help_text='Tekstas turi būti rašomas naudojant <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile</a> žymėjimo kalbą.')
+    body = models.TextField(null=False, blank=True, verbose_name='Naujienlaiškio tekstas', help_text='Tekstas turi būti rašomas naudojant <a target="_blank" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">Textile</a> žymėjimo kalbą.')
     create_date = models.DateTimeField(null=False, auto_now_add=True, verbose_name='Naujienlaiškio sukūrimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     modify_date = models.DateTimeField(null=False, auto_now=True, verbose_name='Naujienlaiškio paskutinio redagavimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
     send_date = models.DateTimeField(null=True, blank=True, editable=False, verbose_name='Naujienlaiškio išsiuntimo data', help_text='Prašome datą įvesti formatu "yyyy-mm-dd hh:mm"')
