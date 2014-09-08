@@ -156,7 +156,7 @@ LOGGING = {
                           'when': 'd',
                           'utc': True,
                           'backupCount': 100,
-                          'filename': SITE_ROOT + 'logs/debug/main.log',
+                          'filename': LOGGING_ROOT + 'logs/debug/main.log',
                           'formatter': 'simple'
                           },
                  'debug.articles': {
@@ -166,7 +166,7 @@ LOGGING = {
                                     'utc': True,
                                     'backupCount': 100,
                                     'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/articles.log'
+                                    'filename': LOGGING_ROOT + 'logs/debug/articles.log'
                                     },
                  'debug.events': {
                                     'level': 'DEBUG',
@@ -175,7 +175,7 @@ LOGGING = {
                                     'utc': True,
                                     'backupCount': 100,
                                     'formatter': 'simple',
-                                    'filename': SITE_ROOT + 'logs/debug/events.log'
+                                    'filename': LOGGING_ROOT + 'logs/debug/events.log'
                                     },
                  'production': {
                                 'level': 'INFO',
@@ -183,7 +183,7 @@ LOGGING = {
                                 'when': 'd',
                                 'utc': True,
                                 'backupCount': 100,
-                                'filename': SITE_ROOT + 'logs/prod/main.log',
+                                'filename': LOGGING_ROOT + 'logs/prod/main.log',
                                 'formatter': 'simple'
                           },
                  'production.articles': {
@@ -192,7 +192,7 @@ LOGGING = {
                                 'when': 'd',
                                 'utc': True,
                                 'backupCount': 100,
-                                'filename': SITE_ROOT + 'logs/prod/articles.log',
+                                'filename': LOGGING_ROOT + 'logs/prod/articles.log',
                                 'formatter': 'simple'
                           },
                  'production.events': {
@@ -201,7 +201,7 @@ LOGGING = {
                                 'when': 'd',
                                 'utc': True,
                                 'backupCount': 100,
-                                'filename': SITE_ROOT + 'logs/prod/events.log',
+                                'filename': LOGGING_ROOT + 'logs/prod/events.log',
                                 'formatter': 'simple'
                           },
                  'mail_admins': {
