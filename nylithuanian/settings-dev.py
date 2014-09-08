@@ -1,11 +1,9 @@
 # NYLITHUANIAN SETTINGS - DEVELOPMENT
 from datetime import timedelta
+import settings-dev.private.py
 
 # site-wide Celery settings
-CELERY_RESULT_BACKEND = 'amqp'
-BROKER_URL = 'amqp://rabbit_user:234wer234@meskis:5672/nylt_dev_host'
 CELERYD_NODES = "w1"
-CELERYD_CHDIR = "/home/algirdas/Web/nylithuanian.org/"
 CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
 CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
 CELERY_ENABLE_UTC = False
@@ -43,33 +41,13 @@ SITE_URL = "http://localhost:8000"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
-)
-
 MANAGERS = ADMINS
-EVENTS_PRIMARY_EMAIL = 'events@nylithuanian.org'
 
-SERVER_EMAIL = 'info@nylithuanian.org'
 SEND_BROKEN_LINK_EMAILS = True
 
 ALLOWED_HOSTS = [
                  '.nylithuanian.org',
                  ]
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nylt',  # DB name or path to database file if using sqlite3.
-        'USER': 'nylt',  # Not used with sqlite3.
-        'PASSWORD': '234wer234',  # Not used with sqlite3.
-        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3305',  # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-                    'init_command': 'SET storage_engine=INNODB, SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
-                    }
-    }
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -82,7 +60,6 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'lt'
 
 SITE_ID = 1
-SITE_ROOT = '/home/algirdas/Web/nylithuanian.org/'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -130,19 +107,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'wx6+!b4y_=pju5ut9jv8=rhdvb7rrox8jjt$ri9z)9kg_@oi4c'
-
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.SHA1PasswordHasher',
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
-    'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
 # List of callables that know how to import templates from various sources.

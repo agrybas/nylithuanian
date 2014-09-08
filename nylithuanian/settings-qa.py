@@ -1,60 +1,14 @@
 # NYLITHUANIAN SETTINGS - QA
-from datetime import timedelta
-
-# Add Celery support to site
-# CELERY_RESULT_BACKEND = 'amqp'
-# BROKER_URL = 'amqp://rabbit_user:234wer234@localhost:5672/macvhost'
-# import  djcelery
-# djcelery.setup_loader()
-# 
-# CELERYBEAT_SCHEDULE = {
-#                        'atnaujinti-delfi-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.delfi.lt/rss/feeds/emigrants.xml',)
-#                                                          },
-# 
-#                        'atnaujinti-balsas-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.balsas.lt/rss/sarasas/85',)
-#                                                          },
-#                        
-#                        'atnaujinti-lrytas-straipsnius' : {
-#                                                          'task' : 'articles.tasks.pull_rss_articles',
-#                                                          'schedule' : timedelta(minutes=1),
-#                                                          'args' : ('http://www.lrytas.lt/rss/?tema=37',)
-#                                                          },
-#                        }
+import settings-qa.private.py
 
 DEBUG = False
 
-ADMINS = (
-    ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
-)
-
 MANAGERS = ADMINS
-
-SERVER_EMAIL = 'info@nylithuanian.org'
 SEND_BROKEN_LINK_EMAILS = True
 
 ALLOWED_HOSTS = [
                  '.nylithuanian.org',
                  ]
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nylt_qa',  # Or path to database file if using sqlite3.
-        'USER': 'nylt_qa_user',  # Not used with sqlite3.
-        'PASSWORD': '234wer234',  # Not used with sqlite3.
-        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3305',  # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-                    'init_command': 'SET storage_engine=INNODB, SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
-                    }
-    }
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -67,7 +21,6 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'lt'
 
 SITE_ID = 1
-SITE_ROOT = '/srv/www/nylithuanian.org/dev/'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -103,33 +56,12 @@ STATIC_ROOT = SITE_ROOT + 'static/'
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-# Additional locations of static files
-
-STATICFILES_DIRS = (
-                    '/srv/www/nylithuanian.org/dev/nylithuanian/static/',
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'wx6+!b4y_=pju5ut9jv8=rhdvb7rrox8jjt$ri9z)9kg_@oi4c'
-
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.SHA1PasswordHasher',
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-    'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
 # List of callables that know how to import templates from various sources.
@@ -145,11 +77,6 @@ TEMPLATE_LOADERS = (
 # )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # this is the default, but specifying explicitly
-EMAIL_HOST = 'nylithuanian.org'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'webmaster@nylithuanian.org'
-EMAIL_HOST_PASSWORD = 'V1k96263@1781k8^7*%SShUK'
-
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
