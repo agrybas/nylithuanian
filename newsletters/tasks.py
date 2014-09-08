@@ -52,7 +52,7 @@ def test_send_newsletter(subject, from_address, recipient_list, message, html_me
        
     conn = get_connection(
                           backend='django.core.mail.backends.filebased.EmailBackend',
-                          file_path='/tmp/email'
+                          file_path=settings.EMAIL_FILE_PATH
                           )
     conn.open() # open single SMTP connection to use for mass email
     

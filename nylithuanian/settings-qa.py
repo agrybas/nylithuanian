@@ -77,6 +77,7 @@ TEMPLATE_LOADERS = (
 # )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # this is the default, but specifying explicitly
+EMAIL_FILE_PATH = SITE_ROOT + 'nylithuanian/tmp/email'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
