@@ -1,11 +1,10 @@
 # NYLITHUANIAN SETTINGS - DEVELOPMENT
+
+execfile('nylithuanian/settings.private.py')
 from datetime import timedelta
 
 # site-wide Celery settings
-CELERY_RESULT_BACKEND = 'amqp'
-BROKER_URL = 'amqp://rabbit_user:234wer234@meskis:5672/nylt_dev_host'
 CELERYD_NODES = "w1"
-CELERYD_CHDIR = "/home/algirdas/Web/nylithuanian.org/"
 CELERYD_MULTI = "$CELERYD_CHDIR/manage.py celeryd_multi"
 CELERYCTL = "$CELERYD_CHDIR/manage.py celeryctl"
 CELERY_ENABLE_UTC = False
@@ -43,33 +42,13 @@ SITE_URL = "http://localhost:8000"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('Algirdas Grybas', 'webmaster@nylithuanian.org'),
-)
-
 MANAGERS = ADMINS
-EVENTS_PRIMARY_EMAIL = 'events@nylithuanian.org'
 
-SERVER_EMAIL = 'info@nylithuanian.org'
 SEND_BROKEN_LINK_EMAILS = True
 
 ALLOWED_HOSTS = [
                  '.nylithuanian.org',
                  ]
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'nylt',  # DB name or path to database file if using sqlite3.
-        'USER': 'nylt',  # Not used with sqlite3.
-        'PASSWORD': '234wer234',  # Not used with sqlite3.
-        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3305',  # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-                    'init_command': 'SET storage_engine=INNODB, SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'
-                    }
-    }
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -82,7 +61,6 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'lt'
 
 SITE_ID = 1
-SITE_ROOT = '/home/algirdas/Web/nylithuanian.org/'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -132,19 +110,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'wx6+!b4y_=pju5ut9jv8=rhdvb7rrox8jjt$ri9z)9kg_@oi4c'
-
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.SHA1PasswordHasher',
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
-    'django.contrib.auth.hashers.CryptPasswordHasher',
-)
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -168,8 +133,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'nylithuanian.urls'
@@ -201,7 +164,7 @@ INSTALLED_APPS = (
     'classifieds',
     'announcements',
     'newsletters',
-    'djcelery'
+    'djcelery',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -241,7 +204,7 @@ LOGGING = {
                        'when': 'd',
                        'utc': True,
                        'backupCount': 100,
-                       'filename': '/var/log/nylithuanian/debug/main.log',
+                       'filename': LOGGING_ROOT + 'debug/main.log',
                        'formatter': 'simple'
                        },
                     'debug.articles': {
@@ -251,7 +214,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/debug/articles.log'
+                                 'filename': LOGGING_ROOT + 'debug/articles.log'
                                  },
                     'debug.events': {
                                  'level': 'DEBUG',
@@ -260,7 +223,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/debug/events.log'
+                                 'filename': LOGGING_ROOT + 'debug/events.log'
                                  },
                     'debug.newsletters': {
                                  'level': 'DEBUG',
@@ -269,7 +232,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/debug/newsletters.log'
+                                 'filename': LOGGING_ROOT + 'debug/newsletters.log'
                                  },
                     'debug.photos': {
                                  'level': 'DEBUG',
@@ -278,7 +241,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/debug/photos.log'
+                                 'filename': LOGGING_ROOT + 'debug/photos.log'
                                  },
                     'production': {
                              'level': 'INFO',
@@ -286,7 +249,7 @@ LOGGING = {
                              'when': 'd',
                              'utc': True,
                              'backupCount': 100,
-                             'filename': '/var/log/nylithuanian/prod/main.log',
+                             'filename': LOGGING_ROOT + 'prod/main.log',
                              'formatter': 'simple'
                        },
                     'production.articles': {
@@ -296,7 +259,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/prod/articles.log'
+                                 'filename': LOGGING_ROOT + 'prod/articles.log'
                                  },
                     'production.events': {
                                  'level': 'DEBUG',
@@ -305,7 +268,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/prod/events.log'
+                                 'filename': LOGGING_ROOT + 'prod/events.log'
                                  },
                     'production.newsletters': {
                                  'level': 'DEBUG',
@@ -314,7 +277,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/prod/newsletters.log'
+                                 'filename': LOGGING_ROOT + 'prod/newsletters.log'
                                  },
                     'production.photos': {
                                  'level': 'DEBUG',
@@ -323,7 +286,7 @@ LOGGING = {
                                  'utc': True,
                                  'backupCount': 100,
                                  'formatter': 'simple',
-                                 'filename': '/var/log/nylithuanian/prod/photos.log'
+                                 'filename': LOGGING_ROOT + 'prod/photos.log'
                                  },
                     'mail_admins': {
                               'level': 'ERROR',

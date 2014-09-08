@@ -1,5 +1,5 @@
 # NYLITHUANIAN SETTINGS - QA
-import settings-qa.private.py
+execfile('nylithuanian/settings_qa.private.py')
 
 DEBUG = False
 
@@ -85,9 +85,17 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djangosecure.middleware.SecurityMiddleware',
 )
+
+SECURE_HSTS_SECONDS = 31536000 # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_FRAME_DENY = True # prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 
 ROOT_URLCONF = 'nylithuanian.urls'
 

@@ -1,6 +1,6 @@
 # NYLITHUANIAN SETTINGS - DEVELOPMENT
 from datetime import timedelta
-import settings-dev.private.py
+execfile('nylithuanian/settings_dev.private.py')
 
 # site-wide Celery settings
 CELERYD_NODES = "w1"
@@ -132,8 +132,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'nylithuanian.urls'
