@@ -1,0 +1,8 @@
+{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) pateikė pranešimą apie renginį, kuris laukia patvirtinimo.
+
+* Pavadinimas: {{ event.title }}
+* Aprašymas: {{ event.body|striptags|truncatewords:50 }}
+* Pradžia: {{ event.start_date }}
+* Adresas: {{ event.get_full_address }}
+
+Peržiūrėti ir patvirtinti: {{ event.get_absolute_url }}

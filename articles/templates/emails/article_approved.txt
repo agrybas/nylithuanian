@@ -1,0 +1,4 @@
+Informuojame, kad Jūsų pateiktas straipsnis patvirtintas. Straipsnį galite matyti adresu {{ article.get_absolute_url }}.
+
+Pagarbiai,
+nylithuanian.org komanda

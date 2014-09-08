@@ -1,0 +1,4 @@
+Informuojame, kad Jūsų pateiktas pranešimas apie renginį patvirtintas. Renginio pranešimą galite matyti adresu {{ event.get_absolute_url }}.
+
+Pagarbiai,
+nylithuanian.org komanda

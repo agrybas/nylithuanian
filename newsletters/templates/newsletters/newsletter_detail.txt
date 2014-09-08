@@ -1,0 +1,44 @@
+{% load markup %}
+
+JAV Lietuvių Bendruomenė - Niujorko Apygarda
+
+
+{{ newsletter.body|striptags }}
+
+
+Artimiausi renginiai
+{% for event in event_list %}
+{{ event.title }}
+Pradžia: {{ event.start_date|date:"DATE_FORMAT" }} {{ event.start_date|time:"H:i" }} val.{% if event.end_date %} | Pabaiga: {{ event.end_date|date:"DATE_FORMAT" }} {{ event.end_date|time:"H:i" }} val.{% endif %}
+Vieta: {{ event.get_full_address }}
+{{ event.body|truncatewords:50 }}
+Daugiau informacijos: {{ event.get_absolute_url }}{{ google_analytics }}
+{% endfor %}
+
+
+Straipsniai:
+{% for article in article_list %}
+{{ article.title }}: {{ article.get_absolute_url }}{{ google_analytics }}
+{% endfor %}
+
+Pranešimai:
+{% for announcement in announcement_list %}
+{{ announcement.title }}: {{ announcement.get_absolute_url }}{{ google_analytics }}
+{% endfor %}
+
+Nuotraukos:
+{% for gallery in gallery_list %}
+{{ gallery.title }}: {{ gallery.get_absolute_url }}{{ google_analytics }}
+{% endfor %}
+
+Skelbimai:
+{% for classified in classified_list %}
+{{ classified.title }}: {{ classified.get_absolute_url }}{{ google_analytics }}
+{% endfor %}
+
+Kitos funkcijos:
+Mano sąskaita: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
+Paremti bendruomenę: {{ SITE_URL }}/apie-mus/parama{{ google_analytics }}
+{% comment %}
+Atsisakyti naujienų: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
+{% endcomment %}
