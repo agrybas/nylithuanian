@@ -10,7 +10,7 @@ from views import SiteUserCreateView, SiteUserDetailView, SiteUserChangePassword
 urlpatterns = patterns('',
 #    url(r'^$', ListView.as_view(model = SiteUser,)),
 #    url(r'^mano-saskaita/$', SiteUserPersonalView.as_view()),
-    url(r'^pamirsau-slaptazodi/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm, {
+    url(r'^pamirsau-slaptazodi/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm, {
                                                                                                    'template_name': 'users/password_reset_confirm.html',
                                                                                                    'post_reset_redirect': '/nariai/pamirsau-slaptazodi/baigta'
                                                                                                    }),

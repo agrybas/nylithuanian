@@ -36,6 +36,8 @@ Skelbimai:
 {{ classified.title }}: {{ classified.get_absolute_url }}{{ google_analytics }}
 {% endfor %}
 
+Patinka šis naujienlaiškis? Paremk jį $5.00 dovana: http://bit.ly/dovana-bendruomenei (šią auką galėsi nurašyti nuo mokesčių!)
+
 Kitos funkcijos:
 Mano sąskaita: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
 Paremti bendruomenę: {{ SITE_URL }}/apie-mus/parama{{ google_analytics }}
