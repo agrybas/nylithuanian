@@ -1,6 +1,6 @@
 #encoding=utf-8
 from django.conf.urls import patterns, url
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import TemplateView
 
@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/siusti-test/$', staff_member_required(views.test_send)),
     # url(r'^(?P<pk>\d+)/patvirtinti/$', staff_member_required(views.approve)),
     url(r'^(?P<pk>\d+)/$', staff_member_required(views.NewsletterDetailView.as_view())),
+    url(r'^atsisakyti/$', login_required(login_url='/nariai/prisijungti')(views.unsubscribe)),
 )

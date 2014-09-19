@@ -1,16 +1,11 @@
 #encoding=utf-8
-from smtplib import SMTPException
-from math import ceil, floor
+from math import ceil
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
-from django.utils.decorators import method_decorator
-from django.contrib.admin.views.decorators import staff_member_required
 from django.conf import settings
 from django.utils import timezone
 from django.template.loader import get_template
 from django.template import Context, RequestContext
-from django.core.mail import EmailMultiAlternatives, get_connection
 from django.shortcuts import render_to_response
-from django.views.generic.detail import SingleObjectMixin
 from django.db.models import Q
 
 from events.models import Event
@@ -22,7 +17,7 @@ from announcements.models import Announcement
 
 from .models import Newsletter
 from .forms import AddNewsletterForm
-from tasks import *
+from .tasks import *
 
 import logging
 import random
@@ -229,3 +224,12 @@ def test_send(request, *args, **kwargs):
     return render_to_response('events/success.html', {
                                                       'message': 'Naujienlaiškis išsiųstas sėkmingai.',
                                                       }, context_instance=RequestContext(request))
+
+
+def unsubscribe(request):
+    user = SiteUser.objects.get(username=request.user.username)
+    user.is_subscribed = False
+    user.save()
+    return render_to_response('newsletters/unsubscribe_success.html', {
+        'username': user.username,
+    }, context_instance=RequestContext(request))
