@@ -145,10 +145,14 @@ class EventRssView(Feed):
     title = 'Lietuvių renginiai Niujorke'
     link = '/renginiai/'
     description = 'Artimiausi lietuvių renginiai, vykstantys Niujorko valstijoje bei kaimyninėse bendruomenėse.'
+    description_template = 'feeds/rss_description.html'
     
     def items(self):
-        return Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
-
+        # return Event.public.filter(start_date__gte=timezone.now()).order_by('start_date')
+        return Event.public.filter(
+                                   Q(end_date__isnull = False) & Q(end_date__gt = timezone.now()) |
+                                   Q(start_date__gt = timezone.now())
+                                   )
     def item_title(self, item):
         return item.title  
     

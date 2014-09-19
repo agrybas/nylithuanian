@@ -1,0 +1,4 @@
+{% load markup %}
+<img src="http://localhost:8000/media/{{ obj.image }}"/>
+{{ obj.body|striptags|textile|truncatewords:100 }}
+<hr />
