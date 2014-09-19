@@ -16,7 +16,7 @@ class ClassifiedCreateView(ClassifiedView, CreateView):
     form_class = AddClassifiedForm
     template_name = 'classifieds/classified_create.html'
 #    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'events/attachments'))
-    success_url = '/skelbimai'
+    success_url = 'aciu'
     
     def form_valid(self, form):
         form.instance.user = self.request.user

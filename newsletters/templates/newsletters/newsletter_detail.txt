@@ -36,7 +36,7 @@ Skelbimai:
 {{ classified.title }}: {{ classified.get_absolute_url }}{{ google_analytics }}
 {% endfor %}
 
-Patinka šis naujienlaiškis? Paremk jį $5.00 dovana: http://bit.ly/dovana-bendruomenei (šią auką galėsi nurašyti nuo mokesčių!)
+Patinka šis naujienlaiškis? Paremk jį $5.00 dovana: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@nylithuanian.org&item_name=Parama%20JAV%20LB%20Niujorko%20apygardai&item_number=Niujorko%20apygarda&currency_code=USD&image_url=https://www.nylithuanian.org/static/images/logo_paypal.png&amount=5 (šią auką galėsi nurašyti nuo mokesčių!)
 
 Kitos funkcijos:
 Mano sąskaita: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
