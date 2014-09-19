@@ -141,6 +141,9 @@ class Event(models.Model):
         elif self.organization_title:
             return self.organization_title
         return ''
+
+    def get_img_url(self):
+        return '{0}{1}{2}'.format(settings.SITE_URL, settings.MEDIA_URL, self.image)
     
     @property
     def next_event_exists(self):
