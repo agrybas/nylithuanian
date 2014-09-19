@@ -13,7 +13,7 @@
 	<title>Niujorko lietuviai - {% block title %}{% endblock %}</title>
 	{% block header %}{% endblock %}
 
-{% if GOOGLE_ANALYTICS_ID %}
+{% if not DEBUG %}
 <!-- Google Analytics -->
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -21,13 +21,13 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         
-        ga('create', {{ GOOGLE_ANALYTICS_ID }}, 'auto');
+        ga('create', 'UA-11602764-2', 'auto');
         ga('send', 'pageview');
         
     </script>
 <!-- End Google Analytics -->
 {% endif %}
-	
+
     {% block javascript %}{% endblock %}
     </head>
     <body>

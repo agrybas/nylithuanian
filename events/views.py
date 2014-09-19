@@ -160,6 +160,9 @@ class EventRssView(Feed):
         if len(item.body) <= 1000:
             return item.body
         return item.body[:1000].rsplit(' ', 1)[0] + '...'
+
+    def item_link(self, item):
+        return item.get_absolute_url() + '?utm_source=newsletter'
     
 class CommentCreateView(CreateView):
     form_class = AddEventCommentForm

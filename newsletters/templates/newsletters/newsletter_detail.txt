@@ -41,6 +41,4 @@ Patinka šis naujienlaiškis? Paremk jį $5.00 dovana: https://www.paypal.com/cg
 Kitos funkcijos:
 Mano sąskaita: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
 Paremti bendruomenę: {{ SITE_URL }}/apie-mus/parama{{ google_analytics }}
-{% comment %}
 Atsisakyti naujienų: {{ SITE_URL }}/naujienlaiskiai/atsisakyti{{ google_analytics }}
-{% endcomment %}
