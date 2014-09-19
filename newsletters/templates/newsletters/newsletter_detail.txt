@@ -42,5 +42,5 @@ Kitos funkcijos:
 Mano sąskaita: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
 Paremti bendruomenę: {{ SITE_URL }}/apie-mus/parama{{ google_analytics }}
 {% comment %}
-Atsisakyti naujienų: {{ SITE_URL }}/nariai/prisijungti{{ google_analytics }}
+Atsisakyti naujienų: {{ SITE_URL }}/naujienlaiskiai/atsisakyti{{ google_analytics }}
 {% endcomment %}
