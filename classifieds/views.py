@@ -35,7 +35,7 @@ class ClassifiedsListView(ClassifiedView, ListView):
     template_name = 'classifieds/classified_list.html'
 
     def get_queryset(self):
-        return Classified.objects.filter(category=self.kwargs['pk'])
+        return Classified.public.filter(category=self.kwargs['pk'])
         
     def get_context_data(self, **kwargs):
         kwargs['active_tab'] = self.kwargs['active_tab']
@@ -46,6 +46,9 @@ class ClassifiedsListView(ClassifiedView, ListView):
 class ClassifiedDetailView(ClassifiedView, DetailView):
     model = Classified
     template_name = 'classifieds/classified_detail.html'
+
+    def get_queryset(self):
+        return Classified.public.all()
     
 
 class UserOwnedObjectMixin(SingleObjectMixin):
