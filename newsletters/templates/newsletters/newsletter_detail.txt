@@ -13,6 +13,7 @@ Pradžia: {{ event.start_date|date:"DATE_FORMAT" }} {{ event.start_date|time:"H:
 Vieta: {{ event.get_full_address }}
 {{ event.body|truncatewords:50 }}
 Daugiau informacijos: {{ event.get_absolute_url }}{{ google_analytics }}
+Įkelti į kalendorių: {{ event.get_absolute_url}}/kalendorius{{ google_analytics }}
 {% endfor %}
 
 
